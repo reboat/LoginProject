@@ -1,0 +1,46 @@
+<resources>
+
+    <declare-styleable name="SupportUiMode">
+        <!--系统自带属性-->
+        <attr name="colorPrimary" />
+        <attr name="colorPrimaryDark" />
+        <attr name="colorAccent" />
+        <!--按钮水波纹-->
+        <attr name="selectableItemBackground" />
+        <attr name="actionBarItemBackground" />
+        <attr name="selectableItemBackgroundBorderless" />
+        <!--#484848  7a7b7d-->
+        <attr name="tc_484848" format="color|reference" />
+        <!--#ffffff  #202124-->
+        <attr name="bc_202124" format="color|reference" />
+        <!--#191919  #ffffff-->
+        <attr name="bc_191919" format="color|reference" />
+        <!--dddddd  7a7b7d-->
+        <attr name="bc_dddddd" format="color|reference" />
+        <!--999999  5c5c5c-->
+        <attr name="tc_999999" format="color|reference" />
+        <!--f44b50  8e3636-->
+        <attr name="tc_f44b50" format="color|reference" />
+        <!--ffffff  aaaaaa-->
+        <attr name="tc_aaaaaa" format="color|reference" />
+        <!--000000   7a7b7d-->
+        <attr name="tc_000000" format="color|reference" />
+        <!--f5f5f5  191919-->
+        <attr name="bc_f5f5f5" format="color|reference" />
+        <!--f5f5f5 343434-->
+        <attr name="bc_343434" format="color|reference" />
+         <!--e85757 8e3636-->
+        <attr name="bc_e85757" format="color|reference" />
+        <!--7f080808  202124-->
+        <attr name="bc_7f080808" format="color|reference" />
+        <!--ffffff f0f0f0-->
+        <attr name="bc_f0f0f0" format="color|reference" />
+        <!--4d95fa  5c5c5c-->
+        <attr name="tc_4d95fa" format="color|reference" />
+        <!--4682c5 315277-->
+        <attr name="tc_4682c5" format="color|reference" />
+        <!--e2e2e2  343434-->
+        <attr name="bc_e2e2e2" format="color|reference" />
+    </declare-styleable>
+
+</resources>

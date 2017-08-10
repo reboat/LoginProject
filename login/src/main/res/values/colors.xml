@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimary">#d12324</color>
+    <color name="colorPrimary_night">#520d0d</color>
+    <color name="colorPrimaryDark">#d12324</color>
+    <color name="colorPrimaryDark_night">#520d0d</color>
+    <color name="dc_f5f5f5">#f5f5f5</color>
+    <color name="dc_f5f5f5_night">#1d1e20</color>
+    <color name="bc_7f000000">#7f000000</color>
+    <color name="bc_f70000">#f70000</color>
+    <color name="bc_f7000000">#7f000000</color>
+    <color name="tc_bcc1c8">#bcc1c8</color>
+    <color name="bc_fdc247">#fdc247</color>
+    <color name="dc_000000">#000000</color>
+    <color name="bc_ffffff">#ffffff</color>
+    <color name="tc_ffffff">#ffffff</color>
+    <color name="bc_202124_night">#202124</color>
+    <color name="bc_cecece">#cecece</color>
+    <color name="bc_f44b50">#f44b50</color>
+    <color name="bc_e85757">#e85757</color>
+    <color name="bc_f5f5f5">#f5f5f5</color>
+    <color name="bc_e2e2e2">#e2e2e2</color>
+    <color name="dc_dddddd">#dddddd</color>
+    <color name="tc_484848">#484848</color>
+    <color name="tc_000000">#000000</color>
+    <color name="bc_66000000">#66000000</color>
+    <color name="bc_191919">#191919</color>
+    <color name="bc_dddddd">#dddddd</color>
+    <color name="tc_999999">#999999</color>
+    <color name="tc_f44b50">#f44b50</color>
+    <color name="tc_f5f5f5">#f5f5f5</color>
+    <color name="bc_7f080808">#7f080808</color>
+    <color name="tc_4d95fa">#4d95fa</color>
+    <color name="tc_4682c5">#4682c5</color>
+    <color name="bc_f0f0f0">#ffffff</color>
+
+
+    <!--夜间颜色-->
+    <color name="tc_484848_night">#7a7b7d</color>
+    <color name="bc_ffffff_night">#202124</color>
+    <color name="bc_191919_night">#ffffff</color>
+    <color name="bc_dddddd_night">#7a7b7d</color>
+    <color name="tc_999999_night">#5c5c5c</color>
+    <color name="tc_f44b50_night">#8e3636</color>
+    <color name="tc_ffffff_night">#aaaaaa</color>
+    <color name="tc_000000_night">#7a7b7d</color>
+    <color name="tc_f5f5f5_night">#191919</color>
+    <color name="bc_f5f5f5_night">#343434</color>
+    <color name="bc_e85757_night">#8e3636</color>
+    <color name="bc_7f080808_night">#202124</color>
+    <color name="bc_f0f0f0_night">#f0f0f0</color>
+    <color name="tc_4d95fa_night">#5c5c5c</color>
+    <color name="tc_4682c5_night">#315277</color>
+    <color name="bc_e2e2e2_night">#343434</color>
+
+
+    <!--评论框-->
+    <color name="bc_ebebed">#ebebed</color>
+
+    <color name="module_detail_comment_night">#7a7b7d</color>
+
 </resources>

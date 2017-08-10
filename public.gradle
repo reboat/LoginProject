@@ -1,0 +1,17 @@
+apply plugin: 'com.jakewharton.butterknife'
+
+ext {
+
+    support = '25.3.1'
+    butterknife = '8.6.0'
+
+    support = [
+            percent : "com.android.support:percent:${support}"
+    ]
+
+    butterknifeDeps = [
+            butterknife        : "com.jakewharton:butterknife:${butterknife}",
+            butterknifeCompiler: "com.jakewharton:butterknife-compiler:${butterknife}"
+    ]
+
+}
