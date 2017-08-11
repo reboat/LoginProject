@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         >
-        <activity android:name=".LoginActivity"/>
+        <activity android:name="com.daily.news.login.LoginActivity"/>
+        <activity android:name="com.daily.news.login.zbtxz.ZBLoginActivity"/>
+
     </application>
 
 </manifest>

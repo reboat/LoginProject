@@ -63,13 +63,13 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
     private void initLoginRV() {
 
         mRecyleView.addItemDecoration(new GridSpaceDivider(0));
-        GridLayoutManager managerFollow = new GridLayoutManager(UIUtils.getContext(), 5);
+        GridLayoutManager managerFollow = new GridLayoutManager(UIUtils.getContext(), 4);
         mRecyleView.setLayoutManager(managerFollow);
 
         if (mBean == null) {
             mBean = new ArrayList<>();
-            mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, "微信好友"));
-            mBean.add(new LoginTypeBean(R.mipmap.me_wechat_btn, "微信好友"));
+            mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, "浙报通行证"));
+            mBean.add(new LoginTypeBean(R.mipmap.me_wechat_btn, "微信"));
             mBean.add(new LoginTypeBean(R.mipmap.me_qq_btn, "QQ"));
             mBean.add(new LoginTypeBean(R.mipmap.me_sina_btn, "微博"));
         }

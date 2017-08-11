@@ -60,4 +60,7 @@
 
     <color name="module_detail_comment_night">#7a7b7d</color>
 
+    <color name="color_tv_disable">#a0a4a9</color>
+    <color name="color_tv_d8d8d8">#d8d8d8</color>
+
 </resources>

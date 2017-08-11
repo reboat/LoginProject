@@ -24,7 +24,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_text:
-                ARouter.getInstance().build("/module/detail/NewsDetailActivity")
+                ARouter.getInstance().build("/module/login/ZBLoginActivity")
                         .navigation();
 
                 break;

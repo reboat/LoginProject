@@ -1,0 +1,160 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/bc_ffffff"
+            android:fitsSystemWindows="true"
+            android:scrollbars="none">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/ly_login_button_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_login"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_verification_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="通过短信验证码登录"
+                android:textColor="?attr/tc_484848"
+                android:textSize="@dimen/ts_11sp"/>
+
+            <TextView
+                android:id="@+id/tv_forget_password_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="忘记密码"
+                android:textColor="?attr/tc_484848"
+                android:textSize="@dimen/ts_11sp"/>
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <LinearLayout
+            android:id="@+id/ly_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/bt_login"
+            android:layout_below="@+id/iv_logo"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="46dp"
+            android:orientation="vertical">
+
+            <com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText
+                android:id="@+id/dt_account_text"
+                android:layout_width="fill_parent"
+                android:layout_height="21dp"
+                android:background="@null"
+                android:cursorVisible="false"
+                android:gravity="left"
+                android:lines="1"
+                android:hint="手机号／个性账号／邮箱"
+                android:maxLines="1"
+                android:paddingLeft="14dp"
+                android:paddingRight="18dp"
+                android:textColor="?attr/tc_484848"
+                android:textColorHint="?attr/tc_484848"
+                android:textSize="@dimen/ts_14sp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="15dp"
+                android:background="#ff0000"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fy_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/bt_login"
+            android:layout_below="@+id/ly_login"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp">
+
+            <EditText
+                android:id="@+id/et_password_text"
+                android:layout_width="fill_parent"
+                android:layout_height="21dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:gravity="left"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:maxLines="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="18dp"
+                android:textColor="?attr/tc_484848"
+                android:textColorHint="?attr/tc_000000"
+                android:textSize="@dimen/ts_11sp"/>
+
+            <ImageView
+                android:id="@+id/verification_code_see_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:contentDescription="@string/app_name"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:scaleType="centerInside"
+                />
+        </FrameLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignStart="@+id/bt_login"
+            android:layout_below="@+id/fy_password"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#ff0000"/>
+
+
+        <Button
+            android:id="@+id/bt_login"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/ly_login_button_bar"
+            android:layout_below="@+id/fy_password"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/border_zblogin_btn_bg"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="?attr/tc_484848"
+            android:textSize="@dimen/ts_14sp"/>
+
+    </RelativeLayout>
+</ScrollView>
