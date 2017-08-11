@@ -73,6 +73,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         ButterKnife.bind(this);
         if (login_type) {
             tvTerification.setEnabled(false);
+            tvChangeLoginType.setText("通过密码登录");
         } else {
             tvTerification.setEnabled(true);
         }
