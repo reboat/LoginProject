@@ -1,5 +1,6 @@
 package com.daily.news.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,9 +13,11 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.daily.news.login.adapter.LoginTypeAdapter;
 import com.daily.news.login.bean.LoginTypeBean;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
 import com.zjrb.coreprojectlibrary.common.base.toolbar.ToolBarFactory;
 import com.zjrb.coreprojectlibrary.common.listener.IOnItemClickListener;
+import com.zjrb.coreprojectlibrary.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.coreprojectlibrary.ui.widget.divider.GridSpaceDivider;
 import com.zjrb.coreprojectlibrary.utils.UIUtils;
 import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
@@ -42,6 +45,7 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
 
     private List<LoginTypeBean> mBean;
     private LoginTypeAdapter mAdapter;
+    private UmengAuthUtils mUmengUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +106,30 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
      */
     @Override
     public void onItemClick(View itemView, int position, LoginTypeBean data) {
+        if(position == 0){
+            //进入浙报通行证页面
+        }else if(position == 1){
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
+        }else if(position == 2){
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
+        }else if(position == 3){
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
+        }
+    }
 
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param data        第三方登录回调
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //微信不走这里
+        if (mUmengUtils != null) {
+            mUmengUtils.getDialog();
+            mUmengUtils.onResult(requestCode, resultCode, data);
+        }
     }
 }
 
