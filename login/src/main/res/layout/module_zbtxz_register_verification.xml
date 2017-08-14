@@ -17,13 +17,12 @@
         android:maxLines="1"
         android:text="请输入手机号 +86 18557178825 收到的验证码"
         android:textColor="?attr/tc_484848"
-        android:textColorHint="?attr/tc_484848"
         android:textSize="@dimen/ts_11sp"/>
 
     <EditText
         android:id="@+id/et_password_text"
         android:layout_width="fill_parent"
-        android:layout_height="21dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/dt_account_text"
         android:layout_gravity="center"
         android:layout_marginLeft="60dp"
@@ -34,8 +33,8 @@
         android:hint="验证码"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:textColor="?attr/tc_999999"
-        android:textColorHint="?attr/tc_000000"
+        android:textColor="?attr/tc_484848"
+        android:textColorHint="?attr/tc_484848"
         android:textSize="@dimen/ts_14sp"/>
 
 
@@ -49,11 +48,11 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
-        android:background="@drawable/border_zblogin_btn_bg"
+        android:background="@drawable/border_login_text_bg"
         android:enabled="false"
         android:gravity="center"
         android:text="注册"
-        android:textColor="?attr/tc_484848"
+        android:textColor="?attr/tc_ffffff"
         android:textSize="@dimen/ts_14sp"/>
 
     <TextView
@@ -64,7 +63,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="22dp"
         android:text="验证码短信可能有一定延迟，请耐心稍微等待"
-        android:textColor="#999999"
+        android:textColor="?attr/tc_484848"
         android:textSize="11sp"/>
 
     <TextView
@@ -76,7 +75,7 @@
         android:layout_marginTop="7dp"
         android:gravity="center"
         android:text="重新发送验证码"
-        android:textColor="#f44b50"
+        android:textColor="?attr/bc_f44b50"
         android:textSize="11sp"/>
 
 </RelativeLayout>

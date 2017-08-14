@@ -21,6 +21,7 @@
         android:layout_marginTop="26dp"
         android:background="@drawable/border_login_text_bg"
         android:gravity="center"
+        android:textColor="?attr/tc_999999"
         android:text="登录"/>
 
 </RelativeLayout>

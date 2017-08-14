@@ -37,7 +37,10 @@
         <item name="tc_4682c5">@color/tc_4682c5</item>
         <!--e2e2e2  343434-->
         <item name="bc_e2e2e2">@color/bc_e2e2e2</item>
-
+        <!--f44b50  8e3636-->
+        <item name="bc_f44b50">@color/bc_f44b50</item>
+        <!--ffffff  999999-->
+        <item name="tc_ffffff">@color/tc_ffffff</item>
     </style>
 
     <style name="NightAppTheme" parent="CoreThemeNight.Base">
@@ -80,6 +83,11 @@
         <item name="tc_4682c5">@color/tc_4682c5_night</item>
         <!--e2e2e2  343434-->
         <item name="bc_e2e2e2">@color/bc_e2e2e2_night</item>
+        <!--f44b50 8e3636-->
+        <item name="bc_f44b50">@color/bc_f44b50_night</item>
+        <!--ffffff  999999-->
+        <item name="tc_ffffff">@color/tc_999999</item>
+
 
 
     </style>

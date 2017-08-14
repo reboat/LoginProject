@@ -16,6 +16,10 @@
         >
         <activity android:name="com.daily.news.login.LoginActivity"/>
         <activity android:name="com.daily.news.login.zbtxz.ZBLoginActivity"/>
+        <activity android:name="com.daily.news.login.zbtxz.ZBRegisterActivity"/>
+        <activity android:name="com.daily.news.login.zbtxz.ZBResetNewPassWord"/>
+        <activity android:name="com.daily.news.login.zbtxz.ZBResetPWSmsLogin"/>
+        <activity android:name="com.daily.news.login.zbtxz.ZBVerificationActivity"/>
 
     </application>
 

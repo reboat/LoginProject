@@ -26,7 +26,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:text="QQ"
-        android:textColor="?attr/tc_484848"
+        android:textColor="?attr/tc_ffffff"
         android:textSize="11sp"
         android:lineSpacingExtra="8sp"/>
 </RelativeLayout>

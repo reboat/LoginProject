@@ -41,6 +41,10 @@
         <attr name="tc_4682c5" format="color|reference" />
         <!--e2e2e2  343434-->
         <attr name="bc_e2e2e2" format="color|reference" />
+        <!--f44b50 8e3636-->
+        <attr name="bc_f44b50" format="color|reference" />
+        <!--ffffff  999999-->
+        <attr name="tc_ffffff" format="color|reference" />
     </declare-styleable>
 
 </resources>

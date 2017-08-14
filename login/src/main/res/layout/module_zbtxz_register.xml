@@ -19,8 +19,9 @@
         <com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText
             android:id="@+id/dt_account_text"
             android:layout_width="fill_parent"
-            android:layout_height="21dp"
-            android:background="@null"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_edit_bg"
+            android:paddingBottom="8dp"
             android:cursorVisible="false"
             android:gravity="left"
             android:hint="手机号码"
@@ -29,14 +30,8 @@
             android:paddingLeft="14dp"
             android:paddingRight="18dp"
             android:textColor="?attr/tc_484848"
-            android:textColorHint="?attr/tc_484848"
+            android:textColorHint="?attr/tc_999999"
             android:textSize="@dimen/ts_14sp"/>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="15dp"
-            android:background="#ff0000"/>
 
     </LinearLayout>
 
@@ -52,11 +47,12 @@
         <EditText
             android:id="@+id/et_password_text"
             android:layout_width="fill_parent"
-            android:layout_height="21dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
-            android:background="@null"
+            android:background="@drawable/border_edit_bg"
+            android:paddingBottom="8dp"
             android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left"
             android:hint="密码（6-30位数字或字母）"
@@ -66,7 +62,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="18dp"
             android:textColor="?attr/tc_484848"
-            android:textColorHint="?attr/tc_000000"
+            android:textColorHint="?attr/tc_999999"
             android:textSize="@dimen/ts_11sp"/>
 
         <ImageView
@@ -81,16 +77,6 @@
             />
     </FrameLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignStart="@+id/bt_login"
-        android:layout_below="@+id/fy_password"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:background="#ff0000"/>
-
-
     <Button
         android:id="@+id/bt_register"
         style="?android:attr/borderlessButtonStyle"
@@ -100,11 +86,11 @@
         android:layout_below="@+id/fy_password"
         android:layout_marginRight="20dp"
         android:layout_marginTop="35dp"
-        android:background="@drawable/border_zblogin_btn_bg"
+        android:background="@drawable/border_login_text_bg"
         android:enabled="false"
         android:gravity="center"
         android:text="注册"
-        android:textColor="?attr/tc_484848"
+        android:textColor="?attr/tc_ffffff"
         android:textSize="@dimen/ts_14sp"/>
 
     <CheckBox

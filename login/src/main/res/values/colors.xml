@@ -36,6 +36,7 @@
     <color name="bc_f0f0f0">#ffffff</color>
 
 
+
     <!--夜间颜色-->
     <color name="tc_484848_night">#7a7b7d</color>
     <color name="bc_ffffff_night">#202124</color>
@@ -53,6 +54,8 @@
     <color name="tc_4d95fa_night">#5c5c5c</color>
     <color name="tc_4682c5_night">#315277</color>
     <color name="bc_e2e2e2_night">#343434</color>
+    <color name="bc_f44b50_night">#8e3636</color>
+
 
 
     <!--评论框-->
