@@ -3,14 +3,13 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -25,10 +24,13 @@ import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.eventbus.CloseZBLoginEvent;
 import com.daily.news.login.eventbus.ZBCloseActEvent;
+import com.daily.news.login.task.LoginValidateTask;
+import com.zjrb.coreprojectlibrary.api.callback.APIExpandCallBack;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.ToolBarFactory;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.common.biz.UserBiz;
 import com.zjrb.coreprojectlibrary.common.manager.AppManager;
 import com.zjrb.coreprojectlibrary.domain.eventbus.EventBase;
@@ -89,8 +91,8 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     }
 
     @Override
-    protected void onSetUpToolBar(Toolbar toolbar, ActionBar actionBar) {
-        ToolBarFactory.createStyle1(this, toolbar, getString(R.string.module_login_toolbar));
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
     }
 
 
@@ -193,15 +195,15 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     @Override
     public void onSuccess(String s, String s1, String s2) {
         //登录验证
-//        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
-//            @Override
-//            public void onError(String errMsg, int errCode) {
-//                showShortToast(errMsg);
-//            }
-//
-//            @Override
-//            public void onSuccess(@NonNull ZBLoginBean result) {
-//                if (result.getResultCode() == 0) {
+        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBLoginActivity.this, "登录失败");
+            }
+
+            @Override
+            public void onSuccess(@NonNull ZBLoginBean result) {
+                if (result.getResultCode() == 0) {
 //                    UserBiz userBiz = UserBiz.get();
 //                    userBiz.setAvatar("");
 //                    userBiz.setNickName(accountText.getText().toString());
@@ -214,12 +216,12 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 //                    }
 //                    isLoginSuccess = true;
 //                    finish();
-//                } else {
-//                    showShortToast(result.getResultMsg());
-//                }
-//
-//            }
-//        }).setTag(this).exe(accountText.getText().toString(), "ZB", "", accountText.getText().toString(), s);
+                } else {
+                    T.showShortNow(ZBLoginActivity.this, "登录失败");
+                }
+
+            }
+        }).setTag(this).exe(s, "ZB", "", dtAccountText.getText(), "");
     }
 
     /**

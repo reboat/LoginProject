@@ -3,6 +3,7 @@ package com.daily.news.login.zbtxz;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,8 +16,12 @@ import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.ZBRegisterValidateTask;
+import com.zjrb.coreprojectlibrary.api.callback.APIExpandCallBack;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.common.manager.TimerManager;
 import com.zjrb.coreprojectlibrary.utils.T;
 import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
@@ -64,6 +69,11 @@ public class ZBVerificationActivity extends BaseActivity {
         ARouter.getInstance().inject(this);
         setContentView(R.layout.module_zbtxz_register_verification);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
     }
 
     @OnClick({R2.id.bt_register})
@@ -175,15 +185,15 @@ public class ZBVerificationActivity extends BaseActivity {
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
         //注册验证
-//        new WoaValidateTask(new APIExpandCallBack<ZBLoginBean>() {
-//            @Override
-//            public void onError(String errMsg, int errCode) {
-//                showShortToast("注册失败");
-//            }
-//
-//            @Override
-//            public void onSuccess(@NonNull ZBLoginBean result) {
-//                if (result.getResultCode() == 0) {
+        new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBVerificationActivity.this, "注册失败");
+            }
+
+            @Override
+            public void onSuccess(@NonNull ZBLoginBean result) {
+                if (result.getResultCode() == 0) {
 //                    UserBiz userBiz = UserBiz.get();
 //                    userBiz.setAvatar("");
 //                    userBiz.setNickName(phoneNum);
@@ -196,11 +206,11 @@ public class ZBVerificationActivity extends BaseActivity {
 //                        UIUtils.getActivity()
 //                                .startActivity(new Intent(ZBVerificationActivity.this, MainActivity.class));
 //                    }
-//                } else {
-//                    showShortToast("注册失败");
-//                }
-//            }
-//        }).setTag(this).exe(sessionId);
+                } else {
+                    T.showShortNow(ZBVerificationActivity.this, "注册失败");
+                }
+            }
+        }).setTag(this).exe(sessionId, "ZB", "", dtAccountText.getText(), "");
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,9 +19,10 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.listener.IPermissionCallBack;
-import com.zjrb.coreprojectlibrary.common.manager.PermissionManager;
-import com.zjrb.coreprojectlibrary.domain.enums.Permission;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
+import com.zjrb.coreprojectlibrary.common.permission.IPermissionCallBack;
+import com.zjrb.coreprojectlibrary.common.permission.Permission;
+import com.zjrb.coreprojectlibrary.common.permission.PermissionManager;
 import com.zjrb.coreprojectlibrary.ui.widget.CircleImageView;
 import com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText;
 import com.zjrb.coreprojectlibrary.utils.AppUtils;
@@ -79,6 +81,11 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         }
     }
 
+    @Override
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
+    }
+
     @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -102,7 +109,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             case R2.id.bt_confirm:
                 if (login_type) {
                     //登录操作
-                    regAndLogin(uuid,tvTerification.getText().toString(),dtAccountText.getText().toString());
+                    regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
                 } else {
                     //进入重置密码页面
                 }
@@ -116,6 +123,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
     /**
      * 先注册账号再登录
+     *
      * @param uid
      * @param smsCode
      * @param phoneNum

@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.utils.T;
 import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
 
@@ -52,6 +54,11 @@ public class ZBResetNewPassWord extends BaseActivity {
         ARouter.getInstance().inject(this);
         setContentView(R.layout.module_zbtxz_reset_password_confirm);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
     }
 
     @OnClick({R2.id.bt_confirm})

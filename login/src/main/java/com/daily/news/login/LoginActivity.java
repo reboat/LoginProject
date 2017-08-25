@@ -2,11 +2,10 @@ package com.daily.news.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -15,7 +14,7 @@ import com.daily.news.login.adapter.LoginTypeAdapter;
 import com.daily.news.login.bean.LoginTypeBean;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.ToolBarFactory;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.common.listener.IOnItemClickListener;
 import com.zjrb.coreprojectlibrary.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.coreprojectlibrary.ui.widget.divider.GridSpaceDivider;
@@ -57,8 +56,8 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
     }
 
     @Override
-    protected void onSetUpToolBar(Toolbar toolbar, ActionBar actionBar) {
-        ToolBarFactory.createStyle1(this, toolbar, getString(R.string.module_login_toolbar));
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.login)).getView();
     }
 
     /**
@@ -85,8 +84,7 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
 
 
     /**
-     * @param v
-     * 点击注册
+     * @param v 点击注册
      */
     @OnClick({R2.id.tv_register})
     public void onClick(View v) {
@@ -106,13 +104,13 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
      */
     @Override
     public void onItemClick(View itemView, int position, LoginTypeBean data) {
-        if(position == 0){
+        if (position == 0) {
             //进入浙报通行证页面
-        }else if(position == 1){
+        } else if (position == 1) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
-        }else if(position == 2){
+        } else if (position == 2) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
-        }else if(position == 3){
+        } else if (position == 3) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
         }
     }

@@ -2,13 +2,12 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,10 +23,10 @@ import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.ToolBarFactory;
-import com.zjrb.coreprojectlibrary.common.listener.IPermissionCallBack;
-import com.zjrb.coreprojectlibrary.common.manager.PermissionManager;
-import com.zjrb.coreprojectlibrary.domain.enums.Permission;
+import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
+import com.zjrb.coreprojectlibrary.common.permission.IPermissionCallBack;
+import com.zjrb.coreprojectlibrary.common.permission.Permission;
+import com.zjrb.coreprojectlibrary.common.permission.PermissionManager;
 import com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText;
 import com.zjrb.coreprojectlibrary.utils.AppUtils;
 import com.zjrb.coreprojectlibrary.utils.T;
@@ -76,8 +75,8 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
-    protected void onSetUpToolBar(Toolbar toolbar, ActionBar actionBar) {
-        ToolBarFactory.createStyle1(this, toolbar, getString(R.string.module_register_toolbar));
+    protected View onCreateTopBar(ViewGroup view) {
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
     }
 
     @OnClick({R2.id.verification_code_see_btn, R2.id.bt_register})
