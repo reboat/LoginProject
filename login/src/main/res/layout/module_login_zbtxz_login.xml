@@ -2,6 +2,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:background="?attr/bc_ffffff"
             android:fitsSystemWindows="true"
             android:scrollbars="none">
@@ -29,9 +30,9 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:padding="5dp"
-                android:text="通过短信验证码登录"
                 android:textColor="?attr/tc_f44b50"
-                android:textSize="@dimen/ts_11sp"/>
+                android:textSize="@dimen/ts_11sp"
+                tools:text="通过短信验证码登录"/>
 
             <TextView
                 android:id="@+id/tv_forget_password_btn"
@@ -40,9 +41,9 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:padding="5dp"
-                android:text="忘记密码"
                 android:textColor="?attr/tc_f44b50"
-                android:textSize="@dimen/ts_11sp"/>
+                android:textSize="@dimen/ts_11sp"
+                tools:text="忘记密码"/>
 
         </LinearLayout>
 
@@ -141,9 +142,9 @@
             android:background="@drawable/border_login_text_bg"
             android:enabled="false"
             android:gravity="center"
-            android:text="登录"
             android:textColor="?attr/tc_ffffff"
-            android:textSize="@dimen/ts_14sp"/>
+            android:textSize="@dimen/ts_14sp"
+            tools:text="登录"/>
 
     </RelativeLayout>
 </ScrollView>

@@ -1,16 +1,18 @@
 package com.daily.news.login.zbtxz;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
@@ -36,13 +38,12 @@ import butterknife.OnClick;
  * create time:2017/8/11  下午2:49
  */
 
-@Route(path = "/module/login/ZBVerificationActivity")
 public class ZBVerificationActivity extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
     TextView dtAccountText;
-    @BindView(R2.id.et_password_text)
-    EditText etPasswordText;
+    @BindView(R2.id.et_sms_code)
+    EditText etSmsCode;
     @BindView(R2.id.bt_register)
     Button btRegister;
     @BindView(R2.id.tv_notify)
@@ -51,29 +52,67 @@ public class ZBVerificationActivity extends BaseActivity {
     TextView tvResend;
 
 
-    @Autowired(name = Key.UUID)
-    public String mUuid;
-    @Autowired(name = Key.SMSCODE)
-    public String mSmsCode;
-    @Autowired(name = Key.ACCOUNTID)
-    public String mAccountID;
-    @Autowired(name = Key.PASSWORD)
-    public String mPassWord;
+    public String mUuid = "";
+    public String mAccountID = "";
+    public String mPassWord = "";
+    //短信验证码
 
 
     private TimerManager.TimerTask timerTask;
 
+    /**
+     * @param intent
+     * 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null && intent.getData() != null) {
+            Uri data = intent.getData();
+            if (intent.hasExtra(Key.UUID)) {
+                mUuid = data.getQueryParameter(Key.UUID);
+            }
+            if (intent.hasExtra(Key.ACCOUNTID)) {
+                mAccountID = data.getQueryParameter(Key.ACCOUNTID);
+            }
+            if (intent.hasExtra(Key.PASSWORD)) {
+                mPassWord = data.getQueryParameter(Key.PASSWORD);
+            }
+        }
+    }
+
+    private void initView() {
+        String phoneVerificationCode = String.format(getString(R.string.zb_reg_tel),
+                mAccountID);
+        SpannableStringBuilder sb = createPhoneNumberBoldSpannable(phoneVerificationCode);
+        dtAccountText.setText(sb);
+    }
+
+    /**
+     * 设置短信验证页面中间号码的颜色样式等
+     *
+     * @param phoneVerificationCode
+     * @return
+     */
+    private SpannableStringBuilder createPhoneNumberBoldSpannable(String phoneVerificationCode) {
+        SpannableStringBuilder sb = new SpannableStringBuilder(phoneVerificationCode);
+        final StyleSpan boldStyleSpan = new StyleSpan(android.graphics.Typeface.NORMAL);
+        int boldStart = phoneVerificationCode.indexOf("+86");
+        int boldEnd = phoneVerificationCode.indexOf("收到的");
+        sb.setSpan(boldStyleSpan, boldStart, boldEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        return sb;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         setContentView(R.layout.module_zbtxz_register_verification);
         ButterKnife.bind(this);
+        getIntentData(getIntent());
+        initView();
     }
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.module_register_toolbar)).getView();
     }
 
     @OnClick({R2.id.bt_register})
@@ -82,8 +121,8 @@ public class ZBVerificationActivity extends BaseActivity {
             case R2.id.bt_register:
                 //注册账号 获取token
                 if (!ClickTracker.isDoubleClick()) {
-                    if (!mUuid.equals("") && !mSmsCode.equals("") && !mAccountID.isEmpty()) {
-                        regAndLogin(mUuid, mSmsCode, mAccountID);
+                    if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("") && !mAccountID.isEmpty()) {
+                        regAndLogin(mUuid, etSmsCode.getText().toString(), mAccountID);
                     }
                 }
                 break;
@@ -132,7 +171,6 @@ public class ZBVerificationActivity extends BaseActivity {
      * 获取短信验证码
      */
     private void getverificationPermission() {
-        startTimeCountDown();
         WoaSdk.getSmsCaptcha(ZBVerificationActivity.this,
                 mAccountID,
                 mPassWord,
@@ -147,6 +185,8 @@ public class ZBVerificationActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         //获取uuid
+                        //发送短信成功以后才计时，否则不进行计时
+                        startTimeCountDown();
                         mUuid = s;
                     }
                 });

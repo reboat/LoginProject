@@ -13,5 +13,6 @@
     <string name="zb_login_get_validationcode_again">秒后重试</string>
     <string name="zb_login_resend">重新发送验证码</string>
     <string name="zb_phone_num_inout_error">请输入手机号码</string>
+    <string name="zb_reg_tel">请输入手机号 +86 %1$s 收到的验证码</string>
 
 </resources>

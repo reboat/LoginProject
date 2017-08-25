@@ -1,6 +1,7 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -17,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
@@ -27,6 +26,7 @@ import com.daily.news.login.R2;
 import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.eventbus.CloseZBLoginEvent;
 import com.daily.news.login.eventbus.ZBCloseActEvent;
+import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.coreprojectlibrary.api.callback.APIExpandCallBack;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
@@ -34,6 +34,7 @@ import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.common.biz.UserBiz;
 import com.zjrb.coreprojectlibrary.common.manager.AppManager;
 import com.zjrb.coreprojectlibrary.domain.eventbus.EventBase;
+import com.zjrb.coreprojectlibrary.nav.Nav;
 import com.zjrb.coreprojectlibrary.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText;
 import com.zjrb.coreprojectlibrary.utils.T;
@@ -52,7 +53,6 @@ import butterknife.OnClick;
  * created by wanglinjie on 2016/11/23
  */
 
-@Route(path = "/module/login/ZBLoginActivity")
 public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnCheckAccountExistListener, OnLoginListener {
     @BindView(R2.id.tv_verification_btn)
     TextView tvVerificationBtn;
@@ -83,7 +83,6 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         setContentView(R.layout.module_login_zbtxz_login);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -136,12 +135,21 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
                 break;
             //重置密码
             case R2.id.tv_forget_password_btn:
-//                if (!ClickTracker.isDoubleClick()) {
-//                    startActivity(new Intent(this, ZBVerificationPassWordActivity.class));
-//                }
+                if (!ClickTracker.isDoubleClick()) {
+                    Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                            .buildUpon()
+                            .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
+                            .build(), 0);
+                }
                 break;
             //验证码登录
             case R2.id.tv_verification_btn:
+                if (!ClickTracker.isDoubleClick()) {
+                    Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                            .buildUpon()
+                            .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
+                            .build(), 0);
+                }
                 break;
             //密码可视
             case R2.id.verification_code_see_btn:
@@ -221,7 +229,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
                 }
 
             }
-        }).setTag(this).exe(s, "ZB", "", dtAccountText.getText(), "");
+        }).setTag(this).exe(s, "BIANFENG", "", dtAccountText.getText(), "");
     }
 
     /**

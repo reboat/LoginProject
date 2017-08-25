@@ -11,6 +11,9 @@ public final class Key {
      * 登录类型
      */
     public static final String LOGIN_TYPE = "login_type";
+
+
+
     /**
      * 浙报通行证UUID
      */
@@ -28,5 +31,17 @@ public final class Key {
      * 浙报通行证密码
      */
     public static final String PASSWORD = "password";
+
+    public static class  Value{
+        /**
+         * 重置密码类型
+         */
+        public static final String LOGIN_RESET_TYPE = "login_reset_type";
+
+        /**
+         * 账号密码登录类型
+         */
+        public static final String LOGIN_SMS_TYPE = "login_sms_type";
+    }
 
 }

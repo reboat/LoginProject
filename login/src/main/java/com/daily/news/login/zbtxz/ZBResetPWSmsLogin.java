@@ -1,6 +1,8 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -8,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
@@ -23,6 +22,7 @@ import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
 import com.zjrb.coreprojectlibrary.common.permission.IPermissionCallBack;
 import com.zjrb.coreprojectlibrary.common.permission.Permission;
 import com.zjrb.coreprojectlibrary.common.permission.PermissionManager;
+import com.zjrb.coreprojectlibrary.nav.Nav;
 import com.zjrb.coreprojectlibrary.ui.widget.CircleImageView;
 import com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText;
 import com.zjrb.coreprojectlibrary.utils.AppUtils;
@@ -36,12 +36,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 重置浙报通行证密码
+ * 手机验证码登录/重置密码获取验证码
  * Created by wanglinjie.
  * create time:2017/8/11  下午3:49
  */
 
-@Route(path = "/module/login/ZBResetPassWord")
 public class ZBResetPWSmsLogin extends BaseActivity {
 
     @BindView(R2.id.iv_logo)
@@ -50,8 +49,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     TextView tvTitle;
     @BindView(R2.id.dt_account_text)
     DeleteEditText dtAccountText;
-    @BindView(R2.id.et_password_text)
-    DeleteEditText etPasswordText;
+    @BindView(R2.id.et_sms_text)
+    DeleteEditText etSmsText;
     @BindView(R2.id.bt_confirm)
     Button btConfirm;
     @BindView(R2.id.tv_sms_verification)
@@ -62,18 +61,30 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     /**
      * 登录类型：true:验证码登录/false:重置密码
      */
-    @Autowired(name = Key.LOGIN_TYPE)
-    public boolean login_type = false;
-
+    private String login_type = "";
     private String uuid = "";
+    private String smsCode = "";
+
+
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null && intent.getData() != null) {
+            Uri data = intent.getData();
+            if (intent.hasExtra(Key.LOGIN_TYPE)) {
+                login_type = data.getQueryParameter(Key.LOGIN_TYPE);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         setContentView(R.layout.module_zbtxz_reset_password);
         ButterKnife.bind(this);
-        if (login_type) {
+        getIntentData(getIntent());
+        if (login_type.equals(Key.Value.LOGIN_RESET_TYPE)) {
             tvTerification.setEnabled(false);
             tvChangeLoginType.setText("通过密码登录");
         } else {
@@ -107,15 +118,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 break;
             //进入重置密码页面
             case R2.id.bt_confirm:
-                if (login_type) {
-                    //登录操作
-                    regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
-                } else {
-                    //进入重置密码页面
-                }
+                regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
                 break;
             //进入账号密码登录页面
             case R2.id.tv_change_login_type:
+                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
+                        .buildUpon()
+                        .build(), 0);
                 break;
         }
     }
@@ -139,11 +148,25 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onSuccess(String token) {
                 //注册验证
-                if (null == token || token.isEmpty()) {
-                    T.showShort(ZBResetPWSmsLogin.this, "注册失败");
+                if (Key.LOGIN_TYPE.equals(Key.Value.LOGIN_SMS_TYPE)) {
+                    if (null == token || token.isEmpty()) {
+                        T.showShort(ZBResetPWSmsLogin.this, "注册失败");
+                    } else {
+                        loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
+                    }
                 } else {
-                    loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
+                    if (null == token || token.isEmpty()) {
+                        T.showShort(ZBResetPWSmsLogin.this, "短信验证码输入错误");
+                    } else {
+                        Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse("http://www.8531.cn/login/ZBResetNewPassWord")
+                                .buildUpon()
+                                .appendQueryParameter(Key.UUID, uuid)
+                                .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
+                                .build(), 0);
+                    }
+
                 }
+
             }
         });
     }
@@ -219,7 +242,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     public void onGranted(boolean isAlreadyDef) {
                         WoaSdk.getSmsCaptcha(ZBResetPWSmsLogin.this,
                                 dtAccountText.getText().toString(),
-                                etPasswordText.getText().toString(),
+                                etSmsText.getText().toString(),
                                 new OnGetSmsCaptchaListener() {
                                     @Override
                                     public void onFailure(int i, String s) {

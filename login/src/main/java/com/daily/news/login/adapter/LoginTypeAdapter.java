@@ -20,22 +20,14 @@ import java.util.List;
  * create time:2017/8/10  下午8:39
  */
 
-public final class LoginTypeAdapter extends BaseRecyclerAdapter<LoginTypeBean, LoginTypeAdapter.DetailShareViewHolder> {
+public final class LoginTypeAdapter extends BaseRecyclerAdapter {
 
 
     /**
-     * 构造方法
-     *
      * @param datas 传入集合数据
      */
-    public LoginTypeAdapter(List<LoginTypeBean> datas) {
+    public LoginTypeAdapter(List datas) {
         super(datas);
-    }
-
-
-    @Override
-    public boolean onAbsBindViewHolder(DetailShareViewHolder holder, int position) {
-        return super.onAbsBindViewHolder(holder, position);
     }
 
     @Override

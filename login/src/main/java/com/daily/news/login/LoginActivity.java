@@ -1,6 +1,7 @@
 package com.daily.news.login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.daily.news.login.adapter.LoginTypeAdapter;
 import com.daily.news.login.bean.LoginTypeBean;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
+import com.zjrb.coreprojectlibrary.common.base.adapter.OnItemClickListener;
 import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
-import com.zjrb.coreprojectlibrary.common.listener.IOnItemClickListener;
+import com.zjrb.coreprojectlibrary.nav.Nav;
 import com.zjrb.coreprojectlibrary.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.coreprojectlibrary.ui.widget.divider.GridSpaceDivider;
 import com.zjrb.coreprojectlibrary.utils.UIUtils;
@@ -34,8 +34,7 @@ import butterknife.OnClick;
  * create time:2017/8/19  下午20:14
  */
 
-@Route(path = "/module/login/LoginActivity")
-public class LoginActivity extends BaseActivity implements IOnItemClickListener<LoginTypeBean> {
+public class LoginActivity extends BaseActivity implements OnItemClickListener {
 
     @BindView(R2.id.rv_list)
     RecyclerView mRecyleView;
@@ -49,7 +48,6 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ARouter.getInstance().inject(this);
         setContentView(R.layout.module_login_login);
         ButterKnife.bind(this);
         initLoginRV();
@@ -91,27 +89,11 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
         if (ClickTracker.isDoubleClick()) return;
         switch (v.getId()) {
             case R2.id.tv_register:
+                //跳转注册页面
+                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBRegisterActivity")
+                        .buildUpon()
+                        .build(), 0);
                 break;
-        }
-    }
-
-    /**
-     * 第三方跳转登录
-     *
-     * @param itemView
-     * @param position
-     * @param data
-     */
-    @Override
-    public void onItemClick(View itemView, int position, LoginTypeBean data) {
-        if (position == 0) {
-            //进入浙报通行证页面
-        } else if (position == 1) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
-        } else if (position == 2) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
-        } else if (position == 3) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
         }
     }
 
@@ -127,6 +109,25 @@ public class LoginActivity extends BaseActivity implements IOnItemClickListener<
         if (mUmengUtils != null) {
             mUmengUtils.getDialog();
             mUmengUtils.onResult(requestCode, resultCode, data);
+        }
+    }
+
+    /**
+     * 第三方跳转登录
+     *
+     * @param itemView
+     * @param position
+     */
+    @Override
+    public void onItemClick(View itemView, int position) {
+        if (position == 0) {
+            //进入浙报通行证页面
+        } else if (position == 1) {
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
+        } else if (position == 2) {
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
+        } else if (position == 3) {
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
         }
     }
 }

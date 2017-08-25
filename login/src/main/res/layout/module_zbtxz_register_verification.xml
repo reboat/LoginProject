@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="20dp"
     android:background="?attr/bc_ffffff">
 
@@ -15,12 +16,13 @@
         android:background="@null"
         android:gravity="left"
         android:maxLines="1"
-        android:text="请输入手机号 +86 18557178825 收到的验证码"
         android:textColor="?attr/tc_484848"
-        android:textSize="@dimen/ts_11sp"/>
+        android:textSize="@dimen/ts_11sp"
+        android:text="@string/zb_reg_tel"
+        tools:text="请输入手机号 +86 18557178825 收到的验证码"/>
 
     <EditText
-        android:id="@+id/et_password_text"
+        android:id="@+id/et_sms_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dt_account_text"
@@ -44,16 +46,16 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_alignStart="@+id/ly_login_button_bar"
-        android:layout_below="@+id/et_password_text"
+        android:layout_below="@+id/et_sms_code"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
         android:background="@drawable/border_login_text_bg"
         android:enabled="false"
         android:gravity="center"
-        android:text="注册"
         android:textColor="?attr/tc_ffffff"
-        android:textSize="@dimen/ts_14sp"/>
+        android:textSize="@dimen/ts_14sp"
+        tools:text="注册"/>
 
     <TextView
         android:id="@+id/tv_notify"
@@ -62,9 +64,9 @@
         android:layout_below="@+id/bt_register"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="22dp"
-        android:text="验证码短信可能有一定延迟，请耐心稍微等待"
         android:textColor="?attr/tc_484848"
-        android:textSize="11sp"/>
+        android:textSize="11sp"
+        tools:text="验证码短信可能有一定延迟，请耐心稍微等待"/>
 
     <TextView
         android:id="@+id/tv_resend"
@@ -74,8 +76,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="7dp"
         android:gravity="center"
-        android:text="重新发送验证码"
         android:textColor="?attr/bc_f44b50"
-        android:textSize="11sp"/>
+        android:textSize="11sp"
+        tools:text="重新发送验证码"/>
 
 </RelativeLayout>
