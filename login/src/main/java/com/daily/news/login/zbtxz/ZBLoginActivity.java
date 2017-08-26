@@ -13,10 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
@@ -54,24 +50,10 @@ import butterknife.OnClick;
  */
 
 public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnCheckAccountExistListener, OnLoginListener {
-    @BindView(R2.id.tv_verification_btn)
-    TextView tvVerificationBtn;
-    @BindView(R2.id.tv_forget_password_btn)
-    TextView tvForgetPasswordBtn;
-    @BindView(R2.id.ly_login_button_bar)
-    LinearLayout lyLoginButtonBar;
-    @BindView(R2.id.iv_logo)
-    ImageView ivLogo;
     @BindView(R2.id.dt_account_text)
     DeleteEditText dtAccountText;
-    @BindView(R2.id.ly_login)
-    LinearLayout lyLogin;
     @BindView(R2.id.et_password_text)
     EditText etPasswordText;
-    @BindView(R2.id.verification_code_see_btn)
-    ImageView verificationCodeSeeBtn;
-    @BindView(R2.id.fy_password)
-    FrameLayout fyPassword;
     @BindView(R2.id.bt_login)
     Button btLogin;
 
@@ -91,7 +73,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
     }
 
 
@@ -123,53 +105,49 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     @OnClick({R2.id.dt_account_text, R2.id.bt_login, R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn, R2.id.tv_verification_btn})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.dt_account_text:
-                dtAccountText.setCursorVisible(true);
-                break;
+        if (ClickTracker.isDoubleClick()) return;
+
+        if (view.getId() == R.id.dt_account_text) {
+            dtAccountText.setCursorVisible(true);
             //登录
-            case R2.id.bt_login:
-                if (!ClickTracker.isDoubleClick()) {
-                    WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
-                }
-                break;
+        } else if (view.getId() == R.id.bt_login) {
+            if (!ClickTracker.isDoubleClick()) {
+                WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
+            }
             //重置密码
-            case R2.id.tv_forget_password_btn:
-                if (!ClickTracker.isDoubleClick()) {
-                    Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                            .buildUpon()
-                            .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
-                            .build(), 0);
-                }
-                break;
+        } else if (view.getId() == R.id.tv_forget_password_btn) {
+            if (!ClickTracker.isDoubleClick()) {
+                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                        .buildUpon()
+                        .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
+                        .build(), 0);
+            }
             //验证码登录
-            case R2.id.tv_verification_btn:
-                if (!ClickTracker.isDoubleClick()) {
-                    Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                            .buildUpon()
-                            .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
-                            .build(), 0);
-                }
-                break;
+        } else if (view.getId() == R.id.tv_verification_btn) {
+            if (!ClickTracker.isDoubleClick()) {
+                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                        .buildUpon()
+                        .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
+                        .build(), 0);
+            }
             //密码可视
-            case R2.id.verification_code_see_btn:
-                int length = dtAccountText.getText().toString().length();
-                if (length > 0) {
-                    if (!isClick) {
-                        //开启
-                        etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        etPasswordText.setSelection(length);
-                        isClick = true;
-                    } else {
-                        //隐藏
-                        etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        etPasswordText.setSelection(length);
-                        isClick = false;
-                    }
+        } else if (view.getId() == R.id.verification_code_see_btn) {
+            int length = dtAccountText.getText().toString().length();
+            if (length > 0) {
+                if (!isClick) {
+                    //开启
+                    etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    etPasswordText.setSelection(length);
+                    isClick = true;
                 } else {
-                    T.showShort(this, "输入密码后显示明文");
+                    //隐藏
+                    etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    etPasswordText.setSelection(length);
+                    isClick = false;
                 }
-                break;
+            } else {
+                T.showShort(this, getString(R.string.zb_passwprd_readable));
+            }
         }
     }
 
@@ -206,7 +184,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                T.showShortNow(ZBLoginActivity.this, "登录失败");
+                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
             }
 
             @Override
@@ -225,7 +203,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 //                    isLoginSuccess = true;
 //                    finish();
                 } else {
-                    T.showShortNow(ZBLoginActivity.this, "登录失败");
+                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
                 }
 
             }

@@ -71,18 +71,14 @@ public class ZBResetNewPassWord extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.module_login_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
     }
 
     @OnClick({R2.id.bt_confirm})
     public void onClick(View view) {
-        switch (view.getId()) {
-            //进入重置密码页面
-            case R2.id.bt_confirm:
-                if (!ClickTracker.isDoubleClick()) {
-                    findPassword();
-                }
-                break;
+        if (ClickTracker.isDoubleClick()) return;
+        if(view.getId() == R.id.bt_confirm){
+            findPassword();
         }
     }
 

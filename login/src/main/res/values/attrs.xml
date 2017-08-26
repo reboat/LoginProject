@@ -45,6 +45,7 @@
         <attr name="bc_f44b50" format="color|reference" />
         <!--ffffff  999999-->
         <attr name="tc_ffffff" format="color|reference" />
+
     </declare-styleable>
 
 </resources>

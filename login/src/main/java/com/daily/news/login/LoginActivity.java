@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.daily.news.login.adapter.LoginTypeAdapter;
 import com.daily.news.login.bean.LoginTypeBean;
@@ -15,6 +14,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
 import com.zjrb.coreprojectlibrary.common.base.adapter.OnItemClickListener;
 import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
+import com.zjrb.coreprojectlibrary.db.ThemeMode;
 import com.zjrb.coreprojectlibrary.nav.Nav;
 import com.zjrb.coreprojectlibrary.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.coreprojectlibrary.ui.widget.divider.GridSpaceDivider;
@@ -38,8 +38,6 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 
     @BindView(R2.id.rv_list)
     RecyclerView mRecyleView;
-    @BindView(R2.id.tv_register)
-    TextView mTvLogin;
 
     private List<LoginTypeBean> mBean;
     private LoginTypeAdapter mAdapter;
@@ -55,7 +53,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.login)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_login)).getView();
     }
 
     /**
@@ -69,10 +67,17 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 
         if (mBean == null) {
             mBean = new ArrayList<>();
-            mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, "浙报通行证"));
-            mBean.add(new LoginTypeBean(R.mipmap.me_wechat_btn, "微信"));
-            mBean.add(new LoginTypeBean(R.mipmap.me_qq_btn, "QQ"));
-            mBean.add(new LoginTypeBean(R.mipmap.me_sina_btn, "微博"));
+            if (!ThemeMode.isNightMode()) {
+                mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, getString(R.string.zb_login_type_zb)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wx, getString(R.string.zb_login_type_wx)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_qq, getString(R.string.zb_login_type_qq)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wb, getString(R.string.zb_login_type_wb)));
+            } else {
+                mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, getString(R.string.zb_login_type_zb)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wx, getString(R.string.zb_login_type_wx)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_qq, getString(R.string.zb_login_type_qq)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wb, getString(R.string.zb_login_type_wb)));
+            }
         }
 
         mAdapter = new LoginTypeAdapter(mBean);
@@ -87,13 +92,10 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
     @OnClick({R2.id.tv_register})
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
-        switch (v.getId()) {
-            case R2.id.tv_register:
-                //跳转注册页面
-                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBRegisterActivity")
-                        .buildUpon()
-                        .build(), 0);
-                break;
+        if (v.getId() == R.id.tv_register) {
+            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBRegisterActivity")
+                    .buildUpon()
+                    .build(), 0);
         }
     }
 
@@ -122,6 +124,9 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
     public void onItemClick(View itemView, int position) {
         if (position == 0) {
             //进入浙报通行证页面
+            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
+                    .buildUpon()
+                    .build(), 0);
         } else if (position == 1) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (position == 2) {

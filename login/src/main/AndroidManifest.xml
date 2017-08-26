@@ -14,13 +14,99 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         >
-        <activity android:name="com.daily.news.login.LoginActivity"/>
-        <activity android:name="com.daily.news.login.zbtxz.ZBLoginActivity"/>
-        <activity android:name="com.daily.news.login.zbtxz.ZBRegisterActivity"/>
-        <activity android:name="com.daily.news.login.zbtxz.ZBResetNewPassWord"/>
-        <activity android:name="com.daily.news.login.zbtxz.ZBResetPWSmsLogin"/>
-        <activity android:name="com.daily.news.login.zbtxz.ZBVerificationActivity"/>
+        <activity
+            android:name="com.daily.news.login.LoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/LoginActivity"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.daily.news.login.zbtxz.ZBLoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/ZBLoginActivity"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name="com.daily.news.login.zbtxz.ZBRegisterActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/ZBRegisterActivity"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.daily.news.login.zbtxz.ZBResetNewPassWord"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/ZBResetNewPassWord"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.daily.news.login.zbtxz.ZBResetPWSmsLogin"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/ZBResetPWSmsLogin"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.daily.news.login.zbtxz.ZBVerificationActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="www.8531.cn"
+                    android:path="/login/ZBVerificationActivity"
+                    android:scheme="@string/data_scheme"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Login</string>
 
-    <string name="login">浙报通行证登录</string>
-    <string name="module_login_toolbar">浙报通行证登录</string>
-    <string name="module_register_toolbar">注册</string>
+    <string name="zb_login">登录</string>
+    <string name="zb_toolbar_login">浙报通行证登录</string>
+    <string name="zb_register_toolbar">注册</string>
     <string name="zb_verification_error">请先输入完整密码</string>
     <string name="tip_permission_denied">权限被拒绝</string>
     <string name="zb_account_exise">对不起,该手机号已注册</string>
@@ -14,5 +14,14 @@
     <string name="zb_login_resend">重新发送验证码</string>
     <string name="zb_phone_num_inout_error">请输入手机号码</string>
     <string name="zb_reg_tel">请输入手机号 +86 %1$s 收到的验证码</string>
+    <string name="zb_password_login">通过密码登录</string>
+    <string name="zb_reg_error">注册失败</string>
+    <string name="zb_smscode_error">短信验证码输入错误</string>
+    <string name="zb_passwprd_readable">输入密码后显示明文</string>
+    <string name="zb_login_error">登录失败</string>
 
+    <string name="zb_login_type_qq">QQ</string>
+    <string name="zb_login_type_wx">微信</string>
+    <string name="zb_login_type_wb">微博</string>
+    <string name="zb_login_type_zb">浙报通行证</string>
 </resources>

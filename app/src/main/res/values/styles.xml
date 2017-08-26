@@ -41,6 +41,7 @@
         <item name="bc_f44b50">@color/bc_f44b50</item>
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_ffffff</item>
+
     </style>
 
     <style name="NightAppTheme" parent="CoreThemeNight.Base">
@@ -87,8 +88,6 @@
         <item name="bc_f44b50">@color/bc_f44b50_night</item>
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_999999</item>
-
-
 
     </style>
 

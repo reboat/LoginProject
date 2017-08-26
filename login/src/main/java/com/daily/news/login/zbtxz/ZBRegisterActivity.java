@@ -74,53 +74,59 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.module_register_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_register_toolbar)).getView();
     }
 
     @OnClick({R2.id.verification_code_see_btn, R2.id.bt_register})
     public void onClick(View view) {
-        switch (view.getId()) {
-            //密码可视
-            case R2.id.verification_code_see_btn:
-                passwordLength = etPasswordText.getText().toString().length();
-                if (passwordLength > 0) {
-                    if (!isClick) {
-                        //开启
-                        etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                        etPasswordText.setSelection(passwordLength);
-                        isClick = true;
-                    } else {
-                        //隐藏
-                        etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        etPasswordText.setSelection(passwordLength);
-                        isClick = false;
-                    }
-                } else {
-                    T.showShort(this, "输入密码后显示明文");
-                }
-                break;
-            //注册 获取验证码
-            case R2.id.bt_register:
-                //注册账号 获取token
-                if (!ClickTracker.isDoubleClick()) {
-                    if (cbbtn.isChecked()) {
-                        if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
-                            //注册
-                            passwordLength = etPasswordText.getText().toString().length();
-                            if (passwordLength < 6) {
-                                T.showShort(this, getString(R.string.zb_verification_error));
-                            } else {
-                                checkAccountExist(this, dtAccountText.getText().toString());
-                            }
-                        } else {
-                            T.showShort(this, getString(R.string.zb_phone_num_error));
-                        }
-                    } else {
-                        T.showShort(this, getString(R.string.zb_register_check_true));
-                    }
+        if (ClickTracker.isDoubleClick()) return;
+        if (view.getId() == R.id.verification_code_see_btn) {
+            clickSeePassword();
+        } else {
+            clickRegBtn();
+        }
+    }
 
+    /**
+     * 点击密码可视
+     */
+    private void clickSeePassword() {
+        passwordLength = etPasswordText.getText().toString().length();
+        if (passwordLength > 0) {
+            if (!isClick) {
+                //开启
+                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                etPasswordText.setSelection(passwordLength);
+                isClick = true;
+            } else {
+                //隐藏
+                etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                etPasswordText.setSelection(passwordLength);
+                isClick = false;
+            }
+        } else {
+            T.showShort(this, getString(R.string.zb_passwprd_readable));
+        }
+    }
+
+    /**
+     * 点击注册
+     */
+    private void clickRegBtn() {
+        if (cbbtn.isChecked()) {
+            if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                //注册
+                passwordLength = etPasswordText.getText().toString().length();
+                if (passwordLength < 6) {
+                    T.showShort(this, getString(R.string.zb_verification_error));
+                } else {
+                    checkAccountExist(this, dtAccountText.getText().toString());
                 }
-                break;
+            } else {
+                T.showShort(this, getString(R.string.zb_phone_num_error));
+            }
+        } else {
+            T.showShort(this, getString(R.string.zb_register_check_true));
         }
     }
 
@@ -130,7 +136,7 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
      *                检测账号是否存在
      */
     private void checkAccountExist(Context ctx, String account) {
-        WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), new OnCheckAccountExistListener() {
+        WoaSdk.checkAccountExist(ctx, account, new OnCheckAccountExistListener() {
             @Override
             public void onFailure(int i, String s) {
                 T.showShort(ZBRegisterActivity.this, s);

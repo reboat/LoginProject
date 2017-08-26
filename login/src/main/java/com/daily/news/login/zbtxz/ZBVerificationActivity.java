@@ -9,7 +9,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -44,10 +43,6 @@ public class ZBVerificationActivity extends BaseActivity {
     TextView dtAccountText;
     @BindView(R2.id.et_sms_code)
     EditText etSmsCode;
-    @BindView(R2.id.bt_register)
-    Button btRegister;
-    @BindView(R2.id.tv_notify)
-    TextView tvNotify;
     @BindView(R2.id.tv_resend)
     TextView tvResend;
 
@@ -61,8 +56,7 @@ public class ZBVerificationActivity extends BaseActivity {
     private TimerManager.TimerTask timerTask;
 
     /**
-     * @param intent
-     * 获取intent数据
+     * @param intent 获取intent数据
      */
     private void getIntentData(Intent intent) {
         if (intent != null && intent.getData() != null) {
@@ -112,24 +106,20 @@ public class ZBVerificationActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.module_register_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_register_toolbar)).getView();
     }
 
-    @OnClick({R2.id.bt_register})
+    @OnClick({R2.id.bt_register, R2.id.tv_resend})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.bt_register:
-                //注册账号 获取token
-                if (!ClickTracker.isDoubleClick()) {
-                    if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("") && !mAccountID.isEmpty()) {
-                        regAndLogin(mUuid, etSmsCode.getText().toString(), mAccountID);
-                    }
-                }
-                break;
+        if (ClickTracker.isDoubleClick()) return;
+        //注册账号 获取token
+        if (view.getId() == R.id.bt_register) {
+            if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("") && !mAccountID.isEmpty()) {
+                regAndLogin(mUuid, etSmsCode.getText().toString(), mAccountID);
+            }
             //重新发送验证码
-            case R2.id.tv_resend:
-                getverificationPermission();
-                break;
+        } else {
+            getverificationPermission();
         }
     }
 
@@ -208,7 +198,7 @@ public class ZBVerificationActivity extends BaseActivity {
             public void onSuccess(String s) {
                 //注册验证
                 if (null == s || s.isEmpty()) {
-                    T.showShort(ZBVerificationActivity.this, "注册失败");
+                    T.showShort(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
                 } else {
                     loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
                 }
@@ -228,7 +218,7 @@ public class ZBVerificationActivity extends BaseActivity {
         new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                T.showShortNow(ZBVerificationActivity.this, "注册失败");
+                T.showShortNow(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
             }
 
             @Override
@@ -247,7 +237,7 @@ public class ZBVerificationActivity extends BaseActivity {
 //                                .startActivity(new Intent(ZBVerificationActivity.this, MainActivity.class));
 //                    }
                 } else {
-                    T.showShortNow(ZBVerificationActivity.this, "注册失败");
+                    T.showShortNow(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
                 }
             }
         }).setTag(this).exe(sessionId, "ZB", "", dtAccountText.getText(), "");

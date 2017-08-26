@@ -18,11 +18,12 @@
             </intent-filter>
         </activity>
 
+
+
         <!-- 边锋SDK ID -->
         <meta-data
             android:name="WOA_APP_ID"
             android:value="416" />
-
     </application>
 
 </manifest>
