@@ -3,6 +3,7 @@ package com.daily.news.login.bean;
 import android.support.annotation.NonNull;
 
 /**
+ * 登录方式Bean
  * Created by wanglinjie.
  * create time:2017/8/10  下午8:21
  */

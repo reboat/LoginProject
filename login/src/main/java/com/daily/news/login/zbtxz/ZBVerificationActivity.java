@@ -20,12 +20,12 @@ import com.daily.news.login.R2;
 import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBRegisterValidateTask;
-import com.zjrb.coreprojectlibrary.api.callback.APIExpandCallBack;
-import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
-import com.zjrb.coreprojectlibrary.common.manager.TimerManager;
-import com.zjrb.coreprojectlibrary.utils.T;
-import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
+import com.zjrb.core.api.callback.APIExpandCallBack;
+import com.zjrb.core.common.base.BaseActivity;
+import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.manager.TimerManager;
+import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,7 +1,7 @@
 package com.daily.news.login.eventbus;
 
 
-import com.zjrb.coreprojectlibrary.domain.eventbus.EventBase;
+import com.zjrb.core.domain.eventbus.EventBase;
 
 /**
  * Created by wanglinjie on 2016/12/8.

@@ -2,8 +2,8 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.bean.ZBLoginBean;
-import com.zjrb.coreprojectlibrary.api.base.APIPostTask;
-import com.zjrb.coreprojectlibrary.api.callback.LoadingCallBack;
+import com.zjrb.core.api.base.APIPostTask;
+import com.zjrb.core.api.callback.LoadingCallBack;
 
 /**
  * 登录验证接口

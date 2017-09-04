@@ -1,6 +1,7 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -17,11 +18,11 @@ import com.daily.news.login.R2;
 import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.zjrb.coreprojectlibrary.api.callback.APIExpandCallBack;
-import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
-import com.zjrb.coreprojectlibrary.utils.T;
-import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
+import com.zjrb.core.api.callback.APIExpandCallBack;
+import com.zjrb.core.common.base.BaseActivity;
+import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,16 +58,15 @@ public class ZBResetNewPassWord extends BaseActivity {
      * @param intent 获取传递到重置密码页面的数据
      */
     private void getIntentData(Intent intent) {
-        if (intent != null) {
+        if (intent != null && intent.getData() != null) {
+            Uri data = intent.getData();
             if (intent.hasExtra(Key.UUID)) {
-                mUuid = intent.getStringExtra(Key.UUID);
+                mUuid = data.getQueryParameter(Key.UUID);
             }
             if (intent.hasExtra(Key.ACCOUNTID)) {
-                mAccountID = intent.getStringExtra(Key.ACCOUNTID);
+                mAccountID = data.getQueryParameter(Key.ACCOUNTID);
             }
-
         }
-
     }
 
     @Override

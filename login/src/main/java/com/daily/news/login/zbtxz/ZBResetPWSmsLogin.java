@@ -16,16 +16,16 @@ import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
-import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.common.base.toolbar.TopBarFactory;
-import com.zjrb.coreprojectlibrary.common.permission.IPermissionCallBack;
-import com.zjrb.coreprojectlibrary.common.permission.Permission;
-import com.zjrb.coreprojectlibrary.common.permission.PermissionManager;
-import com.zjrb.coreprojectlibrary.nav.Nav;
-import com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText;
-import com.zjrb.coreprojectlibrary.utils.AppUtils;
-import com.zjrb.coreprojectlibrary.utils.T;
-import com.zjrb.coreprojectlibrary.utils.click.ClickTracker;
+import com.zjrb.core.common.base.BaseActivity;
+import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.permission.IPermissionCallBack;
+import com.zjrb.core.common.permission.Permission;
+import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.DeleteEditText;
+import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
 

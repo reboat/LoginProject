@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.bean.LoginTypeBean;
-import com.zjrb.coreprojectlibrary.common.base.BaseRecyclerAdapter;
-import com.zjrb.coreprojectlibrary.common.base.BaseRecyclerViewHolder;
-import com.zjrb.coreprojectlibrary.utils.UIUtils;
+import com.zjrb.core.common.base.BaseRecyclerAdapter;
+import com.zjrb.core.common.base.BaseRecyclerViewHolder;
+import com.zjrb.core.utils.UIUtils;
 
 import java.util.List;
 

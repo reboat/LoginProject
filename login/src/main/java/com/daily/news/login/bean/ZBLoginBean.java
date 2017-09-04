@@ -1,6 +1,7 @@
 package com.daily.news.login.bean;
 
-import com.zjrb.coreprojectlibrary.domain.base.BaseInnerData;
+
+import com.zjrb.core.domain.base.BaseInnerData;
 
 /**
  * 登录验证bean
