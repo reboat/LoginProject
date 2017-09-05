@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -44,7 +46,7 @@ import butterknife.OnClick;
  * create time:2017/8/11  下午3:49
  */
 
-public class ZBResetPWSmsLogin extends BaseActivity {
+public class ZBResetPWSmsLogin extends BaseActivity implements TextWatcher {
 
     @BindView(R2.id.dt_account_text)
     DeleteEditText dtAccountText;
@@ -88,6 +90,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     }
 
     private void initView() {
+        etSmsText.addTextChangedListener(this);
         ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
         btConfirm.setText(getString(R.string.zb_login));
         btConfirm.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
@@ -111,7 +114,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
     }
 
-    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm})
+    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm,R2.id.tv_change_login_type})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
@@ -295,4 +298,24 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         TimerManager.schedule(timerTask);
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if (etSmsText != null && etSmsText.getText().toString().length() > 0 ) {
+            btConfirm.setEnabled(true);
+            btConfirm.setBackgroundResource(R.drawable.border_login_zb_password_bg);
+        } else {
+            btConfirm.setEnabled(false);
+            btConfirm.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        }
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

@@ -79,11 +79,11 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
     }
 
     private  void initView(){
-        if (!ThemeMode.isNightMode()) {
-            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-        } else {
-            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-        }
+//        if (!ThemeMode.isNightMode()) {
+//            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
+//        } else {
+//            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
+//        }
         etPasswordText.addTextChangedListener(this);
         btRegister.setText(getString(R.string.zb_login));
         btRegister.setEnabled(false);
@@ -121,20 +121,20 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
         if (passwordLength > 0) {
             if (!isClick) {
                 //开启
-                if (!ThemeMode.isNightMode()) {
-                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_see);
-                } else {
-                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_see);
-                }
+//                if (!ThemeMode.isNightMode()) {
+//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_see);
+//                } else {
+//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_see);
+//                }
                 etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 etPasswordText.setSelection(passwordLength);
                 isClick = true;
             } else {
-                if (!ThemeMode.isNightMode()) {
-                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-                } else {
-                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-                }
+//                if (!ThemeMode.isNightMode()) {
+//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
+//                } else {
+//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
+//                }
                 //隐藏
                 etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 etPasswordText.setSelection(passwordLength);

@@ -121,15 +121,11 @@
 
             <ImageView
                 android:id="@+id/verification_code_see_btn"
-                android:layout_width="18dp"
-                android:layout_height="10dp"
+                android:layout_width="20dp"
+                android:layout_height="12dp"
                 android:layout_gravity="right|center"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="16dp"
                 android:contentDescription="@string/app_name"
-                android:paddingBottom="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="20dp"
                 android:scaleType="centerInside"
                 tools:src="@mipmap/module_login_day_password_unsee"
                 />
@@ -141,7 +137,6 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_alignStart="@+id/ly_login_button_bar"
             android:layout_below="@+id/fy_password"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"

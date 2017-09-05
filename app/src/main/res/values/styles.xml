@@ -42,6 +42,10 @@
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_ffffff</item>
 
+        <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification</item>
+
+        <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
+
     </style>
 
     <style name="NightAppTheme" parent="CoreThemeNight.Base">
@@ -88,6 +92,10 @@
         <item name="bc_f44b50">@color/bc_f44b50_night</item>
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_999999</item>
+
+        <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification_night</item>
+
+        <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
 
     </style>
 

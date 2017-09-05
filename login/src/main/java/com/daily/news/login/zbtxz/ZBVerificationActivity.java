@@ -1,14 +1,18 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,7 +41,7 @@ import butterknife.OnClick;
  * create time:2017/8/11  下午2:49
  */
 
-public class ZBVerificationActivity extends BaseActivity {
+public class ZBVerificationActivity extends BaseActivity implements TextWatcher {
 
     @BindView(R2.id.dt_account_text)
     TextView dtAccountText;
@@ -45,11 +49,16 @@ public class ZBVerificationActivity extends BaseActivity {
     EditText etSmsCode;
     @BindView(R2.id.tv_resend)
     TextView tvResend;
-
+    @BindView(R2.id.bt_register)
+    Button btRegister;
+    @BindView(R2.id.tv_notify)
+    TextView tvNotify;
 
     public String mUuid = "";
     public String mAccountID = "";
     public String mPassWord = "";
+
+
     //短信验证码
 
 
@@ -61,19 +70,19 @@ public class ZBVerificationActivity extends BaseActivity {
     private void getIntentData(Intent intent) {
         if (intent != null && intent.getData() != null) {
             Uri data = intent.getData();
-            if (intent.hasExtra(Key.UUID)) {
-                mUuid = data.getQueryParameter(Key.UUID);
-            }
-            if (intent.hasExtra(Key.ACCOUNTID)) {
-                mAccountID = data.getQueryParameter(Key.ACCOUNTID);
-            }
-            if (intent.hasExtra(Key.PASSWORD)) {
-                mPassWord = data.getQueryParameter(Key.PASSWORD);
-            }
+            mUuid = data.getQueryParameter(Key.UUID);
+            mAccountID = data.getQueryParameter(Key.ACCOUNTID);
+            mPassWord = data.getQueryParameter(Key.PASSWORD);
         }
     }
 
     private void initView() {
+//        mAccountID = "18267172823";  //WLJ  TEST
+        etSmsCode.addTextChangedListener(this);
+        btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        btRegister.setText(getString(R.string.zb_confirm));
+        tvResend.setText(getString(R.string.zb_login_resend));
+        tvNotify.setText(getString(R.string.zb_input_sms_tip));
         String phoneVerificationCode = String.format(getString(R.string.zb_reg_tel),
                 mAccountID);
         SpannableStringBuilder sb = createPhoneNumberBoldSpannable(phoneVerificationCode);
@@ -88,7 +97,7 @@ public class ZBVerificationActivity extends BaseActivity {
      */
     private SpannableStringBuilder createPhoneNumberBoldSpannable(String phoneVerificationCode) {
         SpannableStringBuilder sb = new SpannableStringBuilder(phoneVerificationCode);
-        final StyleSpan boldStyleSpan = new StyleSpan(android.graphics.Typeface.NORMAL);
+        final StyleSpan boldStyleSpan = new StyleSpan(Typeface.NORMAL);
         int boldStart = phoneVerificationCode.indexOf("+86");
         int boldEnd = phoneVerificationCode.indexOf("收到的");
         sb.setSpan(boldStyleSpan, boldStart, boldEnd, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -243,4 +252,24 @@ public class ZBVerificationActivity extends BaseActivity {
         }).setTag(this).exe(sessionId, "ZB", "", dtAccountText.getText(), "");
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (etSmsCode != null && etSmsCode.getText().toString().length() > 0) {
+            btRegister.setEnabled(true);
+            btRegister.setBackgroundResource(R.drawable.border_login_zb_password_bg);
+        } else {
+            btRegister.setEnabled(false);
+            btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

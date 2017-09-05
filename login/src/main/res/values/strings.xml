@@ -4,6 +4,7 @@
     <string name="zb_login">登录</string>
     <string name="zb_toolbar_login">浙报通行证登录</string>
     <string name="zb_register_toolbar">注册</string>
+    <string name="zb_confirm">确认</string>
     <string name="zb_verification_error">请先输入完整密码</string>
     <string name="tip_permission_denied">权限被拒绝</string>
     <string name="zb_account_exise">对不起,该手机号已注册</string>
@@ -27,6 +28,7 @@
     <string name="zb_sms_send">短信已发送成功</string>
     <string name="zb_reg_tip">已阅读并同意</string>
     <string name="zb_reg_link">用户服务协议</string>
+    <string name="zb_set_password_tip">重设通行证密码</string>
 
 
 

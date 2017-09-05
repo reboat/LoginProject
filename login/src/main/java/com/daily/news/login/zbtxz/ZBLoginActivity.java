@@ -89,11 +89,11 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     private void initView() {
         ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
-        if (!ThemeMode.isNightMode()) {
-            ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-        } else {
-            ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-        }
+//        if (!ThemeMode.isNightMode()) {
+//            ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
+//        } else {
+//            ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
+//        }
         etPasswordText.addTextChangedListener(this);
         btLogin.setText(getString(R.string.zb_login));
         btLogin.setEnabled(false);
@@ -163,11 +163,11 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
             if (length > 0) {
                 if (!isClick) {
                     //开启
-                    if (!ThemeMode.isNightMode()) {
-                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_see);
-                    } else {
-                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_see);
-                    }
+//                    if (!ThemeMode.isNightMode()) {
+//                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_see);
+//                    } else {
+//                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_see);
+//                    }
                     etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     etPasswordText.setSelection(length);
                     isClick = true;

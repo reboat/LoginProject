@@ -46,6 +46,10 @@
         <!--ffffff  999999-->
         <attr name="tc_ffffff" format="color|reference" />
 
+        <attr name="module_login_bg_sms_verification" format="reference" />
+
+        <attr name="sl_tc_sms_verification" format="reference" />
+
     </declare-styleable>
 
 </resources>
