@@ -295,11 +295,9 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     public void finish() {
         if (isLoginSuccess) {
             UserBiz.get().loginSuccess();
-//            SyncUtil.getInstance().syncUserData(this);
         } else {
             UserBiz.get().loginCancel();
         }
-        //activity中堆栈要多于1个页面
         if (AppManager.get().getCount() > 1) {
             super.finish();
         }
