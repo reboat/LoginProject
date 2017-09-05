@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
@@ -29,6 +31,7 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.domain.eventbus.EventBase;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
@@ -56,6 +59,14 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     EditText etPasswordText;
     @BindView(R2.id.bt_login)
     Button btLogin;
+    @BindView(R2.id.tv_verification_btn)
+    TextView tvVerification;
+    @BindView(R2.id.tv_forget_password_btn)
+    TextView tvForgetPassword;
+    @BindView(R2.id.verification_code_see_btn)
+    ImageView ivSee;
+    @BindView(R2.id.iv_logo)
+    ImageView ivLogo;
 
     private boolean isClick = false;
 
@@ -67,8 +78,8 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_zbtxz_login);
         ButterKnife.bind(this);
+        initView();
         EventBus.getDefault().register(this);
-        etPasswordText.addTextChangedListener(this);
     }
 
     @Override
@@ -76,6 +87,20 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
     }
 
+    private void initView() {
+        ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
+        if (!ThemeMode.isNightMode()) {
+            ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
+        } else {
+            ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
+        }
+        etPasswordText.addTextChangedListener(this);
+        btLogin.setText(getString(R.string.zb_login));
+        btLogin.setEnabled(false);
+        btLogin.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        tvVerification.setText(getString(R.string.zb_login_sms));
+        tvForgetPassword.setText(getString(R.string.zb_forget_password));
+    }
 
     @Override
     protected void onDestroy() {
@@ -103,7 +128,9 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     }
 
-    @OnClick({R2.id.dt_account_text, R2.id.bt_login, R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn, R2.id.tv_verification_btn})
+    @OnClick({R2.id.dt_account_text, R2.id.bt_login,
+            R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
+            R2.id.tv_verification_btn})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
@@ -122,7 +149,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
                         .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
                         .build(), 0);
             }
-            //验证码登录
+            //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             if (!ClickTracker.isDoubleClick()) {
                 Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
@@ -132,14 +159,24 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
             }
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
-            int length = dtAccountText.getText().toString().length();
+            int length = etPasswordText.getText().toString().length();
             if (length > 0) {
                 if (!isClick) {
                     //开启
+                    if (!ThemeMode.isNightMode()) {
+                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_see);
+                    } else {
+                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_see);
+                    }
                     etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     etPasswordText.setSelection(length);
                     isClick = true;
                 } else {
+                    if (!ThemeMode.isNightMode()) {
+                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
+                    } else {
+                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
+                    }
                     //隐藏
                     etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     etPasswordText.setSelection(length);
@@ -207,7 +244,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
                 }
 
             }
-        }).setTag(this).exe(s, "BIANFENG", "", dtAccountText.getText(), "");
+        }).setTag(this).exe(s, "BIANFENG", "", dtAccountText.getText(), dtAccountText.getText());
     }
 
     /**

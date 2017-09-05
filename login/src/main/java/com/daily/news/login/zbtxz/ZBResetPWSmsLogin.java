@@ -1,23 +1,28 @@
 package com.daily.news.login.zbtxz;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.LoginValidateTask;
+import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
@@ -49,12 +54,18 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     TextView tvTerification;
     @BindView(R2.id.tv_change_login_type)
     TextView tvChangeLoginType;
+    @BindView(R2.id.iv_logo)
+    ImageView ivLogo;
+    @BindView(R2.id.bt_confirm)
+    Button btConfirm;
 
     /**
      * 登录类型：true:验证码登录/false:重置密码
      */
     private String login_type = "";
     private String uuid = "";
+
+    private TimerManager.TimerTask timerTask;
 
 
     /**
@@ -63,9 +74,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     private void getIntentData(Intent intent) {
         if (intent != null && intent.getData() != null) {
             Uri data = intent.getData();
-            if (intent.hasExtra(Key.LOGIN_TYPE)) {
-                login_type = data.getQueryParameter(Key.LOGIN_TYPE);
-            }
+            login_type = data.getQueryParameter(Key.LOGIN_TYPE);
         }
     }
 
@@ -75,13 +84,27 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         setContentView(R.layout.module_zbtxz_reset_password);
         ButterKnife.bind(this);
         getIntentData(getIntent());
-        if (login_type.equals(Key.Value.LOGIN_RESET_TYPE)) {
-            tvTerification.setEnabled(false);
+        initView();
+    }
+
+    private void initView() {
+        ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
+        btConfirm.setText(getString(R.string.zb_login));
+        btConfirm.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        tvTerification.setText(getString(R.string.zb_sms_verication));
+        if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             tvChangeLoginType.setText(getString(R.string.zb_password_login));
         } else {
-            tvTerification.setEnabled(true);
+            tvChangeLoginType.setText(getString(R.string.zb_input_sms_tip));
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TimerManager.cancel(timerTask);
+    }
+
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
@@ -92,10 +115,10 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
-        //获取验证
+        //获取验证码需要先输入手机号
         if (view.getId() == R.id.tv_sms_verification) {
             if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
-                checkAccountExist(this, dtAccountText.getText().toString());
+                getverificationPermission();
             } else {
                 if (dtAccountText.getText().toString().equals("")) {
                     T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_inout_error));
@@ -103,10 +126,19 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_error));
                 }
             }
-            //进入重置密码页面
+            //进入重置密码页面/登录 (手机号/验证码均不能为空)
         } else if (view.getId() == R.id.bt_confirm) {
-            regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
-            //进入账号密码登录页面
+            //验证码
+            if (etSmsText.getText() != null && !TextUtils.isEmpty(etSmsText.getText().toString())) {
+                //进入账号密码登录页面
+                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText().toString())) {
+                    regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
+                } else {
+                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_inout_error));
+                }
+            } else {
+                T.showShortNow(this, getString(R.string.zb_input_sms_verication));
+            }
         } else {
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
                     .buildUpon()
@@ -133,7 +165,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
             @Override
             public void onSuccess(String token) {
-                //注册验证
+                //短信登录
                 if (Key.LOGIN_TYPE.equals(Key.Value.LOGIN_SMS_TYPE)) {
                     if (null == token || token.isEmpty()) {
                         T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
@@ -158,7 +190,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     }
 
     /**
-     * 注册验证接口
+     * 短信验证码登录
      *
      * @param sessionId
      * @param phoneNum  登录ZB服务器
@@ -166,14 +198,14 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
         //注册验证
-//        new WoaValidateTask(new APIExpandCallBack<ZBLoginBean>() {
-//            @Override
-//            public void onError(String errMsg, int errCode) {
-//                showShortToast("注册失败");
-//            }
-//
-//            @Override
-//            public void onSuccess(@NonNull ZBLoginBean result) {
+        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
+            }
+
+            @Override
+            public void onSuccess(@NonNull ZBLoginBean result) {
 //                if (result.getResultCode() == 0) {
 //                    UserBiz userBiz = UserBiz.get();
 //                    userBiz.setAvatar("");
@@ -190,32 +222,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 //                } else {
 //                    showShortToast("注册失败");
 //                }
-//            }
-//        }).setTag(this).exe(sessionId);
-    }
-
-
-    /**
-     * @param ctx
-     * @param account 手机账号
-     *                检测账号是否存在
-     */
-    private void checkAccountExist(Context ctx, String account) {
-        WoaSdk.checkAccountExist(ctx, account, new OnCheckAccountExistListener() {
-            @Override
-            public void onFailure(int i, String s) {
-                T.showShort(ZBResetPWSmsLogin.this, s);
             }
-
-            @Override
-            public void onSuccess(boolean b, String s) {
-                if (!b) {
-                    getverificationPermission();
-                } else {
-                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_account_exise));
-                }
-            }
-        });
+        }).setTag(this).exe(sessionId);
     }
 
     /**
@@ -232,13 +240,17 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                 new OnGetSmsCaptchaListener() {
                                     @Override
                                     public void onFailure(int i, String s) {
+                                        TimerManager.cancel(timerTask);
                                         T.showShort(ZBResetPWSmsLogin.this, s);
                                     }
 
                                     @Override
                                     public void onSuccess(String s) {
+                                        startTimeCountDown();
                                         //获取uuid
                                         uuid = s;
+                                        //提示短信已发送成功
+                                        T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
                                     }
                                 });
 
@@ -255,6 +267,32 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                             neverAskPerms) {
                     }
                 }, Permission.PHONE_READ_PHONE_STATE);
+    }
+
+    /**
+     * 开始倒计时
+     * 重复访问获取验证码的时间是多少  60s  3次  一天最多5次
+     */
+    private void startTimeCountDown() {
+        tvTerification.setEnabled(false);
+        //倒计时
+        timerTask = new TimerManager.TimerTask(1000, 1000) {
+            @Override
+            public void run(long count) {
+                long value = (60 - count);
+                tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
+                tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
+                tvTerification.setText("(" + value + ")" + getString(R.string.zb_login_get_validationcode_again));
+                if (value == 0) {
+                    TimerManager.cancel(this);
+                    tvTerification.setEnabled(true);
+                    tvTerification.setBackground(null);
+                    tvTerification.setText(getString(R.string
+                            .zb_login_resend));
+                }
+            }
+        };
+        TimerManager.schedule(timerTask);
     }
 
 }

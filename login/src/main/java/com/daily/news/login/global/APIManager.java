@@ -35,19 +35,6 @@ public class APIManager {
         return getBaseUri() + endpoint;
     }
 
-    /**
-     * 电子报
-     */
-    public static String getEPager() {
-        return "http://act.qblife.com.cn/epaper/page";
-    }
-
-    /**
-     * 微软小冰
-     */
-    public static String getXiaoIce() {
-        return "https://act.qblife.com.cn/msbing";
-    }
 
     /**
      * 是否在白名单内
@@ -93,6 +80,7 @@ public class APIManager {
          * 预发布环境分享URL
          */
         private static final String DEBUG_SHARE_URL = "http://10.200.76.17";
+
     }
 
     /**
@@ -103,6 +91,11 @@ public class APIManager {
          * 绑定ClientID
          */
         public static final String GET_CID = "/app/v0/user/updateClientId";
+
+        /**
+         * 浙报通行证登录验证
+         */
+        public static final String LOGIN_VERIFICATION = "/api/account/login_in_verification";
 
 
     }

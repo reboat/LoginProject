@@ -1,9 +1,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginLeft="20dp"
     android:background="?attr/bc_ffffff">
 
 
@@ -13,21 +12,22 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/bt_login"
         android:layout_below="@+id/iv_logo"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:layout_marginTop="46dp"
         android:orientation="vertical">
 
-        <com.zjrb.coreprojectlibrary.ui.widget.DeleteEditText
+        <com.zjrb.core.ui.widget.DeleteEditText
             android:id="@+id/dt_account_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border_edit_bg"
-            android:paddingBottom="8dp"
             android:cursorVisible="false"
             android:gravity="left"
             android:hint="手机号码"
             android:lines="1"
             android:maxLines="1"
+            android:paddingBottom="8dp"
             android:paddingLeft="14dp"
             android:paddingRight="18dp"
             android:textColor="?attr/tc_484848"
@@ -42,7 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/bt_login"
         android:layout_below="@+id/ly_login"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:layout_marginTop="30dp">
 
         <EditText
@@ -53,13 +54,13 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
             android:background="@drawable/border_edit_bg"
-            android:paddingBottom="8dp"
             android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left"
             android:hint="密码（6-30位数字或字母）"
             android:inputType="textPassword"
             android:maxLength="30"
             android:maxLines="1"
+            android:paddingBottom="8dp"
             android:paddingLeft="20dp"
             android:paddingRight="18dp"
             android:textColor="?attr/tc_484848"
@@ -68,13 +69,15 @@
 
         <ImageView
             android:id="@+id/verification_code_see_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="10dp"
             android:layout_gravity="right|center"
+            android:layout_marginRight="20dp"
             android:contentDescription="@string/app_name"
             android:paddingLeft="14dp"
             android:paddingRight="14dp"
             android:scaleType="centerInside"
+            tools:src="@mipmap/module_login_day_password_unsee"
             />
     </FrameLayout>
 
@@ -85,10 +88,10 @@
         android:layout_height="40dp"
         android:layout_alignStart="@+id/ly_login_button_bar"
         android:layout_below="@+id/fy_password"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
         android:background="@drawable/border_login_text_bg"
-        android:enabled="false"
         android:gravity="center"
         android:textColor="?attr/tc_ffffff"
         android:textSize="@dimen/ts_14sp"
@@ -99,10 +102,22 @@
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:layout_below="@+id/bt_register"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:checked="false"
         android:textSize="@dimen/ts_11sp"
-        tools:text="已阅读并同意用户服务协议"
+        tools:text="已阅读并同意"
         />
+
+    <TextView
+        android:id="@+id/tv_link"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_toRightOf="@+id/cb_btn"
+        android:textSize="@dimen/ts_11sp"
+        android:layout_alignBottom="@+id/cb_btn"
+        android:gravity="center"
+        android:textColor="#f44b50"
+        tools:text="用户服务协议"/>
 
 </RelativeLayout>

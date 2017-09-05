@@ -2,6 +2,7 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.bean.ZBLoginBean;
+import com.daily.news.login.global.APIManager;
 import com.zjrb.core.api.base.APIPostTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
 
@@ -28,7 +29,6 @@ public class LoginValidateTask extends APIPostTask<ZBLoginBean> {
 
     @Override
     protected String getApi() {
-        return "";
-//        return APIManager.endpoint.ARTICLE_COMMENT_LIST;
+        return APIManager.endpoint.LOGIN_VERIFICATION;
     }
 }

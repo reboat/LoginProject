@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zjrb.coreprojectlibrary.common.base.BaseActivity;
-import com.zjrb.coreprojectlibrary.nav.Nav;
+import com.zjrb.core.common.base.BaseActivity;
+import com.zjrb.core.nav.Nav;
 import com.zjrb.loginproject.R;
 
 

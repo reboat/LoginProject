@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/iv_login_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="6.5dp"
         android:scaleType="fitXY"
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_login_image"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="?attr/tc_ffffff"

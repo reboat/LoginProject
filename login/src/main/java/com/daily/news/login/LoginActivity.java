@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.daily.news.login.adapter.LoginTypeAdapter;
 import com.daily.news.login.bean.LoginTypeBean;
@@ -38,6 +39,8 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
 
     @BindView(R2.id.rv_list)
     RecyclerView mRecyleView;
+    @BindView(R2.id.tv_register)
+    TextView tvRegister;
 
     private List<LoginTypeBean> mBean;
     private LoginTypeAdapter mAdapter;
@@ -50,7 +53,6 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
         ButterKnife.bind(this);
         initLoginRV();
     }
-
     @Override
     protected View onCreateTopBar(ViewGroup view) {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_login)).getView();
@@ -60,7 +62,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
      * 初始化滚动列表数据
      */
     private void initLoginRV() {
-
+        tvRegister.setText(getString(R.string.zb_login));
         mRecyleView.addItemDecoration(new GridSpaceDivider(0));
         GridLayoutManager managerFollow = new GridLayoutManager(UIUtils.getContext(), 4);
         mRecyleView.setLayoutManager(managerFollow);
@@ -68,12 +70,12 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
         if (mBean == null) {
             mBean = new ArrayList<>();
             if (!ThemeMode.isNightMode()) {
-                mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, getString(R.string.zb_login_type_zb)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_zbtxz, getString(R.string.zb_login_type_zb)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wx, getString(R.string.zb_login_type_wx)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_day_qq, getString(R.string.zb_login_type_qq)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wb, getString(R.string.zb_login_type_wb)));
             } else {
-                mBean.add(new LoginTypeBean(R.mipmap.ic_launcher, getString(R.string.zb_login_type_zb)));
+                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_zbtxz, getString(R.string.zb_login_type_zb)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wx, getString(R.string.zb_login_type_wx)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_night_qq, getString(R.string.zb_login_type_qq)));
                 mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wb, getString(R.string.zb_login_type_wb)));

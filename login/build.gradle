@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: 'http://10.100.47.176:8086/nexus/service/local/repositories/releases/content/cn/daily/android/publish/0.0.3/publish-0.0.3.gradle'
+apply from: 'http://10.100.47.176:8086/nexus/service/local/repositories/releases/content/cn/daily/android/publish/0.0.4/publish-0.0.4.gradle'
 apply from: "${rootDir}/public.gradle"
 
 android {
@@ -14,9 +14,6 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86_64", "arm64-v8a", "x86"
-        }
 
         lintOptions {
             abortOnError false
@@ -37,12 +34,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'cn.daily.android:core-library:1.2.0-SNAPSHOT'
+//    compile 'cn.daily.android:core-library:1.2.0-SNAPSHOT'
     provided 'com.android.support:multidex:1.0.1'
     provided 'com.google.code.gson:gson:2.6.2'
     provided 'com.umeng.analytics:analytics:latest.integration'
     compile 'org.greenrobot:eventbus:3.0.0'
     provided 'org.jsoup:jsoup:1.10.2'
+    compile project(':core-library')
     compile butterknifeDeps.butterknife
     annotationProcessor butterknifeDeps.butterknifeCompiler
 }

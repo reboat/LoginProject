@@ -1,1 +1,3 @@
 include ':app', ':login'
+include(':core-library')
+project(":core-library").projectDir = new File('/Users/wanglinjie/android/zhejiangnews_5.0/CoreProject/core')
