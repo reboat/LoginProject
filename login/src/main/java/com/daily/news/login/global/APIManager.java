@@ -95,7 +95,12 @@ public class APIManager {
         /**
          * 浙报通行证登录验证
          */
-        public static final String LOGIN_VERIFICATION = "/api/account/login_in_verification";
+        public static final String LOGIN_VERIFICATION = "/api/account/auth_login";
+
+        /**
+         * 获取sessionId
+         */
+        public static final String GET_SESSIONID = "/api/account/init";
 
 
     }

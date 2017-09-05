@@ -21,10 +21,12 @@ import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.bean.SessionIdBean;
 import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.eventbus.CloseZBLoginEvent;
 import com.daily.news.login.eventbus.ZBCloseActEvent;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.InitTask;
 import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -217,7 +219,16 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
      */
     @Override
     public void onSuccess(String s, String s1, String s2) {
+        initTest(s);
         //登录验证
+
+    }
+
+    /**
+     * @param s
+     * 登录验证
+     */
+    private void  loginVerification(String s){
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -244,9 +255,32 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
                 }
 
             }
-        }).setTag(this).exe(s, "BIANFENG", "", dtAccountText.getText(), dtAccountText.getText());
+        }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
     }
 
+    /**
+     * @param s
+     * 获取sessionId
+     */
+    private void initTest(final String s){
+        new InitTask(new APIExpandCallBack<SessionIdBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
+            }
+
+            @Override
+            public void onSuccess(@NonNull SessionIdBean result) {
+                if (result.getResultCode() == 0) {
+                    UserBiz.get().setSessionId(result.getSession().getId());
+                    loginVerification(s);
+                } else {
+                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
+                }
+
+            }
+        }).setTag(this).exe();
+    }
     /**
      * @param requestCode
      * @param resultCode

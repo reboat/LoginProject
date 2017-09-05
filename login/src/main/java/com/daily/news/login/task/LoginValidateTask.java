@@ -20,7 +20,7 @@ public class LoginValidateTask extends APIPostTask<ZBLoginBean> {
 
     @Override
     protected void onSetupParams(Object... params) {
-        put("third_party_session_id", params[0]);
+        put("auth_token", params[0]);
         put("auth_type", params[1]);
         put("auth_uid", params[2]);
         put("nick_name", params[3]);
