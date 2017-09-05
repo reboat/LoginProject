@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
         ButterKnife.bind(this);
         initLoginRV();
     }
+
     @Override
     protected View onCreateTopBar(ViewGroup view) {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_login)).getView();
@@ -62,7 +63,7 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
      * 初始化滚动列表数据
      */
     private void initLoginRV() {
-        tvRegister.setText(getString(R.string.zb_login));
+        tvRegister.setText(getString(R.string.zb_register_toolbar));
         mRecyleView.addItemDecoration(new GridSpaceDivider(0));
         GridLayoutManager managerFollow = new GridLayoutManager(UIUtils.getContext(), 4);
         mRecyleView.setLayoutManager(managerFollow);

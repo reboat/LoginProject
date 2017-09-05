@@ -17,8 +17,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bt_login"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="14dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -62,9 +62,10 @@
             android:id="@+id/ly_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/bt_login"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_logo"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             android:layout_marginTop="46dp"
             android:orientation="vertical">
 
@@ -91,9 +92,10 @@
             android:id="@+id/fy_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/bt_login"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/ly_login"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginLeft="60dp"
             android:layout_marginTop="30dp">
 
             <EditText
@@ -110,7 +112,7 @@
                 android:inputType="textPassword"
                 android:maxLength="30"
                 android:maxLines="1"
-                android:paddingBottom="14dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="14dp"
                 android:textColor="?attr/tc_484848"
@@ -141,7 +143,8 @@
             android:layout_height="40dp"
             android:layout_alignStart="@+id/ly_login_button_bar"
             android:layout_below="@+id/fy_password"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="35dp"
             android:background="@drawable/border_login_text_bg"
             android:enabled="false"

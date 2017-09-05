@@ -60,12 +60,8 @@ public class ZBResetNewPassWord extends BaseActivity {
     private void getIntentData(Intent intent) {
         if (intent != null && intent.getData() != null) {
             Uri data = intent.getData();
-            if (intent.hasExtra(Key.UUID)) {
-                mUuid = data.getQueryParameter(Key.UUID);
-            }
-            if (intent.hasExtra(Key.ACCOUNTID)) {
-                mAccountID = data.getQueryParameter(Key.ACCOUNTID);
-            }
+            mUuid = data.getQueryParameter(Key.UUID);
+            mAccountID = data.getQueryParameter(Key.ACCOUNTID);
         }
     }
 
@@ -77,7 +73,7 @@ public class ZBResetNewPassWord extends BaseActivity {
     @OnClick({R2.id.bt_confirm})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
-        if(view.getId() == R.id.bt_confirm){
+        if (view.getId() == R.id.bt_confirm) {
             findPassword();
         }
     }
