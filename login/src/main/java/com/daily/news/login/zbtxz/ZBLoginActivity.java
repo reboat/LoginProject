@@ -117,8 +117,6 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
         }
     }
 
-
-    //短信验证成功后登陆需要关闭该页面
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(EventBase event) {
         if (event instanceof CloseZBLoginEvent) {
@@ -223,8 +221,6 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     @Override
     public void onSuccess(String s, String s1, String s2) {
         initTest(s);
-        //登录验证
-
     }
 
     /**
@@ -262,6 +258,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     }
 
     /**
+     * 测试获取sessionId
      * @param s 边锋sessionId
      * 获取sessionId
      */

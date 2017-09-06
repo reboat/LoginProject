@@ -35,6 +35,9 @@ public final class LoginTypeAdapter extends BaseRecyclerAdapter {
         return new DetailShareViewHolder(UIUtils.inflate(R.layout.module_login_type_item, parent, false));
     }
 
+    /**
+     * 登录页分享列表holder
+     */
     public class DetailShareViewHolder extends BaseRecyclerViewHolder<LoginTypeBean> {
         private TextView tv_title;
         private ImageView iv_img;
