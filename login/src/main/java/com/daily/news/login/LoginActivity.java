@@ -133,9 +133,9 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
         } else if (position == 1) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (position == 2) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
-        } else if (position == 3) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
+        } else if (position == 3) {
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
         }
     }
 }

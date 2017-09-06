@@ -70,6 +70,9 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     @BindView(R2.id.iv_logo)
     ImageView ivLogo;
 
+    /**
+     * 是否点击了可视密码
+     */
     private boolean isClick = false;
 
     @NonNull
@@ -259,7 +262,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     }
 
     /**
-     * @param s
+     * @param s 边锋sessionId
      * 获取sessionId
      */
     private void initTest(final String s){
