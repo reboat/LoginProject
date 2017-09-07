@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,11 +30,9 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.domain.eventbus.EventBase;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
-import com.zjrb.core.ui.widget.DeleteEditText;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -54,13 +49,13 @@ import butterknife.OnClick;
  * created by wanglinjie on 2016/11/23
  */
 
-public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnCheckAccountExistListener, OnLoginListener {
+public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener, OnLoginListener {
     @BindView(R2.id.dt_account_text)
-    DeleteEditText dtAccountText;
+    EditText dtAccountText;
     @BindView(R2.id.et_password_text)
     EditText etPasswordText;
-    @BindView(R2.id.bt_login)
-    Button btLogin;
+    @BindView(R2.id.tv_login)
+    TextView tvLogin;
     @BindView(R2.id.tv_verification_btn)
     TextView tvVerification;
     @BindView(R2.id.tv_forget_password_btn)
@@ -93,16 +88,8 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     }
 
     private void initView() {
-        ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
-//        if (!ThemeMode.isNightMode()) {
-//            ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-//        } else {
-//            ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-//        }
-        etPasswordText.addTextChangedListener(this);
-        btLogin.setText(getString(R.string.zb_login));
-        btLogin.setEnabled(false);
-        btLogin.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+        tvLogin.setText(getString(R.string.zb_login));
         tvVerification.setText(getString(R.string.zb_login_sms));
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
@@ -131,7 +118,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     }
 
-    @OnClick({R2.id.dt_account_text, R2.id.bt_login,
+    @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
             R2.id.tv_verification_btn})
     public void onClick(View view) {
@@ -140,7 +127,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
         if (view.getId() == R.id.dt_account_text) {
             dtAccountText.setCursorVisible(true);
             //登录
-        } else if (view.getId() == R.id.bt_login) {
+        } else if (view.getId() == R.id.tv_login) {
             if (!ClickTracker.isDoubleClick()) {
                 WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
             }
@@ -163,30 +150,18 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
-            if (length > 0) {
-                if (!isClick) {
-                    //开启
-//                    if (!ThemeMode.isNightMode()) {
-//                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_see);
-//                    } else {
-//                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_see);
-//                    }
-                    etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    etPasswordText.setSelection(length);
-                    isClick = true;
-                } else {
-                    if (!ThemeMode.isNightMode()) {
-                        ivSee.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-                    } else {
-                        ivSee.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-                    }
-                    //隐藏
-                    etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    etPasswordText.setSelection(length);
-                    isClick = false;
-                }
+            if (!isClick) {
+                //开启
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_see));
+                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                etPasswordText.setSelection(length);
+                isClick = true;
             } else {
-                T.showShort(this, getString(R.string.zb_passwprd_readable));
+                //隐藏
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+                etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                etPasswordText.setSelection(length);
+                isClick = false;
             }
         }
     }
@@ -224,10 +199,9 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
     }
 
     /**
-     * @param s
-     * 登录验证
+     * @param s 登录验证
      */
-    private void  loginVerification(String s){
+    private void loginVerification(String s) {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -259,10 +233,11 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
 
     /**
      * 测试获取sessionId
+     *
      * @param s 边锋sessionId
-     * 获取sessionId
+     *          获取sessionId
      */
-    private void initTest(final String s){
+    private void initTest(final String s) {
         new InitTask(new APIExpandCallBack<SessionIdBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -281,6 +256,7 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
             }
         }).setTag(this).exe();
     }
+
     /**
      * @param requestCode
      * @param resultCode
@@ -294,33 +270,6 @@ public class ZBLoginActivity extends BaseActivity implements TextWatcher, OnChec
             mUmengUtils.getDialog();
             mUmengUtils.onResult(requestCode, resultCode, data);
         }
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (etPasswordText != null && etPasswordText.getText().toString().length() < 6) {
-            btLogin.setEnabled(false);
-            btLogin.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
-        } else {
-            btLogin.setEnabled(true);
-            btLogin.setBackgroundResource(R.drawable.border_login_zb_password_bg);
-        }
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (s.length() == 0) {
-            if (etPasswordText.getTransformationMethod() instanceof HideReturnsTransformationMethod) {
-                etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                isClick = false;
-            }
-
-        }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     private boolean isLoginSuccess = false;

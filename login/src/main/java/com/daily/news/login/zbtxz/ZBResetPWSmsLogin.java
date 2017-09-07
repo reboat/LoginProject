@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
@@ -29,7 +26,6 @@ import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.DeleteEditText;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -46,20 +42,18 @@ import butterknife.OnClick;
  * create time:2017/8/11  下午3:49
  */
 
-public class ZBResetPWSmsLogin extends BaseActivity implements TextWatcher {
+public class ZBResetPWSmsLogin extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
-    DeleteEditText dtAccountText;
+    EditText dtAccountText;
     @BindView(R2.id.et_sms_text)
-    DeleteEditText etSmsText;
+    EditText etSmsText;
     @BindView(R2.id.tv_sms_verification)
     TextView tvTerification;
     @BindView(R2.id.tv_change_login_type)
     TextView tvChangeLoginType;
-    @BindView(R2.id.iv_logo)
-    ImageView ivLogo;
     @BindView(R2.id.bt_confirm)
-    Button btConfirm;
+    TextView btConfirm;
 
     /**
      * 登录类型：true:验证码登录/false:重置密码
@@ -90,10 +84,7 @@ public class ZBResetPWSmsLogin extends BaseActivity implements TextWatcher {
     }
 
     private void initView() {
-        etSmsText.addTextChangedListener(this);
-        ivLogo.setBackgroundResource(R.mipmap.module_login_day_zbtxz);
-        btConfirm.setText(getString(R.string.zb_login));
-        btConfirm.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
+        btConfirm.setText(getString(R.string.zb_confirm));
         tvTerification.setText(getString(R.string.zb_sms_verication));
         if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             tvChangeLoginType.setText(getString(R.string.zb_password_login));
@@ -114,7 +105,7 @@ public class ZBResetPWSmsLogin extends BaseActivity implements TextWatcher {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
     }
 
-    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm,R2.id.tv_change_login_type})
+    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm, R2.id.tv_change_login_type})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
@@ -296,26 +287,5 @@ public class ZBResetPWSmsLogin extends BaseActivity implements TextWatcher {
             }
         };
         TimerManager.schedule(timerTask);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        if (etSmsText != null && etSmsText.getText().toString().length() > 0 ) {
-            btConfirm.setEnabled(true);
-            btConfirm.setBackgroundResource(R.drawable.border_login_zb_password_bg);
-        } else {
-            btConfirm.setEnabled(false);
-            btConfirm.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
-        }
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }

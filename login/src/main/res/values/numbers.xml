@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="level_password_see" format="integer" type="integer">1</item>
+    <item name="level_password_unsee" format="integer" type="integer">2</item>
+</resources>

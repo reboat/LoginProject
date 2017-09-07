@@ -3,27 +3,17 @@ package com.daily.news.login;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daily.news.login.adapter.LoginTypeAdapter;
-import com.daily.news.login.bean.LoginTypeBean;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.adapter.OnItemClickListener;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
-import com.zjrb.core.ui.widget.divider.GridSpaceDivider;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,15 +25,27 @@ import butterknife.OnClick;
  * create time:2017/8/19  下午20:14
  */
 
-public class LoginActivity extends BaseActivity implements OnItemClickListener {
+public class LoginActivity extends BaseActivity {
 
-    @BindView(R2.id.rv_list)
-    RecyclerView mRecyleView;
     @BindView(R2.id.tv_register)
     TextView tvRegister;
+    @BindView(R2.id.tv_module_login_zbtxz)
+    TextView tvModuleLoginZbtxz;
+    @BindView(R2.id.ll_module_login_zbtxz)
+    LinearLayout llModuleLoginZbtxz;
+    @BindView(R2.id.tv_module_login_wx)
+    TextView tvModuleLoginWx;
+    @BindView(R2.id.ll_module_login_wx)
+    LinearLayout llModuleLoginWx;
+    @BindView(R2.id.tv_module_login_qq)
+    TextView tvModuleLoginQq;
+    @BindView(R2.id.ll_module_login_qq)
+    LinearLayout llModuleLoginQq;
+    @BindView(R2.id.tv_module_login_wb)
+    TextView tvModuleLoginWb;
+    @BindView(R2.id.ll_module_login_wb)
+    LinearLayout llModuleLoginWb;
 
-    private List<LoginTypeBean> mBean;
-    private LoginTypeAdapter mAdapter;
     private UmengAuthUtils mUmengUtils;
 
     @Override
@@ -64,28 +66,10 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
      */
     private void initLoginRV() {
         tvRegister.setText(getString(R.string.zb_register_toolbar));
-        mRecyleView.addItemDecoration(new GridSpaceDivider(0));
-        GridLayoutManager managerFollow = new GridLayoutManager(UIUtils.getContext(), 4);
-        mRecyleView.setLayoutManager(managerFollow);
-
-        if (mBean == null) {
-            mBean = new ArrayList<>();
-            if (!ThemeMode.isNightMode()) {
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_zbtxz, getString(R.string.zb_login_type_zb)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wx, getString(R.string.zb_login_type_wx)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_qq, getString(R.string.zb_login_type_qq)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_day_wb, getString(R.string.zb_login_type_wb)));
-            } else {
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_zbtxz, getString(R.string.zb_login_type_zb)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wx, getString(R.string.zb_login_type_wx)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_qq, getString(R.string.zb_login_type_qq)));
-                mBean.add(new LoginTypeBean(R.mipmap.module_login_night_wb, getString(R.string.zb_login_type_wb)));
-            }
-        }
-
-        mAdapter = new LoginTypeAdapter(mBean);
-        mRecyleView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
+        tvModuleLoginZbtxz.setText(getString(R.string.zb_login_type_zb));
+        tvModuleLoginWx.setText(getString(R.string.zb_login_type_wx));
+        tvModuleLoginQq.setText(getString(R.string.zb_login_type_qq));
+        tvModuleLoginWb.setText(getString(R.string.zb_login_type_wb));
     }
 
 
@@ -117,24 +101,19 @@ public class LoginActivity extends BaseActivity implements OnItemClickListener {
         }
     }
 
-    /**
-     * 第三方跳转登录
-     *
-     * @param itemView
-     * @param position
-     */
-    @Override
-    public void onItemClick(View itemView, int position) {
-        if (position == 0) {
+    @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq, R2.id.ll_module_login_wb})
+    public void onViewClicked(View view) {
+        int i = view.getId();
+        if (i == R.id.ll_module_login_zbtxz) {
             //进入浙报通行证页面
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
                     .buildUpon()
                     .build(), 0);
-        } else if (position == 1) {
+        } else if (i == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
-        } else if (position == 2) {
+        } else if (i == R.id.ll_module_login_qq) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
-        } else if (position == 3) {
+        } else if (i == R.id.ll_module_login_wb) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
         }
     }

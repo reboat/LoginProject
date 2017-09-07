@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,44 +17,44 @@
         android:text="@string/zb_reg_tel"
         android:textColor="?attr/tc_484848"
         android:textSize="@dimen/ts_11sp"
-        tools:text="请输入手机号 +86 18557178825 收到的验证码"/>
+        tools:text="请输入手机号 +86 18557178825 收到的验证码" />
 
     <EditText
         android:id="@+id/et_sms_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dt_account_text"
-        android:paddingBottom="10dp"
         android:layout_gravity="center"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="55.5dp"
-        android:background="@drawable/border_edit_bg"
-        android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:background="?attr/border_edit_bg"
+        android:digits="1234567890"
         android:gravity="left"
         android:hint="验证码"
-        android:inputType="textPassword"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:lines="1"
         android:maxLines="1"
+        android:paddingBottom="8.5dp"
+        android:singleLine="true"
         android:textColor="?attr/tc_484848"
-        android:textColorHint="?attr/tc_484848"
-        android:textSize="@dimen/ts_14sp"/>
+        android:textColorHint="?attr/tc_999999"
+        android:textSize="@dimen/ts_11sp" />
 
-
-    <Button
+    <TextView
         android:id="@+id/bt_register"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/et_sms_code"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
-        android:background="@drawable/border_login_text_bg"
-        android:enabled="false"
+        android:background="?attr/border_login_text_bg"
         android:gravity="center"
         android:textColor="?attr/tc_ffffff"
-        android:textSize="@dimen/ts_14sp"
-        tools:text="注册"/>
+        android:textSize="@dimen/ts_16sp"
+        tools:text="注册" />
 
     <TextView
         android:id="@+id/tv_notify"
@@ -64,9 +63,9 @@
         android:layout_below="@+id/bt_register"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="22dp"
-        android:textColor="?attr/tc_484848"
+        android:textColor="?attr/tc_999999"
         android:textSize="11sp"
-        tools:text="验证码短信可能有一定延迟，请耐心稍微等待"/>
+        tools:text="验证码短信可能有一定延迟，请耐心稍微等待" />
 
     <TextView
         android:id="@+id/tv_resend"
@@ -76,8 +75,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="7dp"
         android:gravity="center"
-        android:textColor="?attr/sl_tc_sms_verification"
+        android:textColor="?attr/tc_f44b50"
         android:textSize="11sp"
-        tools:text="重新发送验证码"/>
+        tools:text="重新发送验证码" />
 
 </RelativeLayout>

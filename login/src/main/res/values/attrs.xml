@@ -29,7 +29,7 @@
         <attr name="bc_f5f5f5" format="color|reference" />
         <!--f5f5f5 343434-->
         <attr name="bc_343434" format="color|reference" />
-         <!--e85757 8e3636-->
+        <!--e85757 8e3636-->
         <attr name="bc_e85757" format="color|reference" />
         <!--7f080808  202124-->
         <attr name="bc_7f080808" format="color|reference" />
@@ -49,6 +49,20 @@
         <attr name="module_login_bg_sms_verification" format="reference" />
 
         <attr name="sl_tc_sms_verification" format="reference" />
+
+        <attr name="border_login_text_bg" format="reference" />
+
+        <attr name="border_edit_bg" format="reference" />
+
+        <attr name="module_login_password_see" format="reference" />
+
+        <attr name="module_login_zbtxz" format="reference" />
+
+        <attr name="module_login_wx" format="reference" />
+
+        <attr name="module_login_qq" format="reference" />
+
+        <attr name="module_login_wb" format="reference" />
 
     </declare-styleable>
 

@@ -3,19 +3,12 @@ package com.daily.news.login.zbtxz;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Html;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bianfeng.woa.OnCheckAccountExistListener;
@@ -29,9 +22,7 @@ import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.DeleteEditText;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -48,24 +39,20 @@ import butterknife.OnClick;
  * create time:2017/8/11  上午11:04
  */
 
-public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
+public class ZBRegisterActivity extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
-    DeleteEditText dtAccountText;
-    @BindView(R2.id.ly_login)
-    LinearLayout lyLogin;
+    EditText dtAccountText;
     @BindView(R2.id.et_password_text)
     EditText etPasswordText;
     @BindView(R2.id.verification_code_see_btn)
     ImageView verificationCodeSeeBtn;
-    @BindView(R2.id.fy_password)
-    FrameLayout fyPassword;
     @BindView(R2.id.bt_register)
-    Button btRegister;
-    @BindView(R2.id.cb_btn)
-    CheckBox cbbtn;
+    TextView btRegister;
     @BindView(R2.id.tv_link)
     TextView tvLink;
+    @BindView(R2.id.tv_link_tip)
+    TextView tvLinkTip;
 
     private boolean isClick = false;
     private int passwordLength = 0;
@@ -78,17 +65,10 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
         initView();
     }
 
-    private  void initView(){
-//        if (!ThemeMode.isNightMode()) {
-//            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-//        } else {
-//            verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-//        }
-        etPasswordText.addTextChangedListener(this);
-        btRegister.setText(getString(R.string.zb_login));
-        btRegister.setEnabled(false);
-        btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
-        cbbtn.setText(getText(R.string.zb_reg_tip));
+    private void initView() {
+        verificationCodeSeeBtn.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+        btRegister.setText(getString(R.string.zb_register));
+        tvLinkTip.setText(getText(R.string.zb_reg_tip));
         tvLink.setText(getText(R.string.zb_reg_link));
     }
 
@@ -102,14 +82,10 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
         if (ClickTracker.isDoubleClick()) return;
         if (view.getId() == R.id.verification_code_see_btn) {
             clickSeePassword();
-        } else if(view.getId() == R.id.tv_link){
+        } else if (view.getId() == R.id.tv_link) {
             //TODO  WLJ 进入用户协议页面
-        }else {
-            if (cbbtn.isChecked()) {
-                clickRegBtn();
-            } else {
-                T.showShortNow(this, getString(R.string.please_agree_protocol));
-            }
+        } else {
+            clickRegBtn();
         }
     }
 
@@ -118,30 +94,18 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
      */
     private void clickSeePassword() {
         passwordLength = etPasswordText.getText().toString().length();
-        if (passwordLength > 0) {
-            if (!isClick) {
-                //开启
-//                if (!ThemeMode.isNightMode()) {
-//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_see);
-//                } else {
-//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_see);
-//                }
-                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                etPasswordText.setSelection(passwordLength);
-                isClick = true;
-            } else {
-//                if (!ThemeMode.isNightMode()) {
-//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_day_password_unsee);
-//                } else {
-//                    verificationCodeSeeBtn.setBackgroundResource(R.mipmap.module_login_night_password_unsee);
-//                }
-                //隐藏
-                etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                etPasswordText.setSelection(passwordLength);
-                isClick = false;
-            }
+        if (!isClick) {
+            //开启
+            verificationCodeSeeBtn.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_see));
+            etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            etPasswordText.setSelection(passwordLength);
+            isClick = true;
         } else {
-            T.showShort(this, getString(R.string.zb_passwprd_readable));
+            //隐藏
+            verificationCodeSeeBtn.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+            etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            etPasswordText.setSelection(passwordLength);
+            isClick = false;
         }
     }
 
@@ -149,20 +113,20 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
      * 点击注册
      */
     private void clickRegBtn() {
-        if (cbbtn.isChecked()) {
-            if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
-                //注册
-                passwordLength = etPasswordText.getText().toString().length();
-                if (passwordLength < 6) {
-                    T.showShort(this, getString(R.string.zb_verification_error));
-                } else {
-                    checkAccountExist(this, dtAccountText.getText().toString());
-                }
+        if (dtAccountText.getText().toString().isEmpty()) {
+            T.showShort(this, getString(R.string.zb_phone_num_empty));
+        } else if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+            //注册
+            passwordLength = etPasswordText.getText().toString().length();
+            if (passwordLength == 0) {
+                T.showShort(this, getString(R.string.zb_password_empty));
+            } else if (passwordLength < 6 || passwordLength > 30) {
+                T.showShort(this, getString(R.string.zb_password_error));
             } else {
-                T.showShort(this, getString(R.string.zb_phone_num_error));
+                checkAccountExist(this, dtAccountText.getText().toString());
             }
         } else {
-            T.showShort(this, getString(R.string.zb_register_check_true));
+            T.showShort(this, getString(R.string.zb_phone_num_error));
         }
     }
 
@@ -229,28 +193,6 @@ public class ZBRegisterActivity extends BaseActivity implements TextWatcher {
                             neverAskPerms) {
                     }
                 }, Permission.PHONE_READ_PHONE_STATE);
-    }
-
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (etPasswordText != null && etPasswordText.getText().toString().length() < 6) {
-            btRegister.setEnabled(false);
-            btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
-        } else {
-            btRegister.setEnabled(true);
-            btRegister.setBackgroundResource(R.drawable.border_login_zb_password_bg);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 
 }

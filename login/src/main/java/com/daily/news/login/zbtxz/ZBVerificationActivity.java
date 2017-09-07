@@ -5,14 +5,11 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -41,7 +38,7 @@ import butterknife.OnClick;
  * create time:2017/8/11  下午2:49
  */
 
-public class ZBVerificationActivity extends BaseActivity implements TextWatcher {
+public class ZBVerificationActivity extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
     TextView dtAccountText;
@@ -50,7 +47,7 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
     @BindView(R2.id.tv_resend)
     TextView tvResend;
     @BindView(R2.id.bt_register)
-    Button btRegister;
+    TextView btRegister;
     @BindView(R2.id.tv_notify)
     TextView tvNotify;
 
@@ -58,10 +55,7 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
     public String mAccountID = "";
     public String mPassWord = "";
 
-
     //短信验证码
-
-
     private TimerManager.TimerTask timerTask;
 
     /**
@@ -78,8 +72,6 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
 
     private void initView() {
 //        mAccountID = "18267172823";  //WLJ  TEST
-        etSmsCode.addTextChangedListener(this);
-        btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
         btRegister.setText(getString(R.string.zb_confirm));
         tvResend.setText(getString(R.string.zb_login_resend));
         tvNotify.setText(getString(R.string.zb_input_sms_tip));
@@ -132,13 +124,11 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         TimerManager.cancel(timerTask);
     }
-
 
     /**
      * 开始倒计时
@@ -164,7 +154,6 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
         };
         TimerManager.schedule(timerTask);
     }
-
 
     /**
      * 获取短信验证码
@@ -250,26 +239,5 @@ public class ZBVerificationActivity extends BaseActivity implements TextWatcher 
                 }
             }
         }).setTag(this).exe(sessionId, "ZB", "", dtAccountText.getText(), "");
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (etSmsCode != null && etSmsCode.getText().toString().length() > 0) {
-            btRegister.setEnabled(true);
-            btRegister.setBackgroundResource(R.drawable.border_login_zb_password_bg);
-        } else {
-            btRegister.setEnabled(false);
-            btRegister.setBackgroundResource(R.drawable.border_zblogin_btn_bg);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }
