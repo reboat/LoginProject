@@ -36,7 +36,6 @@
 
     </LinearLayout>
 
-
     <FrameLayout
         android:id="@+id/fy_password"
         android:layout_width="fill_parent"

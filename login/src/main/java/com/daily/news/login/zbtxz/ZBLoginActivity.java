@@ -33,6 +33,7 @@ import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.eventbus.EventBase;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
+import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -128,25 +129,25 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             dtAccountText.setCursorVisible(true);
             //登录
         } else if (view.getId() == R.id.tv_login) {
-            if (!ClickTracker.isDoubleClick()) {
+            if (dtAccountText.getText().toString().isEmpty()) {
+                T.showShort(this, getString(R.string.zb_phone_num_empty));
+            } else if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
                 WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
+            } else {
+                T.showShort(this, getString(R.string.zb_phone_num_error));
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
-            if (!ClickTracker.isDoubleClick()) {
-                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                        .buildUpon()
-                        .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
-                        .build(), 0);
-            }
+            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                    .buildUpon()
+                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
+                    .build(), 0);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
-            if (!ClickTracker.isDoubleClick()) {
-                Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                        .buildUpon()
-                        .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
-                        .build(), 0);
-            }
+            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+                    .buildUpon()
+                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
+                    .build(), 0);
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
