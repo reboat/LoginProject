@@ -238,6 +238,6 @@ public class ZBVerificationActivity extends BaseActivity {
                     T.showShortNow(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
                 }
             }
-        }).setTag(this).exe(sessionId, "ZB", "", dtAccountText.getText(), "");
+        }).setTag(this).exe(sessionId);
     }
 }

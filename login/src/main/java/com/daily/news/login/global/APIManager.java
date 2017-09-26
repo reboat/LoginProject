@@ -102,7 +102,10 @@ public class APIManager {
          */
         public static final String GET_SESSIONID = "/api/account/init";
 
-
+        /**
+         * 注册
+         */
+        public static final String ZB_REG_SERVER = "/api/account/register_verification";
     }
 
 }

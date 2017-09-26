@@ -2,6 +2,7 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.bean.ZBLoginBean;
+import com.daily.news.login.global.APIManager;
 import com.zjrb.core.api.base.APIPostTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
 
@@ -18,17 +19,12 @@ public class ZBRegisterValidateTask extends APIPostTask<ZBLoginBean> {
 
     @Override
     protected void onSetupParams(Object... params) {
-        put("third_party_session_id", params[0]);
-        put("auth_type", params[1]);
-        put("auth_uid", params[2]);
-        put("nick_name", params[3]);
-        put("union_id", params[4]);
+        put("session_id", params[0]);
     }
 
     @Override
     protected String getApi() {
-        return  null;
-//        return APIManager.EndPoint.ZB_REG_SERVER;
+        return APIManager.endpoint.ZB_REG_SERVER;
     }
 }
 
