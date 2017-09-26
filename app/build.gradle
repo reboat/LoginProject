@@ -2,10 +2,18 @@ apply plugin: 'com.android.application'
 apply from: "${rootDir}/public.gradle"
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'zhejiangnews'
+            keyPassword 'kIwfs16KsM'
+            storeFile file('C:/Android/zhejiangnews.keystore')
+            storePassword 'kIwfs16KsM'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.zjrb.loginproject"
+        applicationId "com.zhejiangdaily"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
@@ -20,6 +28,11 @@ android {
         ]
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -28,7 +41,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
