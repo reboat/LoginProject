@@ -30,7 +30,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/LoginActivity"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
 
         </activity>
@@ -49,7 +49,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/ZBLoginActivity"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
 
         </activity>
@@ -65,7 +65,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/ZBRegisterActivity"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
         </activity>
         <activity
@@ -80,7 +80,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/ZBResetNewPassWord"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
         </activity>
         <activity
@@ -95,7 +95,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/ZBResetPWSmsLogin"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
         </activity>
         <activity
@@ -110,7 +110,7 @@
                 <data
                     android:host="www.8531.cn"
                     android:path="/login/ZBVerificationActivity"
-                    android:scheme="@string/data_scheme"/>
+                    android:scheme="@string/data_scheme_http"/>
             </intent-filter>
         </activity>
     </application>

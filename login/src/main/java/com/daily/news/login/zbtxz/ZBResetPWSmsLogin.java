@@ -15,16 +15,17 @@ import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
@@ -191,7 +192,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      *                  返回浙报服务器的token
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
-        //注册验证
+        //登录验证
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -199,23 +200,12 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean result) {
-//                if (result.getResultCode() == 0) {
-//                    UserBiz userBiz = UserBiz.get();
-//                    userBiz.setAvatar("");
-//                    userBiz.setNickName(phoneNum);
-//
-//                    int size = AppManager.get().getCount();
-//                    if (size > 1) {
-//                        ZBVerificationActivity.this.finish();
-//                        EventBus.getDefault().postSticky(new CloseZBLoginEvent());
-//                    } else {
-//                        UIUtils.getActivity()
-//                                .startActivity(new Intent(ZBVerificationActivity.this, MainActivity.class));
-//                    }
-//                } else {
-//                    showShortToast("注册失败");
-//                }
+            public void onSuccess(@NonNull ZBLoginBean bean) {
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(bean);
+                //设置回调数据
+                setResult(RESULT_OK);
+                onBackPressed();
             }
         }).setTag(this).exe(sessionId);
     }

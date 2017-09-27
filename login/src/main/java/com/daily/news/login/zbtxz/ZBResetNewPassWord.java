@@ -18,12 +18,13 @@ import com.bianfeng.woa.OnResetPasswordListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -157,31 +158,14 @@ public class ZBResetNewPassWord extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean result) {
-                //重置完登录边锋
-//                ZBToast.createToastConfig().ToastShow();
-//                if (result.getResultCode() == 0) {
-//                    //登录成功
-//                    UserBiz userBiz = UserBiz.get();
-//                    userBiz.setAvatar("");
-//                    userBiz.setNickName(PHONE_NUM);
-//
-//                    int size = AppManager.get().getCount();
-//                    if (size > 1) {
-//                        ZBChangePasswordActivity.this.finish();
-//                        //还需要关闭前面2个页面
-//                        EventBus.getDefault().postSticky(new ZBCloseActEvent());
-//                    } else {
-//                        UIUtils.getActivity()
-//                                .startActivity(new Intent(ZBChangePasswordActivity.this, MainActivity.class));
-//                    }
-//                    //WLJ 网脉记录首次登陆
-//                    WmUtil.onLogin();
-//                } else {
-//                    showShortToast(result.getResultMsg());
-//                }
+            public void onSuccess(@NonNull ZBLoginBean bean) {
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(bean);
+                //设置回调数据
+                setResult(RESULT_OK);
+                onBackPressed();
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", "", mAccountID, "");
+        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID);
 
     }
 }

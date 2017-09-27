@@ -18,13 +18,14 @@ import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBRegisterValidateTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.TimerManager;
+import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -71,7 +72,6 @@ public class ZBVerificationActivity extends BaseActivity {
     }
 
     private void initView() {
-//        mAccountID = "18267172823";  //WLJ  TEST
         btRegister.setText(getString(R.string.zb_confirm));
         tvResend.setText(getString(R.string.zb_login_resend));
         tvNotify.setText(getString(R.string.zb_input_sms_tip));
@@ -115,8 +115,8 @@ public class ZBVerificationActivity extends BaseActivity {
         if (ClickTracker.isDoubleClick()) return;
         //注册账号 获取token
         if (view.getId() == R.id.bt_register) {
-            if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("") && !mAccountID.isEmpty()) {
-                regAndLogin(mUuid, etSmsCode.getText().toString(), mAccountID);
+            if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("")) {
+                regAndLogin(mUuid, etSmsCode.getText().toString());
             }
             //重新发送验证码
         } else {
@@ -184,7 +184,7 @@ public class ZBVerificationActivity extends BaseActivity {
     /**
      * 先注册账号再登录
      */
-    private void regAndLogin(@NonNull String uid, @NonNull final String smsCode, @NonNull final String phoneNum) {
+    private void regAndLogin(@NonNull String uid, @NonNull final String smsCode) {
         WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
 
             @Override
@@ -198,7 +198,7 @@ public class ZBVerificationActivity extends BaseActivity {
                 if (null == s || s.isEmpty()) {
                     T.showShort(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
                 } else {
-                    loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
+                    loginZBServer(WoaSdk.getTokenInfo().getSessionId());
                 }
             }
         });
@@ -207,11 +207,9 @@ public class ZBVerificationActivity extends BaseActivity {
     /**
      * 注册验证接口
      *
-     * @param sessionId
-     * @param phoneNum  登录ZB服务器
-     *                  返回浙报服务器的token
+     * @param sessionId 返回浙报服务器的token
      */
-    private void loginZBServer(String sessionId, final String phoneNum) {
+    private void loginZBServer(String sessionId) {
         //注册验证
         new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
@@ -220,23 +218,12 @@ public class ZBVerificationActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean result) {
-                if (result.getResultCode() == 0) {
-//                    UserBiz userBiz = UserBiz.get();
-//                    userBiz.setAvatar("");
-//                    userBiz.setNickName(phoneNum);
-//
-//                    int size = AppManager.get().getCount();
-//                    if (size > 1) {
-//                        ZBVerificationActivity.this.finish();
-//                        EventBus.getDefault().postSticky(new CloseZBLoginEvent());
-//                    } else {
-//                        UIUtils.getActivity()
-//                                .startActivity(new Intent(ZBVerificationActivity.this, MainActivity.class));
-//                    }
-                } else {
-                    T.showShortNow(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
-                }
+            public void onSuccess(@NonNull ZBLoginBean bean) {
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(bean);
+                //设置回调数据
+                setResult(RESULT_OK);
+                onBackPressed();
             }
         }).setTag(this).exe(sessionId);
     }

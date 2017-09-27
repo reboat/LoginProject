@@ -1,10 +1,10 @@
 package com.daily.news.login.task;
 
 
-import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.global.APIManager;
 import com.zjrb.core.api.base.APIPostTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.domain.ZBLoginBean;
 
 /**
  * 注册验证bean

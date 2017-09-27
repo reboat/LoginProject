@@ -19,7 +19,6 @@ import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.bean.SessionIdBean;
-import com.daily.news.login.bean.ZBLoginBean;
 import com.daily.news.login.eventbus.CloseZBLoginEvent;
 import com.daily.news.login.eventbus.ZBCloseActEvent;
 import com.daily.news.login.global.Key;
@@ -30,6 +29,7 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.eventbus.EventBase;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
@@ -210,24 +210,12 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean result) {
-                if (result.getResultCode() == 0) {
-//                    UserBiz userBiz = UserBiz.get();
-//                    userBiz.setAvatar("");
-//                    userBiz.setNickName(accountText.getText().toString());
-//                    userBiz.setUserId(result.getUserId());
-//                    userBiz.setSessionId(result.getSessionId());
-//
-//                    new GetCidTask(null).setTag(ZBLoginActivity.this).exe(UserBiz.get().getClientID());
-//                    if (AppManager.get().getCount() < 1) {
-//                        startActivity(new Intent(UIUtils.getActivity(), MainActivity.class));
-//                    }
-//                    isLoginSuccess = true;
-//                    finish();
-                } else {
-                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
-                }
-
+            public void onSuccess(@NonNull ZBLoginBean bean) {
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(bean);
+                //设置回调数据
+                setResult(RESULT_OK);
+                onBackPressed();
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
     }
@@ -238,6 +226,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
      * @param s 边锋sessionId
      *          获取sessionId
      */
+    //TODO WLJ  单独测试登录模块使用
     private void initTest(final String s) {
         new InitTask(new APIExpandCallBack<SessionIdBean>() {
             @Override
@@ -247,12 +236,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
             @Override
             public void onSuccess(@NonNull SessionIdBean result) {
-                if (result.getResultCode() == 0) {
-                    UserBiz.get().setSessionId(result.getSession().getId());
-                    loginVerification(s);
-                } else {
-                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
-                }
+                UserBiz.get().setSessionId(result.getSession().getId());
+                loginVerification(s);
 
             }
         }).setTag(this).exe();
