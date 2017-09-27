@@ -92,14 +92,13 @@ public class LoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             setResult(RESULT_OK);
-            finish();
         } else {
-            //微信不走这里
             if (mUmengUtils != null) {
                 mUmengUtils.getDialog();
                 mUmengUtils.onResult(requestCode, resultCode, data);
             }
         }
+        finish();
     }
 
     @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq, R2.id.ll_module_login_wb})
