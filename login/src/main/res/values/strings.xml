@@ -31,9 +31,12 @@
     <string name="zb_sms_send">短信已发送成功</string>
     <string name="zb_reg_tip">已阅读并同意</string>
     <string name="zb_reg_link">用户服务协议</string>
+    <string name="zb_mobile_contact">联系方式</string>
     <string name="zb_set_password_tip">重设通行证密码</string>
+    <string name="zb_mobile_valideta_tip">填写联系方式,兑换礼品更方便快捷</string>
 
 
+    <string name="zb_mobile_submit">提交</string>
     <string name="zb_login_type_qq">QQ</string>
     <string name="zb_login_type_wx">微信</string>
     <string name="zb_login_type_wb">微博</string>

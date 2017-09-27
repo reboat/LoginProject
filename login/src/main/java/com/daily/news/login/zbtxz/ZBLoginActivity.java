@@ -35,6 +35,7 @@ import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import org.greenrobot.eventbus.EventBus;
@@ -218,6 +219,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 userBiz.setZBLoginBean(bean);
                 //设置回调数据
                 setResult(RESULT_OK);
+                //进入实名制页面
+                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
+                        .buildUpon()
+                        .build(), 0);
                 finish();
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
@@ -254,10 +259,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             setResult(RESULT_OK);
             finish();
-        }else{
+        } else {
             //微信不走这里
             if (mUmengUtils != null) {
                 mUmengUtils.getDialog();

@@ -106,6 +106,16 @@ public class APIManager {
          * 注册
          */
         public static final String ZB_REG_SERVER = "/api/account/register_verification";
+
+        /**
+         * 填写个人资料获取验证码
+         */
+        public static final String ZB_MOBILE_VALIDATE = "/api/account/validate_code";
+
+        /**
+         * 获取短信验证码
+         */
+        public static final String GET_SMS_CODE = "/api/account/send_validate_code";
     }
 
 }

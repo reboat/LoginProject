@@ -31,6 +31,7 @@ import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -218,9 +219,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             public void onSuccess(@NonNull ZBLoginBean bean) {
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(bean);
+                //进入实名制页面
+                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
+                        .buildUpon()
+                        .build(), 0);
                 //设置回调数据
                 setResult(RESULT_OK);
-                onBackPressed();
+                finish();
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(), dtAccountText.getText().toString(), dtAccountText.getText().toString());
     }

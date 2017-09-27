@@ -13,9 +13,15 @@ public final class Key {
     public static final String LOGIN_TYPE = "login_type";
 
     /**
+     * 是否来自评论登录
+     */
+    public static final String IS_COMMENT_LOGIN = "is_comment_login";
+
+    /**
      * 浙报通行证UUID
      */
     public static final String UUID = "uuid";
+
     /**
      * 浙报通行证手机号码
      */
@@ -26,7 +32,7 @@ public final class Key {
      */
     public static final String PASSWORD = "password";
 
-    public static class  Value{
+    public static class Value {
         /**
          * 重置密码类型
          */

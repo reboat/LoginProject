@@ -25,7 +25,9 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
@@ -161,9 +163,13 @@ public class ZBResetNewPassWord extends BaseActivity {
             public void onSuccess(@NonNull ZBLoginBean bean) {
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(bean);
+                //进入实名制页面
+                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
+                        .buildUpon()
+                        .build(), 0);
                 //设置回调数据
                 setResult(RESULT_OK);
-                onBackPressed();
+                finish();
             }
         }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID);
 
