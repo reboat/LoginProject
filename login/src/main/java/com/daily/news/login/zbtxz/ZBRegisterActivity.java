@@ -1,6 +1,7 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -56,6 +57,11 @@ public class ZBRegisterActivity extends BaseActivity {
 
     private boolean isClick = false;
     private int passwordLength = 0;
+
+    /**
+     * 请求码
+     */
+    private int REQUEST_CODE = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +182,7 @@ public class ZBRegisterActivity extends BaseActivity {
                                         Nav.with(ZBRegisterActivity.this).to(Uri.parse("http://www.8531.cn/login/ZBVerificationActivity").buildUpon()
                                                 .appendQueryParameter(Key.UUID, s)
                                                 .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
-                                                .appendQueryParameter(Key.PASSWORD, etPasswordText.getText().toString()).build(), 0);
+                                                .appendQueryParameter(Key.PASSWORD, etPasswordText.getText().toString()).build(), REQUEST_CODE);
                                     }
                                 });
 
@@ -193,6 +199,21 @@ public class ZBRegisterActivity extends BaseActivity {
                             neverAskPerms) {
                     }
                 }, Permission.PHONE_READ_PHONE_STATE);
+    }
+
+
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param data        第三方登录回调
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
 }

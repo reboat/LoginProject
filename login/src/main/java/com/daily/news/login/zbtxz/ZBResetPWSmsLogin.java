@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bianfeng.passport.OnValidateSmsCaptchListener;
+import com.bianfeng.passport.Passport;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
@@ -63,6 +65,11 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     private String uuid = "";
 
     private TimerManager.TimerTask timerTask;
+
+    /**
+     * 请求码
+     */
+    private int REQUEST_CODE = -1;
 
 
     /**
@@ -127,7 +134,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             if (etSmsText.getText() != null && !TextUtils.isEmpty(etSmsText.getText().toString())) {
                 //进入账号密码登录页面
                 if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText().toString())) {
-                    regAndLogin(uuid, tvTerification.getText().toString(), dtAccountText.getText().toString());
+                    regAndLogin(uuid, etSmsText.getText().toString(), dtAccountText.getText().toString());
                 } else {
                     T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_inout_error));
                 }
@@ -137,7 +144,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         } else {
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
                     .buildUpon()
-                    .build(), 0);
+                    .build(), REQUEST_CODE);
         }
 
     }
@@ -151,37 +158,45 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      * @param phoneNum
      */
     private void regAndLogin(@NonNull String uid, @NonNull final String smsCode, @NonNull final String phoneNum) {
-        WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
+        if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
+            //短信验证
+            WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
 
-            @Override
-            public void onFailure(int i, String s) {
-                T.showShort(ZBResetPWSmsLogin.this, s);
-            }
+                @Override
+                public void onFailure(int i, String s) {
+                    T.showShort(ZBResetPWSmsLogin.this, s);
+                }
 
-            @Override
-            public void onSuccess(String token) {
-                //短信登录
-                if (Key.LOGIN_TYPE.equals(Key.Value.LOGIN_SMS_TYPE)) {
+                @Override
+                public void onSuccess(String token) {
                     if (null == token || token.isEmpty()) {
                         T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
                     } else {
                         loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
                     }
-                } else {
-                    if (null == token || token.isEmpty()) {
-                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_smscode_error));
-                    } else {
-                        Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse("http://www.8531.cn/login/ZBResetNewPassWord")
-                                .buildUpon()
-                                .appendQueryParameter(Key.UUID, uuid)
-                                .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
-                                .build(), 0);
-                    }
 
                 }
+            });
+        } else {//重置密码验证
+            Passport.validateSmsCaptch(ZBResetPWSmsLogin.this, new OnValidateSmsCaptchListener() {
 
-            }
-        });
+                @Override
+                public void onFailure(int i, String s) {
+                    T.showShort(ZBResetPWSmsLogin.this, s);
+                }
+
+                @Override
+                public void onSuccess() {
+                    Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse("http://www.8531.cn/login/ZBResetNewPassWord")
+                            .buildUpon()
+                            .appendQueryParameter(Key.UUID, uuid)
+                            .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
+                            .build(), REQUEST_CODE);
+
+                }
+            }, dtAccountText.getText().toString(), smsCode);
+        }
+
     }
 
     /**
@@ -207,7 +222,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 setResult(RESULT_OK);
                 onBackPressed();
             }
-        }).setTag(this).exe(sessionId);
+        }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(), dtAccountText.getText().toString(), dtAccountText.getText().toString());
     }
 
     /**
@@ -218,25 +233,46 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 IPermissionCallBack() {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
-                        WoaSdk.getSmsCaptcha(ZBResetPWSmsLogin.this,
-                                dtAccountText.getText().toString(),
-                                etSmsText.getText().toString(),
-                                new OnGetSmsCaptchaListener() {
-                                    @Override
-                                    public void onFailure(int i, String s) {
-                                        TimerManager.cancel(timerTask);
-                                        T.showShort(ZBResetPWSmsLogin.this, s);
-                                    }
+                        if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
+                            //短信登录
+                            WoaSdk.getSmsCaptcha(ZBResetPWSmsLogin.this,
+                                    dtAccountText.getText().toString(),
+                                    etSmsText.getText().toString(),
+                                    new OnGetSmsCaptchaListener() {
+                                        @Override
+                                        public void onFailure(int i, String s) {
+                                            TimerManager.cancel(timerTask);
+                                            T.showShort(ZBResetPWSmsLogin.this, s);
+                                        }
 
-                                    @Override
-                                    public void onSuccess(String s) {
-                                        startTimeCountDown();
-                                        //获取uuid
-                                        uuid = s;
-                                        //提示短信已发送成功
-                                        T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
-                                    }
-                                });
+                                        @Override
+                                        public void onSuccess(String s) {
+                                            startTimeCountDown();
+                                            //获取uuid
+                                            uuid = s;
+                                            //提示短信已发送成功
+                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
+                                        }
+                                    });
+                        } else {//重置密码
+                            Passport.getSmsCaptcha(ZBResetPWSmsLogin.this,
+                                    new com.bianfeng.passport.OnGetSmsCaptchaListener() {
+                                        @Override
+                                        public void onFailure(int i, String s) {
+                                            TimerManager.cancel(timerTask);
+                                            T.showShort(ZBResetPWSmsLogin.this, s);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(String s) {
+                                            startTimeCountDown();
+                                            //获取uuid
+                                            uuid = s;
+                                            //提示短信已发送成功
+                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
+                                        }
+                                    }, dtAccountText.getText().toString());
+                        }
 
                     }
 
@@ -277,5 +313,19 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             }
         };
         TimerManager.schedule(timerTask);
+    }
+
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param data        第三方登录回调
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }

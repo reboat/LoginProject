@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -31,22 +30,19 @@ public class LoginActivity extends BaseActivity {
     TextView tvRegister;
     @BindView(R2.id.tv_module_login_zbtxz)
     TextView tvModuleLoginZbtxz;
-    @BindView(R2.id.ll_module_login_zbtxz)
-    LinearLayout llModuleLoginZbtxz;
     @BindView(R2.id.tv_module_login_wx)
     TextView tvModuleLoginWx;
-    @BindView(R2.id.ll_module_login_wx)
-    LinearLayout llModuleLoginWx;
     @BindView(R2.id.tv_module_login_qq)
     TextView tvModuleLoginQq;
-    @BindView(R2.id.ll_module_login_qq)
-    LinearLayout llModuleLoginQq;
     @BindView(R2.id.tv_module_login_wb)
     TextView tvModuleLoginWb;
-    @BindView(R2.id.ll_module_login_wb)
-    LinearLayout llModuleLoginWb;
 
     private UmengAuthUtils mUmengUtils;
+
+    /**
+     * 请求码
+     */
+    private int REQUEST_CODE = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +78,7 @@ public class LoginActivity extends BaseActivity {
         if (v.getId() == R.id.tv_register) {
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBRegisterActivity")
                     .buildUpon()
-                    .build(), 0);
+                    .build(), REQUEST_CODE);
         }
     }
 
@@ -94,10 +90,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //微信不走这里
-        if (mUmengUtils != null) {
-            mUmengUtils.getDialog();
-            mUmengUtils.onResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            setResult(RESULT_OK);
+            finish();
+        } else {
+            //微信不走这里
+            if (mUmengUtils != null) {
+                mUmengUtils.getDialog();
+                mUmengUtils.onResult(requestCode, resultCode, data);
+            }
         }
     }
 

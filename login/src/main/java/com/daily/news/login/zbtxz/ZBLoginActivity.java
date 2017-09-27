@@ -63,13 +63,16 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     TextView tvForgetPassword;
     @BindView(R2.id.verification_code_see_btn)
     ImageView ivSee;
-    @BindView(R2.id.iv_logo)
-    ImageView ivLogo;
 
     /**
      * 是否点击了可视密码
      */
     private boolean isClick = false;
+
+    /**
+     * 请求码
+     */
+    private int REQUEST_CODE = -1;
 
     @NonNull
     private UmengAuthUtils mUmengUtils;
@@ -141,13 +144,13 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
                     .buildUpon()
                     .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
-                    .build(), 0);
+                    .build(), REQUEST_CODE);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
                     .buildUpon()
                     .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
-                    .build(), 0);
+                    .build(), REQUEST_CODE);
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
@@ -215,7 +218,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 userBiz.setZBLoginBean(bean);
                 //设置回调数据
                 setResult(RESULT_OK);
-                onBackPressed();
+                finish();
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
     }
@@ -251,10 +254,15 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //微信不走这里
-        if (mUmengUtils != null) {
-            mUmengUtils.getDialog();
-            mUmengUtils.onResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            setResult(RESULT_OK);
+            finish();
+        }else{
+            //微信不走这里
+            if (mUmengUtils != null) {
+                mUmengUtils.getDialog();
+                mUmengUtils.onResult(requestCode, resultCode, data);
+            }
         }
     }
 
