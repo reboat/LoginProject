@@ -1,4 +1,4 @@
-package loginproject;
+package com.login;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.nav.Nav;
-import com.zjrb.loginproject.R;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -28,7 +27,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Nav.with(this).to(Uri.parse("http://www.8531.cn/login/LoginActivity")
                         .buildUpon()
                         .build(), 0);
-//                ARouter.getInstance().build("/module/login/ZBLoginActivity")
+//                ARouter.getInstance().build("/module/com.login/ZBLoginActivity")
 //                        .navigation();
 
                 break;
