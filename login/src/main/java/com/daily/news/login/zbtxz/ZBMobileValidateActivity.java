@@ -54,11 +54,6 @@ public class ZBMobileValidateActivity extends BaseActivity {
     private TimerManager.TimerTask timerTask;
 
     /**
-     * 请求码
-     */
-    private int REQUEST_CODE = -1;
-
-    /**
      * 是否来自评论登录
      */
     private boolean isCommentLogin = false;
@@ -87,6 +82,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
+        mTvJump.setText(getString(R.string.zb_mobile_jump));
         mTvTitle.setText(getString(R.string.zb_mobile_valideta_tip));
         btConfirm.setText(getString(R.string.zb_mobile_submit));
         tvTerification.setText(getString(R.string.zb_sms_verication));
@@ -141,6 +137,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
         } else {
+            setResult(RESULT_OK);
             finish();
         }
 

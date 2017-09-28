@@ -52,11 +52,22 @@ public class ZBVerificationActivity extends BaseActivity {
     @BindView(R2.id.tv_notify)
     TextView tvNotify;
 
+    /**
+     * 边锋uid
+     */
     public String mUuid = "";
+    /**
+     * 账号名称
+     */
     public String mAccountID = "";
+    /**
+     * 密码
+     */
     public String mPassWord = "";
 
-    //短信验证码
+    /**
+     * 短信验证码定时器
+     */
     private TimerManager.TimerTask timerTask;
 
     /**
@@ -71,6 +82,9 @@ public class ZBVerificationActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 文案
+     */
     private void initView() {
         btRegister.setText(getString(R.string.zb_confirm));
         tvResend.setText(getString(R.string.zb_login_resend));
@@ -182,7 +196,7 @@ public class ZBVerificationActivity extends BaseActivity {
     }
 
     /**
-     * 先注册账号再登录
+     * 先边锋注册账号再登录
      */
     private void regAndLogin(@NonNull String uid, @NonNull final String smsCode) {
         WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {

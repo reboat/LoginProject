@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * 请求码
      */
-    private int REQUEST_CODE = -1;
+    private int REQUEST_CODE = 0x1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity {
             //进入浙报通行证页面
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
                     .buildUpon()
-                    .build(), 0);
+                    .build(), REQUEST_CODE);
         } else if (i == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (i == R.id.ll_module_login_qq) {

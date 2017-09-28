@@ -63,14 +63,20 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      * 登录类型：true:验证码登录/false:重置密码
      */
     private String login_type = "";
+    /**
+     * 边锋返回uid
+     */
     private String uuid = "";
 
+    /**
+     * 验证码定时器
+     */
     private TimerManager.TimerTask timerTask;
 
     /**
      * 请求码
      */
-    private int REQUEST_CODE = -1;
+    private int REQUEST_CODE = 0x1;
 
 
     /**
@@ -92,6 +98,9 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         initView();
     }
 
+    /**
+     * 文案
+     */
     private void initView() {
         btConfirm.setText(getString(R.string.zb_confirm));
         tvTerification.setText(getString(R.string.zb_sms_verication));
@@ -321,9 +330,11 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     }
 
     /**
+     * 跳转回调
+     *
      * @param requestCode
      * @param resultCode
-     * @param data        第三方登录回调
+     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
