@@ -42,9 +42,6 @@ public class TestLoginActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void sendTask() {
-        Nav.with(UIUtils.getContext()).toPath("/login/LoginActivity");
-        Nav.with(UIUtils.getContext()).toPath("/login/LoginActivity");
-        Nav.with(UIUtils.getContext()).toPath("/login/LoginActivity");
         new UserCollectListTask(new LoadingCallBack<Void>() {
             @Override
             public void onCancel() {

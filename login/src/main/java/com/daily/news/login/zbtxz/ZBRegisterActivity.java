@@ -1,7 +1,6 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -199,21 +198,6 @@ public class ZBRegisterActivity extends BaseActivity {
                             neverAskPerms) {
                     }
                 }, Permission.PHONE_READ_PHONE_STATE);
-    }
-
-
-    /**
-     * @param requestCode
-     * @param resultCode
-     * @param data        第三方登录回调
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            setResult(RESULT_OK);
-            finish();
-        }
     }
 
 }

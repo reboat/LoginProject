@@ -137,7 +137,6 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
         } else {
-            setResult(RESULT_OK);
             finish();
         }
 

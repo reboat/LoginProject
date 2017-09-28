@@ -1,13 +1,13 @@
 package com.daily.news.login;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.nav.Nav;
@@ -76,9 +76,7 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
         if (v.getId() == R.id.tv_register) {
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBRegisterActivity")
-                    .buildUpon()
-                    .build(), REQUEST_CODE);
+            Nav.with(this).toPath("/login/ZBRegisterActivity", REQUEST_CODE);
         }
     }
 
@@ -103,14 +101,18 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        LoginHelper.get().finish();
+    }
+
     @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq, R2.id.ll_module_login_wb})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.ll_module_login_zbtxz) {
             //进入浙报通行证页面
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
-                    .buildUpon()
-                    .build(), REQUEST_CODE);
+            Nav.with(this).toPath("/login/ZBLoginActivity");
         } else if (i == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (i == R.id.ll_module_login_qq) {

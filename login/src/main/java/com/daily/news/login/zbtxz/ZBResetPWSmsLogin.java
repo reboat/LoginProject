@@ -15,14 +15,17 @@ import com.bianfeng.passport.Passport;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
@@ -31,7 +34,6 @@ import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -41,11 +43,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 手机验证码登录/重置密码获取验证码
+ * 短信验证码登录 / 重置密码获取验证码
  * Created by wanglinjie.
  * create time:2017/8/11  下午3:49
  */
-
 public class ZBResetPWSmsLogin extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
@@ -76,7 +77,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     /**
      * 请求码
      */
-    private int REQUEST_CODE = 0x1;
+    private int REQUEST_CODE = 0;
 
 
     /**
@@ -152,9 +153,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
         } else {
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBLoginActivity")
-                    .buildUpon()
-                    .build(), REQUEST_CODE);
+            AppManager.get().finishActivity(ZBLoginActivity.class);
+            Nav.with(this).toPath("/login/ZBLoginActivity");
         }
 
     }
@@ -225,16 +225,24 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean bean) {
-                UserBiz userBiz = UserBiz.get();
-                userBiz.setZBLoginBean(bean);
-                //进入实名制页面
-                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
-                        .buildUpon()
-                        .build(), 0);
-                //设置回调数据
-                setResult(RESULT_OK);
-                finish();
+            public void onSuccess(ZBLoginBean bean) {
+                if (bean != null) {
+                    UserBiz userBiz = UserBiz.get();
+                    userBiz.setZBLoginBean(bean);
+                    LoginHelper.get().setResult(true); // 设置登录成功
+
+                    if (!userBiz.isCertification()) { // 进入实名制页面
+                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        AppManager.get().finishActivity(ZBLoginActivity.class);
+                        finish();
+                    } else {
+                        AppManager.get().finishActivity(ZBLoginActivity.class);
+                        finish();
+                        AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                } else {
+                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
+                }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(), dtAccountText.getText().toString(), dtAccountText.getText().toString());
     }
@@ -329,19 +337,4 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         TimerManager.schedule(timerTask);
     }
 
-    /**
-     * 跳转回调
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            setResult(RESULT_OK);
-            finish();
-        }
-    }
 }

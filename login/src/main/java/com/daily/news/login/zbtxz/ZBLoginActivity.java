@@ -1,12 +1,10 @@
 package com.daily.news.login.zbtxz;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,30 +14,23 @@ import android.widget.TextView;
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.bean.SessionIdBean;
-import com.daily.news.login.eventbus.CloseZBLoginEvent;
-import com.daily.news.login.eventbus.ZBCloseActEvent;
 import com.daily.news.login.global.Key;
-import com.daily.news.login.task.InitTask;
 import com.daily.news.login.task.LoginValidateTask;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
-import com.zjrb.core.domain.eventbus.EventBase;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +41,8 @@ import butterknife.OnClick;
  * created by wanglinjie on 2016/11/23
  */
 
-public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener, OnLoginListener {
+public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener,
+        OnLoginListener {
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
     @BindView(R2.id.et_password_text)
@@ -72,7 +64,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     /**
      * 请求码
      */
-    private int REQUEST_CODE = 0x1;
+    private int REQUEST_CODE = 0;
 
     @NonNull
     private UmengAuthUtils mUmengUtils;
@@ -83,12 +75,12 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         setContentView(R.layout.module_login_zbtxz_login);
         ButterKnife.bind(this);
         initView();
-        EventBus.getDefault().register(this);
     }
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
+                .getView();
     }
 
     private void initView() {
@@ -96,30 +88,6 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         tvLogin.setText(getString(R.string.zb_login));
         tvVerification.setText(getString(R.string.zb_login_sms));
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            EventBus.getDefault().unregister(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEvent(EventBase event) {
-        if (event instanceof CloseZBLoginEvent) {
-            EventBus.getDefault().removeStickyEvent(event);
-            isLoginSuccess = true;
-            finish();
-        } else if (event instanceof ZBCloseActEvent) {
-            EventBus.getDefault().removeStickyEvent(event);
-            isLoginSuccess = true;
-            finish();
-        }
-
     }
 
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
@@ -147,6 +115,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     .build(), REQUEST_CODE);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
+            AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
             Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
                     .buildUpon()
                     .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
@@ -156,13 +125,16 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             int length = etPasswordText.getText().toString().length();
             if (!isClick) {
                 //开启
-                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_see));
-                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer
+                        .level_password_see));
+                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod
+                        .getInstance());
                 etPasswordText.setSelection(length);
                 isClick = true;
             } else {
                 //隐藏
-                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer
+                        .level_password_unsee));
                 etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 etPasswordText.setSelection(length);
                 isClick = false;
@@ -199,7 +171,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
      */
     @Override
     public void onSuccess(String s, String s1, String s2) {
-        initTest(s);
+        loginVerification(s);
     }
 
     /**
@@ -213,76 +185,27 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean bean) {
-                UserBiz userBiz = UserBiz.get();
-                userBiz.setZBLoginBean(bean);
-                //进入实名制页面
-                Nav.with(ZBLoginActivity.this).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
-                        .buildUpon()
-                        .build(), REQUEST_CODE);
+            public void onSuccess(ZBLoginBean bean) {
+                if (bean != null) {
+                    UserBiz userBiz = UserBiz.get();
+                    userBiz.setZBLoginBean(bean);
+                    LoginHelper.get().setResult(true); // 设置登录成功
+
+                    if (!userBiz.isCertification()) { // 进入实名制页面
+                        Nav.with(ZBLoginActivity.this).toPath("/login/ZBMobileValidateActivity");
+                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                        finish();
+                    } else { // 登录成功，关闭相关页面
+                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                        finish();
+                        AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                } else {
+                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
+                }
             }
-        }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
+        }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
+                dtAccountText.getText());
     }
 
-    /**
-     * 测试获取sessionId
-     *
-     * @param s 边锋sessionId
-     *          获取sessionId
-     */
-    //TODO WLJ  单独测试登录模块使用
-    private void initTest(final String s) {
-        new InitTask(new APIExpandCallBack<SessionIdBean>() {
-            @Override
-            public void onError(String errMsg, int errCode) {
-                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
-            }
-
-            @Override
-            public void onSuccess(@NonNull SessionIdBean result) {
-                UserBiz.get().setSessionId(result.getSession().getId());
-                loginVerification(s);
-
-            }
-        }).setTag(this).exe();
-    }
-
-    /**
-     * @param requestCode
-     * @param resultCode
-     * @param data        第三方登录回调
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            setResult(RESULT_OK);
-            finish();
-        }
-    }
-
-    private boolean isLoginSuccess = false;
-
-    @Override
-    public void finish() {
-        if (isLoginSuccess) {
-            UserBiz.get().loginSuccess();
-        } else {
-            UserBiz.get().loginCancel();
-        }
-        if (AppManager.get().getCount() > 1) {
-            super.finish();
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (AppManager.get()
-                .getCount() > 1 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && !ClickTracker.isDoubleClick()) {
-            isLoginSuccess = false;
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }
