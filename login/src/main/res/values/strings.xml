@@ -44,4 +44,6 @@
     <string name="zb_login_type_zb">浙报通行证</string>
     <string name="please_agree_protocol">请先同意协议</string>
     <string name="zb_register">注册</string>
+    <string name="zb_register_link_title">用户服务协议</string>
+
 </resources>
