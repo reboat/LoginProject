@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'zhejiangnews'
             keyPassword 'kIwfs16KsM'
-            storeFile file('/Users/wanglinjie/Desktop/qianming/zhejiangnews.keystore')
+            storeFile file('./zhejiangnews.keystore')
             storePassword 'kIwfs16KsM'
         }
     }

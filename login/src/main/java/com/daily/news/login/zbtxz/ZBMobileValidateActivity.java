@@ -3,7 +3,6 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.domain.base.BaseInnerData;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -158,14 +156,14 @@ public class ZBMobileValidateActivity extends BaseActivity {
      */
     private void mobileValidate(final String mobile, final String smsCode) {
         //短信验证码验证
-        new MobileValidateTask(new APIExpandCallBack<BaseInnerData>() {
+        new MobileValidateTask(new APIExpandCallBack<Void>() {
             @Override
             public void onError(String errMsg, int errCode) {
                 T.showShortNow(ZBMobileValidateActivity.this, errMsg);
             }
 
             @Override
-            public void onSuccess(@NonNull BaseInnerData bean) {
+            public void onSuccess(Void bean) {
                 //设置回调数据
                 setResult(RESULT_OK);
                 finish();
@@ -183,14 +181,14 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 IPermissionCallBack() {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
-                        new GetSmsCodeTask(new APIExpandCallBack<BaseInnerData>() {
+                        new GetSmsCodeTask(new APIExpandCallBack<Void>() {
                             @Override
                             public void onError(String errMsg, int errCode) {
                                 T.showShortNow(ZBMobileValidateActivity.this, errMsg);
                             }
 
                             @Override
-                            public void onSuccess(@NonNull BaseInnerData bean) {
+                            public void onSuccess(Void bean) {
                                 startTimeCountDown();
                                 T.showShortNow(ZBMobileValidateActivity.this, getString(R.string.zb_sms_send));
                             }

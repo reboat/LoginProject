@@ -4,17 +4,15 @@ package com.daily.news.login.task;
 import com.daily.news.login.global.APIManager;
 import com.zjrb.core.api.base.APIPostTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
-import com.zjrb.core.domain.base.BaseInnerData;
 
 /**
  * 实名制短信验证码校验
  * Created by wanglinjie.
  * create time:2017/7/28  上午11:18
  */
-public class MobileValidateTask extends APIPostTask<BaseInnerData> {
+public class MobileValidateTask extends APIPostTask<Void> {
 
-
-    public MobileValidateTask(LoadingCallBack<BaseInnerData> callBack) {
+    public MobileValidateTask(LoadingCallBack<Void> callBack) {
         super(callBack);
     }
 
