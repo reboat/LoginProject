@@ -9,11 +9,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
-        >
+        android:supportsRtl="true" >
+
         <meta-data
             android:name="WOA_APP_ID"
             android:value="416"/>
@@ -28,7 +26,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/LoginActivity"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -47,7 +45,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBLoginActivity"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -63,7 +61,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBRegisterActivity"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -78,7 +76,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBResetNewPassWord"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -93,7 +91,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBResetPWSmsLogin"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -108,7 +106,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBVerificationActivity"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
@@ -124,13 +122,11 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="www.8531.cn"
+                    android:host="@string/data_host"
                     android:path="/login/ZBMobileValidateActivity"
                     android:scheme="@string/data_scheme_http"/>
             </intent-filter>
         </activity>
-
-
 
     </application>
 
