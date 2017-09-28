@@ -1,4 +1,4 @@
-package loginproject;
+package com.login;
 
 import android.app.Application;
 
@@ -8,7 +8,6 @@ import com.bianfeng.woa.WoaSdk;
 import com.zjrb.core.common.base.BaseInit;
 import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.utils.UIUtils;
-import com.zjrb.loginproject.R;
 
 public class App extends Application {
 
