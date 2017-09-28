@@ -61,7 +61,7 @@ public class ZBRegisterActivity extends BaseActivity {
     /**
      * 请求码
      */
-    private int REQUEST_CODE = -1;
+    private int REQUEST_CODE = 0x1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

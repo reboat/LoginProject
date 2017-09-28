@@ -33,6 +33,7 @@
     <string name="zb_reg_link">用户服务协议</string>
     <string name="zb_mobile_contact">联系方式</string>
     <string name="zb_set_password_tip">重设通行证密码</string>
+    <string name="zb_mobile_jump">跳过</string>
     <string name="zb_mobile_valideta_tip">填写联系方式,兑换礼品更方便快捷</string>
 
 

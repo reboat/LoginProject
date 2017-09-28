@@ -79,6 +79,9 @@ public class ZBResetNewPassWord extends BaseActivity {
         }
     }
 
+    /**
+     * 设置密码重置文案初始化
+     */
     private void initView() {
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         btConfirm.setText(getString(R.string.zb_confirm));

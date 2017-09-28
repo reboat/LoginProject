@@ -35,7 +35,6 @@ import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,7 +72,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     /**
      * 请求码
      */
-    private int REQUEST_CODE = -1;
+    private int REQUEST_CODE = 0x1;
 
     @NonNull
     private UmengAuthUtils mUmengUtils;
@@ -217,13 +216,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             public void onSuccess(@NonNull ZBLoginBean bean) {
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(bean);
-                //设置回调数据
-                setResult(RESULT_OK);
                 //进入实名制页面
-                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
+                Nav.with(ZBLoginActivity.this).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
                         .buildUpon()
-                        .build(), 0);
-                finish();
+                        .build(), REQUEST_CODE);
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(), dtAccountText.getText());
     }
@@ -262,12 +258,6 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         if (requestCode == REQUEST_CODE) {
             setResult(RESULT_OK);
             finish();
-        } else {
-            //微信不走这里
-            if (mUmengUtils != null) {
-                mUmengUtils.getDialog();
-                mUmengUtils.onResult(requestCode, resultCode, data);
-            }
         }
     }
 
