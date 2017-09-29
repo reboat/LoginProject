@@ -192,12 +192,15 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(ZBLoginActivity.this).toPath("/login/ZBMobileValidateActivity");
+                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();
                     } else { // 登录成功，关闭相关页面
+                        // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();
+                        // 关闭登录入口页面
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {

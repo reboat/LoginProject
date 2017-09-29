@@ -9,8 +9,6 @@ import com.login.tesk.UserCollectListTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.utils.UIUtils;
 
 /**
  * 测试登陆结合请求

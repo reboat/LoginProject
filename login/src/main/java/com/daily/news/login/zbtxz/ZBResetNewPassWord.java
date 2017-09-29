@@ -3,7 +3,6 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -16,18 +15,20 @@ import android.widget.TextView;
 import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.OnResetPasswordListener;
 import com.bianfeng.woa.WoaSdk;
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
@@ -36,10 +37,10 @@ import butterknife.OnClick;
 
 /**
  * 重置密码页面
+ * <p>
  * Created by wanglinjie.
  * create time:2017/8/11  下午4:56
  */
-
 public class ZBResetNewPassWord extends BaseActivity {
 
     @BindView(R2.id.iv_logo)
@@ -90,7 +91,8 @@ public class ZBResetNewPassWord extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
+                .getView();
     }
 
     @OnClick({R2.id.bt_confirm, R2.id.iv_see})
@@ -102,13 +104,16 @@ public class ZBResetNewPassWord extends BaseActivity {
             int length = etPasswordText.getText().toString().length();
             if (!isClick) {
                 //开启
-                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_see));
-                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer
+                        .level_password_see));
+                etPasswordText.setTransformationMethod(HideReturnsTransformationMethod
+                        .getInstance());
                 etPasswordText.setSelection(length);
                 isClick = true;
             } else {
                 //隐藏
-                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
+                ivSee.getDrawable().setLevel(getResources().getInteger(R.integer
+                        .level_password_unsee));
                 etPasswordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 etPasswordText.setSelection(length);
                 isClick = false;
@@ -163,16 +168,34 @@ public class ZBResetNewPassWord extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean bean) {
-                UserBiz userBiz = UserBiz.get();
-                userBiz.setZBLoginBean(bean);
-                //进入实名制页面
-                Nav.with(UIUtils.getActivity()).to(Uri.parse("http://www.8531.cn/login/ZBMobileValidateActivity")
-                        .buildUpon()
-                        .build(), 0);
-                //设置回调数据
-                setResult(RESULT_OK);
-                finish();
+            public void onSuccess(ZBLoginBean bean) {
+                if (bean != null) {
+                    UserBiz userBiz = UserBiz.get();
+                    userBiz.setZBLoginBean(bean);
+                    LoginHelper.get().setResult(true); // 设置登录成功
+
+                    if (!userBiz.isCertification()) { // 进入实名制页面
+                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        // 关闭 验证码页面／短信验证码登录页
+                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                        // 关闭 密码登录页面
+                        AppManager.get().finishActivity(ZBLoginActivity.class);
+
+                        // 关闭本页面 （短信验证码登录页面）
+                        finish();
+                    } else {
+                        // 关闭 验证码页面／短信验证码登录页
+                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                        // 关闭 密码登录页面
+                        AppManager.get().finishActivity(ZBLoginActivity.class);
+                        // 关闭本页面 （短信验证码登录页面）
+                        finish();
+                        // 关闭登录入口页
+                        AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                } else {
+                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
+                }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID);
 

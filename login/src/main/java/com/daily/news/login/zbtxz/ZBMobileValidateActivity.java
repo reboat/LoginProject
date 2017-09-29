@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
@@ -18,6 +19,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
+import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
@@ -34,9 +36,9 @@ import butterknife.OnClick;
 
 /**
  * 浙报通行证实名制手机验证页面
+ * <p>
  * created by wanglinjie on 2016/11/23
  */
-
 public class ZBMobileValidateActivity extends BaseActivity {
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
@@ -118,9 +120,11 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 getValidateCode(dtAccountText.getText().toString());
             } else {
                 if (dtAccountText.getText().toString().equals("")) {
-                    T.showShort(ZBMobileValidateActivity.this, getString(R.string.zb_phone_num_inout_error));
+                    T.showShort(ZBMobileValidateActivity.this, getString(R.string
+                            .zb_phone_num_inout_error));
                 } else {
-                    T.showShort(ZBMobileValidateActivity.this, getString(R.string.zb_phone_num_error));
+                    T.showShort(ZBMobileValidateActivity.this, getString(R.string
+                            .zb_phone_num_error));
                 }
             }
             //提交
@@ -128,10 +132,12 @@ public class ZBMobileValidateActivity extends BaseActivity {
             //验证码
             if (etSmsText.getText() != null && !TextUtils.isEmpty(etSmsText.getText().toString())) {
                 //进入账号密码登录页面
-                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText().toString())) {
+                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
+                        .toString())) {
                     mobileValidate(dtAccountText.getText().toString(), "");
                 } else {
-                    T.showShort(ZBMobileValidateActivity.this, getString(R.string.zb_phone_num_inout_error));
+                    T.showShort(ZBMobileValidateActivity.this, getString(R.string
+                            .zb_phone_num_inout_error));
                 }
             } else {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
@@ -186,14 +192,16 @@ public class ZBMobileValidateActivity extends BaseActivity {
                             @Override
                             public void onSuccess(Void bean) {
                                 startTimeCountDown();
-                                T.showShortNow(ZBMobileValidateActivity.this, getString(R.string.zb_sms_send));
+                                T.showShortNow(getActivity(), getString(R.string
+                                        .zb_sms_send));
                             }
                         }).setTag(this).exe(mobile);
                     }
 
                     @Override
                     public void onDenied(List<String> neverAskPerms) {
-                        T.showShort(ZBMobileValidateActivity.this, getString(R.string.tip_permission_denied));
+                        T.showShort(ZBMobileValidateActivity.this, getString(R.string
+                                .tip_permission_denied));
 
                     }
 
@@ -217,7 +225,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 long value = (60 - count);
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
-                tvTerification.setText("(" + value + ")" + getString(R.string.zb_login_get_validationcode_again));
+                tvTerification.setText("(" + value + ")" + getString(R.string
+                        .zb_login_get_validationcode_again));
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);
@@ -230,4 +239,9 @@ public class ZBMobileValidateActivity extends BaseActivity {
         TimerManager.schedule(timerTask);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        AppManager.get().finishActivity(LoginActivity.class);
+    }
 }

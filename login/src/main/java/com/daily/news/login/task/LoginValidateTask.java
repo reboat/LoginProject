@@ -13,7 +13,6 @@ import com.zjrb.core.domain.ZBLoginBean;
  */
 public class LoginValidateTask extends APIPostTask<ZBLoginBean> {
 
-
     public LoginValidateTask(LoadingCallBack<ZBLoginBean> callBack) {
         super(callBack);
     }

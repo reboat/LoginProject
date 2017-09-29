@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 登录页面
- * Created by wanglinjie.
- * create time:2017/8/19  下午20:14
+ * 登录入口页面，所有登录必须通过该入口
+ *
+ * @author a_liYa
+ * @date 2017/9/29 上午11:00.
  */
-
 public class LoginActivity extends BaseActivity {
 
     @BindView(R2.id.tv_register)
@@ -39,17 +39,13 @@ public class LoginActivity extends BaseActivity {
 
     private UmengAuthUtils mUmengUtils;
 
-    /**
-     * 请求码
-     */
-    private int REQUEST_CODE = 0x1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_login);
         ButterKnife.bind(this);
         initLoginRV();
+        LoginHelper.get().setLogin(true); // 标记开启
     }
 
     @Override
@@ -76,38 +72,27 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
         if (v.getId() == R.id.tv_register) {
-            Nav.with(this).toPath("/login/ZBRegisterActivity", REQUEST_CODE);
+            Nav.with(this).toPath("/login/ZBRegisterActivity");
         }
     }
 
-    /**
-     * @param requestCode
-     * @param resultCode
-     * @param data        第三方登录回调
-     */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            if (mUmengUtils != null) {
-                mUmengUtils.getDialog();
-                mUmengUtils.onResult(requestCode, resultCode, data);
-                finish();
-            }
+        if (mUmengUtils != null) {
+            mUmengUtils.onResult(requestCode, resultCode, data);
         }
-
     }
 
     @Override
     public void finish() {
         super.finish();
-        LoginHelper.get().finish();
+        LoginHelper.get().finish(); // 登录结束
     }
 
-    @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq, R2.id.ll_module_login_wb})
+    @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq,
+            R2.id.ll_module_login_wb})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.ll_module_login_zbtxz) {

@@ -16,16 +16,20 @@ import android.widget.TextView;
 import com.bianfeng.woa.OnGetSmsCaptchaListener;
 import com.bianfeng.woa.OnRegisterBySmsListener;
 import com.bianfeng.woa.WoaSdk;
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBRegisterValidateTask;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -34,11 +38,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 发送验证码注册账号页面
- * Created by wanglinjie.
+ * 注册页面 - 验证码确认页面
+ * <p>
  * create time:2017/8/11  下午2:49
  */
-
 public class ZBVerificationActivity extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
@@ -121,7 +124,8 @@ public class ZBVerificationActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_register_toolbar)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_register_toolbar))
+                .getView();
     }
 
     @OnClick({R2.id.bt_register, R2.id.tv_resend})
@@ -156,7 +160,8 @@ public class ZBVerificationActivity extends BaseActivity {
             public void run(long count) {
                 long value = (60 - count);
                 tvResend.setBackgroundResource(R.drawable.border_timer_text_bg);
-                tvResend.setText("(" + value + ")" + getString(R.string.zb_login_get_validationcode_again));
+                tvResend.setText("(" + value + ")" + getString(R.string
+                        .zb_login_get_validationcode_again));
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvResend.setEnabled(true);
@@ -228,16 +233,33 @@ public class ZBVerificationActivity extends BaseActivity {
         new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                T.showShortNow(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
+                T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
             }
 
             @Override
-            public void onSuccess(@NonNull ZBLoginBean bean) {
-                UserBiz userBiz = UserBiz.get();
-                userBiz.setZBLoginBean(bean);
-                //设置回调数据
-                setResult(RESULT_OK);
-                onBackPressed();
+            public void onSuccess(ZBLoginBean bean) {
+                if (bean != null) {
+                    UserBiz userBiz = UserBiz.get();
+                    userBiz.setZBLoginBean(bean);
+                    LoginHelper.get().setResult(true); // 设置登录成功
+
+                    if (!userBiz.isCertification()) { // 进入实名制页面
+                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        // 关闭上个注册页面
+                        AppManager.get().finishActivity(ZBRegisterActivity.class);
+                        // 关闭本页面
+                        finish();
+                    } else {
+                        // 关闭上个注册页面
+                        AppManager.get().finishActivity(ZBRegisterActivity.class);
+                        // 关闭本页面
+                        finish();
+                        // 登录入口页
+                        AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                } else {
+                    T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
+                }
             }
         }).setTag(this).exe(sessionId);
     }

@@ -121,7 +121,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login)).getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
+                .getView();
     }
 
     @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm, R2.id.tv_change_login_type})
@@ -134,7 +135,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 getverificationPermission();
             } else {
                 if (dtAccountText.getText().toString().equals("")) {
-                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_inout_error));
+                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string
+                            .zb_phone_num_inout_error));
                 } else {
                     T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_error));
                 }
@@ -144,10 +146,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             //验证码
             if (etSmsText.getText() != null && !TextUtils.isEmpty(etSmsText.getText().toString())) {
                 //进入账号密码登录页面
-                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText().toString())) {
-                    regAndLogin(uuid, etSmsText.getText().toString(), dtAccountText.getText().toString());
+                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
+                        .toString())) {
+                    regAndLogin(uuid, etSmsText.getText().toString(), dtAccountText.getText()
+                            .toString());
                 } else {
-                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_phone_num_inout_error));
+                    T.showShort(ZBResetPWSmsLogin.this, getString(R.string
+                            .zb_phone_num_inout_error));
                 }
             } else {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
@@ -167,7 +172,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      * @param smsCode
      * @param phoneNum
      */
-    private void regAndLogin(@NonNull String uid, @NonNull final String smsCode, @NonNull final String phoneNum) {
+    private void regAndLogin(@NonNull String uid, @NonNull final String smsCode, @NonNull final
+    String phoneNum) {
         if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             //短信验证
             WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
@@ -197,7 +203,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
                 @Override
                 public void onSuccess() {
-                    Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse("http://www.8531.cn/login/ZBResetNewPassWord")
+                    Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse
+                            ("http://www.8531.cn/login/ZBResetNewPassWord")
                             .buildUpon()
                             .appendQueryParameter(Key.UUID, uuid)
                             .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
@@ -233,18 +240,24 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
                         Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        // 关闭 密码登录页面
                         AppManager.get().finishActivity(ZBLoginActivity.class);
+                        // 关闭本页面 （短信验证码登录页面）
                         finish();
                     } else {
-                        AppManager.get().finishActivity(ZBLoginActivity.class);
+                        // 关闭本页面 （短信验证码登录页面）
                         finish();
+                        // 关闭 密码登录页面
+                        AppManager.get().finishActivity(ZBLoginActivity.class);
+                        // 关闭登录入口页
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
                     T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(), dtAccountText.getText().toString(), dtAccountText.getText().toString());
+        }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
+                dtAccountText.getText().toString(), dtAccountText.getText().toString());
     }
 
     /**
@@ -273,7 +286,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                             //获取uuid
                                             uuid = s;
                                             //提示短信已发送成功
-                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
+                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R
+                                                    .string.zb_sms_send));
                                         }
                                     });
                         } else {//重置密码
@@ -291,7 +305,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                             //获取uuid
                                             uuid = s;
                                             //提示短信已发送成功
-                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_sms_send));
+                                            T.showShortNow(ZBResetPWSmsLogin.this, getString(R
+                                                    .string.zb_sms_send));
                                         }
                                     }, dtAccountText.getText().toString());
                         }
@@ -300,7 +315,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
                     @Override
                     public void onDenied(List<String> neverAskPerms) {
-                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.tip_permission_denied));
+                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string
+                                .tip_permission_denied));
 
                     }
 
@@ -324,7 +340,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 long value = (60 - count);
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
-                tvTerification.setText("(" + value + ")" + getString(R.string.zb_login_get_validationcode_again));
+                tvTerification.setText("(" + value + ")" + getString(R.string
+                        .zb_login_get_validationcode_again));
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);

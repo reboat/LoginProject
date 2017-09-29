@@ -34,11 +34,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 浙报通行证注册页面
+ * 浙报通行证 - 注册页面
  * Created by wanglinjie.
  * create time:2017/8/11  上午11:04
  */
-
 public class ZBRegisterActivity extends BaseActivity {
 
     @BindView(R2.id.dt_account_text)
