@@ -19,12 +19,14 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -87,7 +89,11 @@ public class ZBRegisterActivity extends BaseActivity {
         if (view.getId() == R.id.verification_code_see_btn) {
             clickSeePassword();
         } else if (view.getId() == R.id.tv_link) {
-            //TODO  WLJ 进入用户协议页面
+            Nav.with(UIUtils.getActivity())
+                    .to(Uri.parse("http://zj.zjol.com.cn/html/license.html")
+                            .buildUpon()
+                            .appendQueryParameter(IKey.LINK_TITLE, getString(R.string.zb_register_link_title))
+                            .build(), 0);
         } else {
             clickRegBtn();
         }
