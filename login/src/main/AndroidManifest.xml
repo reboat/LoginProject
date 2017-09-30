@@ -29,7 +29,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/LoginActivity"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
 
         </activity>
@@ -47,7 +47,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBLoginActivity"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
 
         </activity>
@@ -63,7 +63,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBRegisterActivity"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
         <activity
@@ -78,7 +78,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBResetNewPassWord"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
         <activity
@@ -93,7 +93,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBResetPWSmsLogin"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
         <activity
@@ -108,7 +108,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBVerificationActivity"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
 
@@ -124,7 +124,7 @@
                 <data
                     android:host="@string/data_host"
                     android:path="/login/ZBMobileValidateActivity"
-                    android:scheme="@string/data_scheme_http" />
+                    android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
 
