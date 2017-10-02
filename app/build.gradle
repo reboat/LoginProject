@@ -16,6 +16,7 @@ android {
         applicationId "com.zhejiangdaily"
         minSdkVersion 17
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -43,7 +44,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':login')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:multidex:1.0.1'
-    compile butterknifeDeps.butterknife
+//    compile 'cn.daily.android:daily-login:1.1.2-SNAPSHOT'
+
 }
