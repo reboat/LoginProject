@@ -1,5 +1,6 @@
 package com.daily.news.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -87,8 +89,12 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        if (UserBiz.get().isLoginUser()) {
+            setResult(Activity.RESULT_OK);
+        }
         super.finish();
         LoginHelper.get().finish(); // 登录结束
+
     }
 
     @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq,
