@@ -43,7 +43,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':login')
-//    compile 'cn.daily.android:daily-login:1.1.2-SNAPSHOT'
+//    compile project(':login')
+    compile 'cn.daily.android:daily-login:1.0.6-SNAPSHOT'
 
 }
