@@ -24,6 +24,8 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
@@ -90,6 +92,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
 
+    private Bundle bundle;
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
             R2.id.tv_verification_btn})
@@ -109,17 +112,31 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                    .buildUpon()
-                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
-                    .build(), REQUEST_CODE);
+//            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+//                    .buildUpon()
+//                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
+//                    .build(), REQUEST_CODE);
+
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
+            Nav.with(this).toPath(RouteManager.ZB_RESET_PASSWORD);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                    .buildUpon()
-                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
-                    .build(), REQUEST_CODE);
+
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE);
+            Nav.with(this).toPath(RouteManager.ZB_RESET_PASSWORD);
+
+
+//            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
+//                    .buildUpon()
+//                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
+//                    .build(), REQUEST_CODE);
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
@@ -192,7 +209,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();

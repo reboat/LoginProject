@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.daily.news.login">
+          package="com.daily.news.login">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -26,10 +26,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/LoginActivity"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+
+                <data android:path="/login/LoginActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
 
         </activity>
@@ -44,10 +48,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBLoginActivity"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+
+                <data android:path="/login/ZBLoginActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
             </intent-filter>
 
         </activity>
@@ -60,10 +67,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBRegisterActivity"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBRegisterActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
         </activity>
         <activity
@@ -75,10 +87,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBResetNewPassWord"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBResetNewPassWord" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
         </activity>
         <activity
@@ -90,10 +105,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBResetPWSmsLogin"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBResetPWSmsLogin" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
         </activity>
         <activity
@@ -105,10 +123,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBVerificationActivity"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBVerificationActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
         </activity>
 
@@ -121,10 +142,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/login/ZBMobileValidateActivity"
-                    android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBMobileValidateActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host1" />
+                <data android:host="@string/data_host" />
+
             </intent-filter>
         </activity>
 

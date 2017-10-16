@@ -20,6 +20,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.task.ZBRegisterValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -218,14 +219,14 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
     /**
      * 短信验证码登录
-     *
+     * 服务端这边短信验证登录需要我们调用注册验证接口
      * @param sessionId
      * @param phoneNum  登录ZB服务器
      *                  返回浙报服务器的token
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
         //登录验证
-        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+        new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
                 T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
