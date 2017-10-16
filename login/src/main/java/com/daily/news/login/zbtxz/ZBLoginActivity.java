@@ -107,7 +107,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 bundle = new Bundle();
             }
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
@@ -116,7 +116,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 bundle = new Bundle();
             }
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE);
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
 
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {

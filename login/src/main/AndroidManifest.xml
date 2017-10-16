@@ -31,7 +31,6 @@
                 <data android:path="/login/LoginActivity" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
@@ -53,7 +52,6 @@
                 <data android:path="/login/ZBLoginActivity" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
             </intent-filter>
 
@@ -73,7 +71,6 @@
                 <data android:path="/login/ZBRegisterActivity" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
@@ -91,7 +88,6 @@
                 <data android:path="/login/ZBResetNewPassWord" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
@@ -109,7 +105,6 @@
                 <data android:path="/login/ZBResetPWSmsLogin" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
@@ -127,7 +122,6 @@
                 <data android:path="/login/ZBVerificationActivity" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
@@ -146,7 +140,6 @@
                 <data android:path="/login/ZBMobileValidateActivity" />
 
                 <!--以下测试 host -->
-                <data android:host="@string/data_host1" />
                 <data android:host="@string/data_host" />
 
             </intent-filter>
