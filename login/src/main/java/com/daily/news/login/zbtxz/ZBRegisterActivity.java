@@ -1,14 +1,16 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bianfeng.woa.OnCheckAccountExistListener;
@@ -26,8 +28,8 @@ import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.L;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -55,6 +57,8 @@ public class ZBRegisterActivity extends BaseActivity {
     TextView tvLink;
     @BindView(R2.id.tv_link_tip)
     TextView tvLinkTip;
+    @BindView(R2.id.rb_reg)
+    CheckBox mRbReg;
 
     private boolean isClick = false;
     private int passwordLength = 0;
@@ -85,13 +89,17 @@ public class ZBRegisterActivity extends BaseActivity {
         if (view.getId() == R.id.verification_code_see_btn) {
             clickSeePassword();
         } else if (view.getId() == R.id.tv_link) {
-            Nav.with(UIUtils.getActivity())
-                    .to(Uri.parse("http://zj.zjol.com.cn/html/license.html")
-                            .buildUpon()
-                            .appendQueryParameter(IKey.LINK_TITLE, getString(R.string.zb_register_link_title))
-                            .build(), 0);
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putString(IKey.LINK_TITLE, getString(R.string.zb_register_link_title));
+            Nav.with(ZBRegisterActivity.this).setExtras(bundle).to("http://zj.zjol.com.cn/html/license.html");
         } else {
-            clickRegBtn();
+            if (mRbReg.isChecked()) {
+                clickRegBtn();
+            } else {
+                T.showShortNow(this, getString(R.string.please_agree_protocol));
+            }
         }
     }
 
