@@ -20,6 +20,7 @@ import com.daily.news.login.global.Key;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
@@ -57,11 +58,6 @@ public class ZBRegisterActivity extends BaseActivity {
 
     private boolean isClick = false;
     private int passwordLength = 0;
-
-    /**
-     * 请求码
-     */
-    private int REQUEST_CODE = 0x1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +159,9 @@ public class ZBRegisterActivity extends BaseActivity {
         });
     }
 
+
+    private Bundle bundle;
+
     /**
      * 获取短信验证权限
      */
@@ -183,10 +182,13 @@ public class ZBRegisterActivity extends BaseActivity {
                                     @Override
                                     public void onSuccess(String s) {
                                         //获取uuid，并进入短信验证页面
-                                        Nav.with(ZBRegisterActivity.this).to(Uri.parse("http://www.8531.cn/login/ZBVerificationActivity").buildUpon()
-                                                .appendQueryParameter(Key.UUID, s)
-                                                .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
-                                                .appendQueryParameter(Key.PASSWORD, etPasswordText.getText().toString()).build(), REQUEST_CODE);
+                                        if (bundle == null) {
+                                            bundle = new Bundle();
+                                        }
+                                        bundle.putString(Key.UUID, s);
+                                        bundle.putString(Key.ACCOUNTID, dtAccountText.getText().toString());
+                                        bundle.putString(Key.PASSWORD, etPasswordText.getText().toString());
+                                        Nav.with(ZBRegisterActivity.this).setExtras(bundle).toPath(RouteManager.ZB_VERIFICAITION);
                                     }
                                 });
 

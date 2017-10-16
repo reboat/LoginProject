@@ -2,7 +2,6 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
@@ -26,6 +25,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.domain.ZBLoginBean;
@@ -77,12 +77,18 @@ public class ZBVerificationActivity extends BaseActivity {
      * @param intent 获取intent数据
      */
     private void getIntentData(Intent intent) {
-        if (intent != null && intent.getData() != null) {
-            Uri data = intent.getData();
-            mUuid = data.getQueryParameter(Key.UUID);
-            mAccountID = data.getQueryParameter(Key.ACCOUNTID);
-            mPassWord = data.getQueryParameter(Key.PASSWORD);
+        if (intent != null) {
+            if (intent.hasExtra(Key.UUID)) {
+                mUuid = intent.getStringExtra(Key.UUID);
+            }
+            if (intent.hasExtra(Key.ACCOUNTID)) {
+                mAccountID = intent.getStringExtra(Key.ACCOUNTID);
+            }
+            if (intent.hasExtra(Key.PASSWORD)) {
+                mPassWord = intent.getStringExtra(Key.PASSWORD);
+            }
         }
+
     }
 
     /**
@@ -244,7 +250,7 @@ public class ZBVerificationActivity extends BaseActivity {
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭上个注册页面
                         AppManager.get().finishActivity(ZBRegisterActivity.class);
                         // 关闭本页面

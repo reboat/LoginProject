@@ -12,6 +12,7 @@ import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -74,7 +75,7 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
         if (v.getId() == R.id.tv_register) {
-            Nav.with(this).toPath("/login/ZBRegisterActivity");
+            Nav.with(this).toPath(RouteManager.ZB_REGISTER);
         }
     }
 
@@ -103,7 +104,7 @@ public class LoginActivity extends BaseActivity {
         int i = view.getId();
         if (i == R.id.ll_module_login_zbtxz) {
             //进入浙报通行证页面
-            Nav.with(this).toPath("/login/ZBLoginActivity");
+            Nav.with(this).toPath(RouteManager.ZB_LOGIN);
         } else if (i == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (i == R.id.ll_module_login_qq) {

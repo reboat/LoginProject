@@ -1,7 +1,6 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -65,9 +64,10 @@ public class ZBMobileValidateActivity extends BaseActivity {
      * @param intent 获取intent数据
      */
     private void getIntentData(Intent intent) {
-        if (intent != null && intent.getData() != null) {
-            Uri data = intent.getData();
-            isCommentLogin = data.getBooleanQueryParameter(Key.IS_COMMENT_LOGIN, false);
+        if (intent != null) {
+            if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
+                isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
+            }
         }
     }
 
