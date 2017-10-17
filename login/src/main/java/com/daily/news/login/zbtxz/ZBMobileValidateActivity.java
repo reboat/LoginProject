@@ -18,6 +18,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
@@ -59,6 +60,11 @@ public class ZBMobileValidateActivity extends BaseActivity {
      */
     private boolean isCommentLogin = false;
 
+    /**
+     * 是否来自于评论的实名制
+     */
+    private boolean isCommentActivity = false;
+
 
     /**
      * @param intent 获取intent数据
@@ -67,6 +73,9 @@ public class ZBMobileValidateActivity extends BaseActivity {
         if (intent != null) {
             if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
                 isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
+            }
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
             }
         }
     }
@@ -84,7 +93,12 @@ public class ZBMobileValidateActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-        mTvJump.setText(getString(R.string.zb_mobile_jump));
+        if (!isCommentActivity) {
+            mTvJump.setVisibility(View.VISIBLE);
+            mTvJump.setText(getString(R.string.zb_mobile_jump));
+        } else {
+            mTvJump.setVisibility(View.GONE);
+        }
         mTvTitle.setText(getString(R.string.zb_mobile_valideta_tip));
         btConfirm.setText(getString(R.string.zb_mobile_submit));
         tvTerification.setText(getString(R.string.zb_sms_verication));
