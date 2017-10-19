@@ -108,7 +108,7 @@ public class APIManager {
         public static final String ZB_REG_SERVER = "/api/account/register_verification";
 
         /**
-         * 填写个人资料获取验证码
+         * 填写个人资料验证验证码
          */
         public static final String ZB_MOBILE_VALIDATE = "/api/account/validate_code";
 

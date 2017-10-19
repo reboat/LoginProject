@@ -18,6 +18,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
@@ -148,7 +149,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 //进入账号密码登录页面
                 if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
                         .toString())) {
-                    mobileValidate(dtAccountText.getText().toString(), "");
+                    mobileValidate(dtAccountText.getText().toString(), etSmsText.getText().toString());
                 } else {
                     T.showShort(ZBMobileValidateActivity.this, getString(R.string
                             .zb_phone_num_inout_error));
@@ -181,6 +182,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
             @Override
             public void onSuccess(Void bean) {
                 //设置回调数据
+                UserBiz.get().getAccount().setMobile(mobile);
                 setResult(RESULT_OK);
                 finish();
             }
