@@ -23,6 +23,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
@@ -54,6 +55,7 @@ public class ZBResetNewPassWord extends BaseActivity {
     public String mUuid = "";
     public String mAccountID = "";
     private boolean isClick = false;
+    private boolean isCommentActivity = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,10 @@ public class ZBResetNewPassWord extends BaseActivity {
 
             if (intent.hasExtra(Key.ACCOUNTID)) {
                 mAccountID = intent.getStringExtra(Key.ACCOUNTID);
+            }
+
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
             }
         }
 
@@ -157,6 +163,8 @@ public class ZBResetNewPassWord extends BaseActivity {
                 });
     }
 
+    private Bundle bundle;
+
     /**
      * 重置密码后需要进行登录
      */
@@ -175,7 +183,11 @@ public class ZBResetNewPassWord extends BaseActivity {
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭 验证码页面／短信验证码登录页
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         // 关闭 密码登录页面

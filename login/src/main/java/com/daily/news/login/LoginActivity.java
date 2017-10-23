@@ -12,6 +12,7 @@ import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
@@ -42,10 +43,13 @@ public class LoginActivity extends BaseActivity {
 
     private UmengAuthUtils mUmengUtils;
 
+    private boolean isFromComment = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_login);
+        getIntentData(getIntent());
         ButterKnife.bind(this);
         initLoginRV();
         LoginHelper.get().setLogin(true); // 标记开启
@@ -54,6 +58,17 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected View onCreateTopBar(ViewGroup view) {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_login)).getView();
+    }
+
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+        }
     }
 
     /**
@@ -98,19 +113,25 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private Bundle bundle;
+
     @OnClick({R2.id.ll_module_login_zbtxz, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq,
             R2.id.ll_module_login_wb})
     public void onViewClicked(View view) {
         int i = view.getId();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
         if (i == R.id.ll_module_login_zbtxz) {
             //进入浙报通行证页面
-            Nav.with(this).toPath(RouteManager.ZB_LOGIN);
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_LOGIN);
         } else if (i == R.id.ll_module_login_wx) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN, isFromComment);
         } else if (i == R.id.ll_module_login_qq) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ, isFromComment);
         } else if (i == R.id.ll_module_login_wb) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA, isFromComment);
         }
     }
 }

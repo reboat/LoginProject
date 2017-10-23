@@ -25,6 +25,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
@@ -73,6 +74,8 @@ public class ZBVerificationActivity extends BaseActivity {
      */
     private TimerManager.TimerTask timerTask;
 
+    private boolean isCommentActivity = false;
+
     /**
      * @param intent 获取intent数据
      */
@@ -86,6 +89,9 @@ public class ZBVerificationActivity extends BaseActivity {
             }
             if (intent.hasExtra(Key.PASSWORD)) {
                 mPassWord = intent.getStringExtra(Key.PASSWORD);
+            }
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
             }
         }
 
@@ -229,6 +235,8 @@ public class ZBVerificationActivity extends BaseActivity {
         });
     }
 
+    private Bundle bundle;
+
     /**
      * 注册验证接口
      *
@@ -250,7 +258,11 @@ public class ZBVerificationActivity extends BaseActivity {
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭上个注册页面
                         AppManager.get().finishActivity(ZBRegisterActivity.class);
                         // 关闭本页面

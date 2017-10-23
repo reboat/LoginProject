@@ -1,16 +1,15 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bianfeng.woa.OnCheckAccountExistListener;
@@ -28,7 +27,6 @@ import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.L;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -62,11 +60,13 @@ public class ZBRegisterActivity extends BaseActivity {
 
     private boolean isClick = false;
     private int passwordLength = 0;
+    private boolean isFromComment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_zbtxz_register);
+        getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
     }
@@ -76,6 +76,17 @@ public class ZBRegisterActivity extends BaseActivity {
         btRegister.setText(getString(R.string.zb_register));
         tvLinkTip.setText(getText(R.string.zb_reg_tip));
         tvLink.setText(getText(R.string.zb_reg_link));
+    }
+
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+        }
     }
 
     @Override
@@ -196,6 +207,7 @@ public class ZBRegisterActivity extends BaseActivity {
                                         bundle.putString(Key.UUID, s);
                                         bundle.putString(Key.ACCOUNTID, dtAccountText.getText().toString());
                                         bundle.putString(Key.PASSWORD, etPasswordText.getText().toString());
+                                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
                                         Nav.with(ZBRegisterActivity.this).setExtras(bundle).toPath(RouteManager.ZB_VERIFICAITION);
                                     }
                                 });

@@ -1,5 +1,6 @@
 package com.daily.news.login.zbtxz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.method.HideReturnsTransformationMethod;
@@ -23,6 +24,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
@@ -59,11 +61,13 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
      * 是否点击了可视密码
      */
     private boolean isClick = false;
+    private boolean isFromComment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_zbtxz_login);
+        getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
     }
@@ -74,6 +78,17 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 .getView();
     }
 
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+        }
+    }
+
     private void initView() {
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         tvLogin.setText(getString(R.string.zb_login));
@@ -81,7 +96,6 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
 
-    private Bundle bundle;
 
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
@@ -107,6 +121,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 bundle = new Bundle();
             }
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
@@ -116,6 +131,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 bundle = new Bundle();
             }
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE);
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
 
             //密码可视
@@ -172,6 +188,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         loginVerification(s);
     }
 
+    private Bundle bundle;
+
     /**
      * @param s 登录验证
      */
@@ -190,7 +208,11 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();
