@@ -25,6 +25,7 @@ import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -181,8 +182,12 @@ public class ZBMobileValidateActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Void bean) {
-                //设置回调数据
-                UserBiz.get().getAccount().setMobile(mobile);
+                //设置用户数据
+                UserBiz userBiz = UserBiz.get();
+                AccountBean loginBean = userBiz.getAccount();
+                loginBean.setMobile(mobile);
+                userBiz.setAccount(loginBean);
+
                 setResult(RESULT_OK);
                 finish();
             }
