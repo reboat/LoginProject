@@ -18,6 +18,9 @@ import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.UserProtectBean;
+import com.daily.news.login.task.UserProtectTask;
+import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.global.IKey;
@@ -100,11 +103,7 @@ public class ZBRegisterActivity extends BaseActivity {
         if (view.getId() == R.id.verification_code_see_btn) {
             clickSeePassword();
         } else if (view.getId() == R.id.tv_link) {
-            if (bundle == null) {
-                bundle = new Bundle();
-            }
-            bundle.putString(IKey.LINK_TITLE, getString(R.string.zb_register_link_title));
-            Nav.with(ZBRegisterActivity.this).setExtras(bundle).to("http://zj.zjol.com.cn/html/license.html");
+            getUserProject();
         } else {
             if (mRbReg.isChecked()) {
                 clickRegBtn();
@@ -112,6 +111,34 @@ public class ZBRegisterActivity extends BaseActivity {
                 T.showShortNow(this, getString(R.string.please_agree_protocol));
             }
         }
+    }
+
+
+    /**
+     * 获取用户协议地址
+     */
+    private String urlData = "";
+
+    private void getUserProject() {
+
+        new UserProtectTask(new APIExpandCallBack<UserProtectBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBRegisterActivity.this, errMsg);
+            }
+
+            @Override
+            public void onSuccess(UserProtectBean bean) {
+                if (bean != null) {
+                    urlData = bean.getUser_agreement();
+                }
+                if (bundle == null) {
+                    bundle = new Bundle();
+                }
+                bundle.putString("url", urlData);
+                Nav.with(ZBRegisterActivity.this).setExtras(bundle).toPath("/login/ZBUserProtectActivity");
+            }
+        }).setTag(this).exe();
     }
 
     /**

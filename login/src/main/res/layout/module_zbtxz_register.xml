@@ -104,6 +104,7 @@
             android:id="@+id/rb_reg"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:checked="true"
             android:gravity="center"
             />
 

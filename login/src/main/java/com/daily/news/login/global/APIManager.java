@@ -116,6 +116,11 @@ public class APIManager {
          * 获取短信验证码
          */
         public static final String GET_SMS_CODE = "/api/account/send_validate_code";
+
+        /**
+         * 用户协议
+         */
+        public static final String USER_PROTECT = "/api/account/agreement";
     }
 
 }
