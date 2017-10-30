@@ -192,11 +192,7 @@ public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.On
         WoaSdk.checkAccountExist(ctx, account, new OnCheckAccountExistListener() {
             @Override
             public void onFailure(int i, String s) {
-                ConfirmDialog dialog = new ConfirmDialog(ZBRegisterActivity.this);
-                dialog.setTitle("该手机号码已经注册，是否立即登录?");
-                dialog.setOnConfirmListener(ZBRegisterActivity.this);
-                dialog.show();
-//                T.showShort(ZBRegisterActivity.this, s);
+                T.showShort(ZBRegisterActivity.this, s);
             }
 
             @Override
@@ -204,7 +200,11 @@ public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.On
                 if (!b) {
                     getverificationPermission();
                 } else {
-                    T.showShort(ZBRegisterActivity.this, getString(R.string.zb_account_exise));
+                    ConfirmDialog dialog = new ConfirmDialog(ZBRegisterActivity.this);
+                    dialog.setTitle("该手机号码已经注册，是否立即登录?");
+                    dialog.setOnConfirmListener(ZBRegisterActivity.this);
+                    dialog.show();
+//                    T.showShort(ZBRegisterActivity.this, getString(R.string.zb_account_exise));
                 }
             }
         });
