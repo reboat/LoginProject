@@ -3,6 +3,7 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -79,6 +80,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 .getView();
     }
 
+    private String mobile;
+
     /**
      * @param intent 获取intent数据
      */
@@ -87,10 +90,16 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
                 isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
             }
+            if (intent.hasExtra("mobile")) {
+                mobile = intent.getStringExtra("mobile");
+            }
         }
     }
 
     private void initView() {
+        if (!TextUtils.isEmpty(mobile)) {
+            dtAccountText.setText(mobile);
+        }
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         tvLogin.setText(getString(R.string.zb_login));
         tvVerification.setText(getString(R.string.zb_login_sms));

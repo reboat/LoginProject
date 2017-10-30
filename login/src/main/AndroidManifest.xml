@@ -144,7 +144,24 @@
 
             </intent-filter>
         </activity>
+        <!--用户协议-->
+        <activity
+            android:name=".zbtxz.ZBUserProtectActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/data_scheme" />
+                <data android:path="/login/ZBUserProtectActivity" />
+
+                <!--以下测试 host -->
+                <data android:host="@string/data_host" />
+
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

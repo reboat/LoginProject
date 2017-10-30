@@ -29,6 +29,7 @@ import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.dialog.ConfirmDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -44,7 +45,7 @@ import butterknife.OnClick;
  * Created by wanglinjie.
  * create time:2017/8/11  上午11:04
  */
-public class ZBRegisterActivity extends BaseActivity {
+public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.OnConfirmListener {
 
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
@@ -191,7 +192,11 @@ public class ZBRegisterActivity extends BaseActivity {
         WoaSdk.checkAccountExist(ctx, account, new OnCheckAccountExistListener() {
             @Override
             public void onFailure(int i, String s) {
-                T.showShort(ZBRegisterActivity.this, s);
+                ConfirmDialog dialog = new ConfirmDialog(ZBRegisterActivity.this);
+                dialog.setTitle("该手机号码已经注册，是否立即登录?");
+                dialog.setOnConfirmListener(ZBRegisterActivity.this);
+                dialog.show();
+//                T.showShort(ZBRegisterActivity.this, s);
             }
 
             @Override
@@ -205,8 +210,6 @@ public class ZBRegisterActivity extends BaseActivity {
         });
     }
 
-
-    private Bundle bundle;
 
     /**
      * 获取短信验证权限
@@ -254,4 +257,20 @@ public class ZBRegisterActivity extends BaseActivity {
                 }, Permission.PHONE_READ_PHONE_STATE);
     }
 
+    @Override
+    public void onCancel() {
+
+    }
+
+    private Bundle bundle;
+
+    @Override
+    public void onOK() {
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        bundle.putString("mobile", dtAccountText.getText().toString());
+        Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_LOGIN);
+        finish();
+    }
 }
