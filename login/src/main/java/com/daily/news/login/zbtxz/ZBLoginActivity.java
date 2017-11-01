@@ -34,6 +34,7 @@ import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
+import com.zjrb.core.utils.webjs.WebJsCallBack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +59,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     TextView tvForgetPassword;
     @BindView(R2.id.verification_code_see_btn)
     ImageView ivSee;
+
+
+    private WebJsCallBack callback;
+
 
     /**
      * 是否点击了可视密码

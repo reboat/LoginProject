@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zjrb.core.ui.widget.ZBWebView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:id="@+id/web_view"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:scrollbars="none">
 
-</com.zjrb.core.ui.widget.ZBWebView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/bc_ffffff">
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+    </TextView>
+
+</LinearLayout>
