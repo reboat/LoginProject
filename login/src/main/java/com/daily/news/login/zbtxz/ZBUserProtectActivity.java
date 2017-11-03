@@ -3,6 +3,7 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class ZBUserProtectActivity extends BaseActivity {
         setContentView(R.layout.module_login_user_protect);
         ButterKnife.bind(this);
         mTvText.setText(Html.fromHtml(urlData));
+//        mTvText.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     @Override
