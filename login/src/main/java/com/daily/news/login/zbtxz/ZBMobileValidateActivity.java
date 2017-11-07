@@ -14,6 +14,7 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetSmsCodeTask;
 import com.daily.news.login.task.MobileValidateTask;
+import com.zjrb.core.api.RealNameAuthHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
@@ -54,6 +55,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
     TextView mTvJump;
     @BindView(R2.id.tv_title)
     TextView mTvTitle;
+
+    private boolean isAuthSuccess;
 
     private TimerManager.TimerTask timerTask;
 
@@ -112,7 +115,6 @@ public class ZBMobileValidateActivity extends BaseActivity {
         TimerManager.cancel(timerTask);
     }
 
-
     private DefaultTopBarHolder2 topBarHolder;
 
     @Override
@@ -150,7 +152,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 //进入账号密码登录页面
                 if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
                         .toString())) {
-                    mobileValidate(dtAccountText.getText().toString(), etSmsText.getText().toString());
+                    mobileValidate(dtAccountText.getText().toString(), etSmsText.getText()
+                            .toString());
                 } else {
                     T.showShort(ZBMobileValidateActivity.this, getString(R.string
                             .zb_phone_num_inout_error));
@@ -189,6 +192,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 userBiz.setAccount(loginBean);
 
                 setResult(RESULT_OK);
+                isAuthSuccess = true;
                 finish();
             }
         }).setTag(this).exe(mobile, smsCode);
@@ -263,6 +267,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
+        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
         AppManager.get().finishActivity(LoginActivity.class);
     }
 }
