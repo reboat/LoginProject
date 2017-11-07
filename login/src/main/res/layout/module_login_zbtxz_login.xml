@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/bc_ffffff">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/bc_ffffff">
 
     <LinearLayout
         android:id="@+id/ly_login_button_bar"
@@ -69,7 +69,6 @@
             android:gravity="left"
             android:hint="手机号／个性账号／邮箱"
             android:imeOptions="actionNext"
-            android:inputType="phone"
             android:lines="1"
             android:maxLines="1"
             android:paddingBottom="8dp"
@@ -98,7 +97,6 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
             android:background="?attr/border_edit_bg"
-            android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left"
             android:hint="密码"
             android:imeOptions="actionDone"
