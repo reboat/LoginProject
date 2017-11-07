@@ -28,11 +28,12 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
 
@@ -46,7 +47,7 @@ import butterknife.OnClick;
  */
 
 public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener,
-        OnLoginListener {
+        OnLoginListener,SkipScoreInterface {
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
     @BindView(R2.id.et_password_text)
@@ -120,14 +121,20 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
         if (view.getId() == R.id.dt_account_text) {
             dtAccountText.setCursorVisible(true);
-            //登录
+            //登录 需要判定手机/邮箱/个性账号
         } else if (view.getId() == R.id.tv_login) {
             if (dtAccountText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_num_empty));
-            } else if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                //纯数字
+            } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
+                if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                    WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
+                } else {
+                    T.showShort(this, getString(R.string.zb_phone_num_error));
+                }
+                //非纯数字
+            } else if (!AppUtils.isNumeric(dtAccountText.getText().toString())) {
                 WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
-            } else {
-                T.showShort(this, getString(R.string.zb_phone_num_error));
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
@@ -221,7 +228,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-
+                    ZBUtils.showPointDialog(bean);
                     if (!userBiz.isCertification()) { // 进入实名制页面
                         if (bundle == null) {
                             bundle = new Bundle();

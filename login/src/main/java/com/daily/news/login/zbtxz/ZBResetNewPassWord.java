@@ -27,8 +27,10 @@ import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
@@ -41,7 +43,7 @@ import butterknife.OnClick;
  * Created by wanglinjie.
  * create time:2017/8/11  下午4:56
  */
-public class ZBResetNewPassWord extends BaseActivity {
+public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterface {
 
     @BindView(R2.id.tv_tip)
     TextView tvTip;
@@ -181,7 +183,7 @@ public class ZBResetNewPassWord extends BaseActivity {
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-
+                    ZBUtils.showPointDialog(bean);
                     if (!userBiz.isCertification()) { // 进入实名制页面
                         if (bundle == null) {
                             bundle = new Bundle();
