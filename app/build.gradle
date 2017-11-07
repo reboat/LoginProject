@@ -46,4 +46,7 @@ dependencies {
 //    compile project(':login')
     compile 'cn.daily.android:daily-login:1.0.6-SNAPSHOT'
 
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+
 }
