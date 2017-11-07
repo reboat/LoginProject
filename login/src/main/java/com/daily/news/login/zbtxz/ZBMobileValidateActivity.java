@@ -1,7 +1,6 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,11 +18,14 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
+import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -60,14 +62,23 @@ public class ZBMobileValidateActivity extends BaseActivity {
      */
     private boolean isCommentLogin = false;
 
+    /**
+     * 是否来自于评论的实名制
+     */
+    private boolean isCommentActivity = false;
+
 
     /**
      * @param intent 获取intent数据
      */
     private void getIntentData(Intent intent) {
-        if (intent != null && intent.getData() != null) {
-            Uri data = intent.getData();
-            isCommentLogin = data.getBooleanQueryParameter(Key.IS_COMMENT_LOGIN, false);
+        if (intent != null) {
+            if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
+                isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
+            }
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
         }
     }
 
@@ -84,7 +95,12 @@ public class ZBMobileValidateActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-        mTvJump.setText(getString(R.string.zb_mobile_jump));
+        if (!isCommentActivity) {
+            mTvJump.setVisibility(View.VISIBLE);
+            mTvJump.setText(getString(R.string.zb_mobile_jump));
+        } else {
+            mTvJump.setVisibility(View.GONE);
+        }
         mTvTitle.setText(getString(R.string.zb_mobile_valideta_tip));
         btConfirm.setText(getString(R.string.zb_mobile_submit));
         tvTerification.setText(getString(R.string.zb_sms_verication));
@@ -134,7 +150,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 //进入账号密码登录页面
                 if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
                         .toString())) {
-                    mobileValidate(dtAccountText.getText().toString(), "");
+                    mobileValidate(dtAccountText.getText().toString(), etSmsText.getText().toString());
                 } else {
                     T.showShort(ZBMobileValidateActivity.this, getString(R.string
                             .zb_phone_num_inout_error));
@@ -166,7 +182,12 @@ public class ZBMobileValidateActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Void bean) {
-                //设置回调数据
+                //设置用户数据
+                UserBiz userBiz = UserBiz.get();
+                AccountBean loginBean = userBiz.getAccount();
+                loginBean.setMobile(mobile);
+                userBiz.setAccount(loginBean);
+
                 setResult(RESULT_OK);
                 finish();
             }

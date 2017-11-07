@@ -1,8 +1,9 @@
 package com.daily.news.login.zbtxz;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -24,13 +25,16 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
+import com.zjrb.core.utils.webjs.WebJsCallBack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,23 +60,21 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     @BindView(R2.id.verification_code_see_btn)
     ImageView ivSee;
 
+
+    private WebJsCallBack callback;
+
+
     /**
      * 是否点击了可视密码
      */
     private boolean isClick = false;
-
-    /**
-     * 请求码
-     */
-    private int REQUEST_CODE = 0;
-
-    @NonNull
-    private UmengAuthUtils mUmengUtils;
+    private boolean isFromComment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_zbtxz_login);
+        getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
     }
@@ -83,12 +85,32 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 .getView();
     }
 
+    private String mobile;
+
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+            if (intent.hasExtra("mobile")) {
+                mobile = intent.getStringExtra("mobile");
+            }
+        }
+    }
+
     private void initView() {
+        if (!TextUtils.isEmpty(mobile)) {
+            dtAccountText.setText(mobile);
+        }
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         tvLogin.setText(getString(R.string.zb_login));
         tvVerification.setText(getString(R.string.zb_login_sms));
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
+
 
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
@@ -109,17 +131,24 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                    .buildUpon()
-                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE)
-                    .build(), REQUEST_CODE);
+
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-            Nav.with(this).to(Uri.parse("http://www.8531.cn/login/ZBResetPWSmsLogin")
-                    .buildUpon()
-                    .appendQueryParameter(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE)
-                    .build(), REQUEST_CODE);
+
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE);
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
+
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
@@ -174,6 +203,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         loginVerification(s);
     }
 
+    private Bundle bundle;
+
     /**
      * @param s 登录验证
      */
@@ -192,7 +223,11 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();

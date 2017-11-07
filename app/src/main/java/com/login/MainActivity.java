@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_text:
-                Nav.with(this).toPath("/login/LoginActivity");
+                Nav.with(this).toPath("/login/ZBMobileValidateActivity");
                 break;
             case R.id.test_login:
                 startActivity(new Intent(this, TestLoginActivity.class));

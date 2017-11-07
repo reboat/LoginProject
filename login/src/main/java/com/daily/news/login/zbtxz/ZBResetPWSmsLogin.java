@@ -1,7 +1,6 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -19,12 +18,14 @@ import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
-import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.task.ZBRegisterValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
@@ -74,19 +75,20 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      */
     private TimerManager.TimerTask timerTask;
 
-    /**
-     * 请求码
-     */
-    private int REQUEST_CODE = 0;
-
+    private boolean isCommentActivity = false;
 
     /**
      * @param intent 获取intent数据
      */
     private void getIntentData(Intent intent) {
-        if (intent != null && intent.getData() != null) {
-            Uri data = intent.getData();
-            login_type = data.getQueryParameter(Key.LOGIN_TYPE);
+        if (intent != null) {
+            if (intent.hasExtra(Key.LOGIN_TYPE)) {
+                login_type = intent.getStringExtra(Key.LOGIN_TYPE);
+            }
+
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
         }
     }
 
@@ -159,11 +161,17 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             }
         } else {
             AppManager.get().finishActivity(ZBLoginActivity.class);
-            Nav.with(this).toPath("/login/ZBLoginActivity");
+            if (bundle == null) {
+                bundle = new Bundle();
+            }
+            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+            Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_LOGIN);
         }
 
     }
 
+
+    private Bundle bundle;
 
     /**
      * 先注册账号再登录
@@ -203,13 +211,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
                 @Override
                 public void onSuccess() {
-                    Nav.with(ZBResetPWSmsLogin.this).to(Uri.parse
-                            ("http://www.8531.cn/login/ZBResetNewPassWord")
-                            .buildUpon()
-                            .appendQueryParameter(Key.UUID, uuid)
-                            .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
-                            .build(), REQUEST_CODE);
-
+                    if (bundle == null) {
+                        bundle = new Bundle();
+                    }
+                    bundle.putString(Key.UUID, uuid);
+                    bundle.putString(Key.ACCOUNTID, dtAccountText.getText().toString());
+                    bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
                 }
             }, dtAccountText.getText().toString(), smsCode);
         }
@@ -218,6 +226,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 
     /**
      * 短信验证码登录
+     * 服务端这边短信验证登录需要我们调用注册验证接口
      *
      * @param sessionId
      * @param phoneNum  登录ZB服务器
@@ -225,7 +234,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
         //登录验证
-        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+        new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
                 T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
@@ -239,7 +248,11 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     LoginHelper.get().setResult(true); // 设置登录成功
 
                     if (!userBiz.isCertification()) { // 进入实名制页面
-                        Nav.with(getActivity()).toPath("/login/ZBMobileValidateActivity");
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭 密码登录页面
                         AppManager.get().finishActivity(ZBLoginActivity.class);
                         // 关闭本页面 （短信验证码登录页面）

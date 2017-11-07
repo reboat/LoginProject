@@ -1,12 +1,13 @@
 package com.daily.news.login.zbtxz;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,16 +18,20 @@ import com.bianfeng.woa.WoaSdk;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.UserProtectBean;
+import com.daily.news.login.task.UserProtectTask;
+import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.dialog.ConfirmDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -40,7 +45,7 @@ import butterknife.OnClick;
  * Created by wanglinjie.
  * create time:2017/8/11  上午11:04
  */
-public class ZBRegisterActivity extends BaseActivity {
+public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.OnConfirmListener {
 
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
@@ -54,19 +59,18 @@ public class ZBRegisterActivity extends BaseActivity {
     TextView tvLink;
     @BindView(R2.id.tv_link_tip)
     TextView tvLinkTip;
+    @BindView(R2.id.rb_reg)
+    CheckBox mRbReg;
 
     private boolean isClick = false;
     private int passwordLength = 0;
-
-    /**
-     * 请求码
-     */
-    private int REQUEST_CODE = 0x1;
+    private boolean isFromComment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_zbtxz_register);
+        getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
     }
@@ -76,6 +80,17 @@ public class ZBRegisterActivity extends BaseActivity {
         btRegister.setText(getString(R.string.zb_register));
         tvLinkTip.setText(getText(R.string.zb_reg_tip));
         tvLink.setText(getText(R.string.zb_reg_link));
+    }
+
+    /**
+     * @param intent 获取intent数据
+     */
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+        }
     }
 
     @Override
@@ -89,14 +104,42 @@ public class ZBRegisterActivity extends BaseActivity {
         if (view.getId() == R.id.verification_code_see_btn) {
             clickSeePassword();
         } else if (view.getId() == R.id.tv_link) {
-            Nav.with(UIUtils.getActivity())
-                    .to(Uri.parse("http://zj.zjol.com.cn/html/license.html")
-                            .buildUpon()
-                            .appendQueryParameter(IKey.LINK_TITLE, getString(R.string.zb_register_link_title))
-                            .build(), 0);
+            getUserProject();
         } else {
-            clickRegBtn();
+            if (mRbReg.isChecked()) {
+                clickRegBtn();
+            } else {
+                T.showShortNow(this, getString(R.string.please_agree_protocol));
+            }
         }
+    }
+
+
+    /**
+     * 获取用户协议地址
+     */
+    private String urlData = "";
+
+    private void getUserProject() {
+
+        new UserProtectTask(new APIExpandCallBack<UserProtectBean>() {
+            @Override
+            public void onError(String errMsg, int errCode) {
+                T.showShortNow(ZBRegisterActivity.this, errMsg);
+            }
+
+            @Override
+            public void onSuccess(UserProtectBean bean) {
+                if (bean != null) {
+                    urlData = bean.getUser_agreement();
+                }
+                if (bundle == null) {
+                    bundle = new Bundle();
+                }
+                bundle.putString("url", urlData);
+                Nav.with(ZBRegisterActivity.this).setExtras(bundle).toPath("/login/ZBUserProtectActivity");
+            }
+        }).setTag(this).exe();
     }
 
     /**
@@ -157,11 +200,16 @@ public class ZBRegisterActivity extends BaseActivity {
                 if (!b) {
                     getverificationPermission();
                 } else {
-                    T.showShort(ZBRegisterActivity.this, getString(R.string.zb_account_exise));
+                    ConfirmDialog dialog = new ConfirmDialog(ZBRegisterActivity.this);
+                    dialog.setTitle("该手机号码已经注册，是否立即登录?");
+                    dialog.setOnConfirmListener(ZBRegisterActivity.this);
+                    dialog.show();
+//                    T.showShort(ZBRegisterActivity.this, getString(R.string.zb_account_exise));
                 }
             }
         });
     }
+
 
     /**
      * 获取短信验证权限
@@ -183,10 +231,14 @@ public class ZBRegisterActivity extends BaseActivity {
                                     @Override
                                     public void onSuccess(String s) {
                                         //获取uuid，并进入短信验证页面
-                                        Nav.with(ZBRegisterActivity.this).to(Uri.parse("http://www.8531.cn/login/ZBVerificationActivity").buildUpon()
-                                                .appendQueryParameter(Key.UUID, s)
-                                                .appendQueryParameter(Key.ACCOUNTID, dtAccountText.getText().toString())
-                                                .appendQueryParameter(Key.PASSWORD, etPasswordText.getText().toString()).build(), REQUEST_CODE);
+                                        if (bundle == null) {
+                                            bundle = new Bundle();
+                                        }
+                                        bundle.putString(Key.UUID, s);
+                                        bundle.putString(Key.ACCOUNTID, dtAccountText.getText().toString());
+                                        bundle.putString(Key.PASSWORD, etPasswordText.getText().toString());
+                                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+                                        Nav.with(ZBRegisterActivity.this).setExtras(bundle).toPath(RouteManager.ZB_VERIFICAITION);
                                     }
                                 });
 
@@ -205,4 +257,20 @@ public class ZBRegisterActivity extends BaseActivity {
                 }, Permission.PHONE_READ_PHONE_STATE);
     }
 
+    @Override
+    public void onCancel() {
+
+    }
+
+    private Bundle bundle;
+
+    @Override
+    public void onOK() {
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        bundle.putString("mobile", dtAccountText.getText().toString());
+        Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_LOGIN);
+        finish();
+    }
 }

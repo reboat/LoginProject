@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/bc_ffffff">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/bc_ffffff">
 
     <LinearLayout
         android:id="@+id/ly_login"
@@ -100,17 +100,18 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <CheckBox
+            android:id="@+id/rb_reg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/module_login_check"
-            app:iv_maskColor="@color/color_343434" />
+            android:layout_height="20dp"
+            android:checked="true"
+            android:gravity="center"
+            />
 
         <TextView
             android:id="@+id/tv_link_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bt_register"
             android:layout_marginLeft="6dp"
             android:textColor="?attr/tc_999999"
             android:textSize="@dimen/ts_11sp"
