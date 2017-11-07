@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.login.tesk.TestAuthActivity;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.nav.Nav;
 
@@ -20,6 +21,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tv = (TextView) findViewById(R.id.tv_text);
         tv.setOnClickListener(this);
         findViewById(R.id.test_login).setOnClickListener(this);
+        findViewById(R.id.test_auth).setOnClickListener(this);
     }
 
     @Override
@@ -30,6 +32,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.test_login:
                 startActivity(new Intent(this, TestLoginActivity.class));
+                break;
+            case R.id.test_auth:
+                startActivity(new Intent(this, TestAuthActivity.class));
                 break;
         }
     }

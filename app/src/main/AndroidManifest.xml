@@ -23,7 +23,8 @@
             android:name="WOA_APP_ID"
             android:value="416" />
 
-        <activity android:name=".TestLoginActivity"></activity>
+        <activity android:name=".TestLoginActivity" />
+        <activity android:name=".tesk.TestAuthActivity"></activity>
     </application>
 
 </manifest>
