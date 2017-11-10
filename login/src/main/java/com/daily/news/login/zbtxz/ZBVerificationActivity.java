@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,8 +146,12 @@ public class ZBVerificationActivity extends BaseActivity {
         if (ClickTracker.isDoubleClick()) return;
         //注册账号 获取token
         if (view.getId() == R.id.bt_register) {
-            if (!mUuid.equals("") && !etSmsCode.getText().toString().equals("")) {
-                regAndLogin(mUuid, etSmsCode.getText().toString());
+            if (!TextUtils.isEmpty(mUuid)) {
+                if (TextUtils.isEmpty(etSmsCode.getText().toString())) {
+                    T.showShortNow(ZBVerificationActivity.this, "请输入验证码");
+                } else {
+                    regAndLogin(mUuid, etSmsCode.getText().toString());
+                }
             }
             //重新发送验证码
         } else {
