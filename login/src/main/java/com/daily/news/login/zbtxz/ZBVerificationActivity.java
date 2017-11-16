@@ -32,6 +32,7 @@ import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
@@ -102,6 +103,7 @@ public class ZBVerificationActivity extends BaseActivity {
      * 文案
      */
     private void initView() {
+        AppUtils.setEditTextInhibitInputSpace(etSmsCode, false);
         btRegister.setText(getString(R.string.zb_confirm));
         tvResend.setText(getString(R.string.zb_login_resend));
         tvNotify.setText(getString(R.string.zb_input_sms_tip));

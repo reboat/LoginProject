@@ -33,6 +33,7 @@ import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
@@ -47,7 +48,7 @@ import butterknife.OnClick;
  */
 
 public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener,
-        OnLoginListener,SkipScoreInterface {
+        OnLoginListener, SkipScoreInterface {
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
     @BindView(R2.id.et_password_text)
@@ -103,6 +104,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     }
 
     private void initView() {
+        AppUtils.setEditTextInhibitInputSpace(etPasswordText,true);
+        AppUtils.setEditTextInhibitInputSpace(dtAccountText,false);
         if (!TextUtils.isEmpty(mobile)) {
             dtAccountText.setText(mobile);
         }
@@ -126,7 +129,9 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             if (dtAccountText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_num_empty));
                 //纯数字
-            } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
+            } else if(etPasswordText.getText().toString().isEmpty()){
+                T.showShort(this, getString(R.string.zb_phone_password_empty));
+            }else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
                 if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
                     WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
                 } else {

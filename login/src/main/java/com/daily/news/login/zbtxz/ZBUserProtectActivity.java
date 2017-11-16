@@ -1,12 +1,9 @@
 package com.daily.news.login.zbtxz;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
@@ -24,19 +21,15 @@ import butterknife.ButterKnife;
 
 public class ZBUserProtectActivity extends BaseActivity {
 
-    @BindView(R2.id.tv_text)
-    TextView mTvText;
-
-    private String urlData;
+    @BindView(R2.id.v_web)
+    WebView mWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getIntentData(getIntent());
         setContentView(R.layout.module_login_user_protect);
         ButterKnife.bind(this);
-        mTvText.setText(Html.fromHtml(urlData));
-//        mTvText.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mWeb.loadUrl("https://zjbeta.8531.cn/page/agreement.html");
     }
 
     @Override
@@ -44,15 +37,5 @@ public class ZBUserProtectActivity extends BaseActivity {
         return TopBarFactory.createDefault(view, this, "用户协议").getView();
     }
 
-    /**
-     * @param intent 获取传递数据
-     */
-    private void getIntentData(Intent intent) {
-        if (intent != null) {
-            if (intent.hasExtra("url")) {
-                urlData = intent.getExtras().getString("url");
-            }
-        }
-    }
 
 }

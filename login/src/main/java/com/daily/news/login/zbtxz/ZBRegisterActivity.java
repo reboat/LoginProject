@@ -76,6 +76,8 @@ public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.On
     }
 
     private void initView() {
+        AppUtils.setEditTextInhibitInputSpace(etPasswordText,true);
+        AppUtils.setEditTextInhibitInputSpace(dtAccountText,false);
         verificationCodeSeeBtn.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         btRegister.setText(getString(R.string.zb_register));
         tvLinkTip.setText(getText(R.string.zb_reg_tip));

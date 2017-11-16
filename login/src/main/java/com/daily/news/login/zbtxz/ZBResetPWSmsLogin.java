@@ -60,6 +60,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     TextView tvChangeLoginType;
     @BindView(R2.id.bt_confirm)
     TextView btConfirm;
+    @BindView(R2.id.tv_title)
+    TextView mTvTitle;
 
     /**
      * 登录类型：true:验证码登录/false:重置密码
@@ -105,11 +107,18 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      * 文案
      */
     private void initView() {
+        AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
         btConfirm.setText(getString(R.string.zb_confirm));
         tvTerification.setText(getString(R.string.zb_sms_verication));
         if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             tvChangeLoginType.setText(getString(R.string.zb_password_login));
+            if (mTvTitle.getVisibility() == View.VISIBLE) {
+                mTvTitle.setVisibility(View.GONE);
+            }
         } else {
+            if (mTvTitle.getVisibility() == View.GONE) {
+                mTvTitle.setVisibility(View.VISIBLE);
+            }
             tvChangeLoginType.setText(getString(R.string.zb_input_sms_tip));
         }
     }
@@ -285,12 +294,12 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                             //短信登录
                             WoaSdk.getSmsCaptcha(ZBResetPWSmsLogin.this,
                                     dtAccountText.getText().toString(),
-                                    etSmsText.getText().toString(),
+                                    "",
                                     new OnGetSmsCaptchaListener() {
                                         @Override
                                         public void onFailure(int i, String s) {
                                             TimerManager.cancel(timerTask);
-                                            T.showShort(ZBResetPWSmsLogin.this, s);
+                                            T.showShort(ZBResetPWSmsLogin.this, "短信发送失败");
                                         }
 
                                         @Override
@@ -358,7 +367,9 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);
-                    tvTerification.setBackground(null);
+                    //TODO  WLJ 夜间模式
+                    tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
+                    tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
                     tvTerification.setText(getString(R.string
                             .zb_login_resend));
                 }

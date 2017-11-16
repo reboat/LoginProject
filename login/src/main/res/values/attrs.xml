@@ -64,6 +64,8 @@
 
         <attr name="module_login_wb" format="reference" />
 
+        <attr name="module_login_register_select" format="reference" />
+
     </declare-styleable>
 
 </resources>

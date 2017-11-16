@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:textColor="?attr/tc_484848"
             android:textColorHint="?attr/tc_999999"
-            android:textSize="@dimen/ts_11sp" />
+            android:textSize="@dimen/ts_16sp" />
 
     </LinearLayout>
 
@@ -65,7 +65,7 @@
             android:singleLine="true"
             android:textColor="?attr/tc_484848"
             android:textColorHint="?attr/tc_999999"
-            android:textSize="@dimen/ts_11sp" />
+            android:textSize="@dimen/ts_16sp" />
 
         <ImageView
             android:id="@+id/verification_code_see_btn"
@@ -104,8 +104,9 @@
             android:id="@+id/rb_reg"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:checked="true"
             android:gravity="center"
+            android:button="?attr/module_login_register_select"
+            android:checked="true"
             />
 
         <TextView

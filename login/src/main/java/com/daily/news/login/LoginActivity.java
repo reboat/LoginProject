@@ -3,6 +3,7 @@ package com.daily.news.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -105,6 +106,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        //TODO WLJ 4.4
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
         if (UserBiz.get().isLoginUser()) {
             setResult(Activity.RESULT_OK);
         }

@@ -104,6 +104,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
         } else {
             mTvJump.setVisibility(View.GONE);
         }
+        //不允许输入空格
+        AppUtils.setEditTextInhibitInputSpace(dtAccountText,false);
         mTvTitle.setText(getString(R.string.zb_mobile_valideta_tip));
         btConfirm.setText(getString(R.string.zb_mobile_submit));
         tvTerification.setText(getString(R.string.zb_sms_verication));
@@ -238,6 +240,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
     }
 
     /**
+     * 实名制设置为120s一次
      * 开始倒计时
      * 重复访问获取验证码的时间是多少  60s  3次  一天最多5次
      */
@@ -247,7 +250,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
         timerTask = new TimerManager.TimerTask(1000, 1000) {
             @Override
             public void run(long count) {
-                long value = (60 - count);
+                long value = (120 - count);
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
                 tvTerification.setText("(" + value + ")" + getString(R.string
@@ -255,7 +258,9 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);
-                    tvTerification.setBackground(null);
+                    //TODO  WLJ 夜间模式
+                    tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
+                    tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
                     tvTerification.setText(getString(R.string
                             .zb_login_resend));
                 }

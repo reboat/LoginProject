@@ -29,6 +29,7 @@ import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -92,6 +93,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
      * 设置密码重置文案初始化
      */
     private void initView() {
+        AppUtils.setEditTextInhibitInputSpace(etPasswordText, true);
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         btConfirm.setText(getString(R.string.zb_confirm));
         tvTip.setText(getString(R.string.zb_set_password_tip));
@@ -133,6 +135,10 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
      * 重置密码
      */
     private void findPassword() {
+        if (etPasswordText.getText().length() < 6) {
+            T.showShortNow(ZBResetNewPassWord.this, "密码长度不可小于6位");
+            return;
+        }
         WoaSdk.resetPassword(this,
                 mAccountID,
                 mUuid,

@@ -75,7 +75,7 @@
             android:singleLine="true"
             android:textColor="?attr/tc_484848"
             android:textColorHint="?attr/tc_999999"
-            android:textSize="@dimen/ts_11sp" />
+            android:textSize="@dimen/ts_14sp" />
 
     </LinearLayout>
 
@@ -107,7 +107,7 @@
             android:singleLine="true"
             android:textColor="?attr/tc_484848"
             android:textColorHint="?attr/tc_999999"
-            android:textSize="@dimen/ts_11sp" />
+            android:textSize="@dimen/ts_14sp" />
 
         <ImageView
             android:id="@+id/verification_code_see_btn"
