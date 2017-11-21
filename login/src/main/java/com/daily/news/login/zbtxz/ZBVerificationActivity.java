@@ -20,6 +20,7 @@ import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.LoginValidateTask;
 import com.daily.news.login.task.ZBRegisterValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
@@ -34,11 +35,15 @@ import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * 注册页面 - 验证码确认页面
@@ -250,8 +255,7 @@ public class ZBVerificationActivity extends BaseActivity {
      * @param sessionId 返回浙报服务器的token
      */
     private void loginZBServer(String sessionId) {
-        //注册验证
-        new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
                 T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
@@ -260,6 +264,14 @@ public class ZBVerificationActivity extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    //注册成功
+                    new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000")
+                            .setEvenName("注册成功")
+                            .setPageType("注册页")
+                            .setIscuccesee(true)
+                            .build()
+                            .send();
+
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
@@ -286,6 +298,7 @@ public class ZBVerificationActivity extends BaseActivity {
                     T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
                 }
             }
-        }).setTag(this).exe(sessionId);
+        }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
+                dtAccountText.getText(),true);
     }
 }

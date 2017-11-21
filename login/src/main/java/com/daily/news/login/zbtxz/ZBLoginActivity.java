@@ -38,9 +38,15 @@ import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * 浙报通行证登录页
@@ -224,12 +230,26 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
+                        .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
+                        .setPageType("主登录页")
+                        .setEventDetail("手机号/个性账号/邮箱")
+                        .setIscuccesee(false)
+                        .build()
+                        .send();
                 T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
+                            .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
+                            .setPageType("主登录页")
+                            .setEventDetail("手机号/个性账号/邮箱")
+                            .setIscuccesee(true)
+                            .build()
+                            .send();
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
@@ -255,7 +275,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 }
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
-                dtAccountText.getText());
+                dtAccountText.getText(),false);
     }
 
 }

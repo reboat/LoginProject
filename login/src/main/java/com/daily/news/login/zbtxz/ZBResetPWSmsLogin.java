@@ -42,6 +42,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * 短信验证码登录 / 重置密码获取验证码
@@ -246,12 +249,27 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600015")
+                        .setEvenName("浙报通行证，手机验证码登录成功")
+                        .setPageType("登录页")
+                        .setEventDetail("手机号登入")
+                        .setIscuccesee(false)
+                        .build()
+                        .send();
                 T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600015")
+                            .setEvenName("浙报通行证，手机验证码登录成功")
+                            .setPageType("登录页")
+                            .setEventDetail("手机号登入")
+                            .setIscuccesee(true)
+                            .build()
+                            .send();
+
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功

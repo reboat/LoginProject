@@ -37,6 +37,9 @@ import com.zjrb.core.utils.click.ClickTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * 重置密码页面
@@ -180,12 +183,26 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
+                        .setEvenName("浙报通行证，在设置新密码页面，重置密码")
+                        .setPageType("密码重置页")
+                        .setEventDetail("重置密码")
+                        .setIscuccesee(false)
+                        .build()
+                        .send();
                 T.showShortNow(ZBResetNewPassWord.this, errMsg);
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
+                            .setEvenName("浙报通行证，在设置新密码页面，重置密码")
+                            .setPageType("密码重置页")
+                            .setEventDetail("重置密码")
+                            .setIscuccesee(true)
+                            .build()
+                            .send();
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
@@ -217,7 +234,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                     T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID);
+        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,false);
 
     }
 }
