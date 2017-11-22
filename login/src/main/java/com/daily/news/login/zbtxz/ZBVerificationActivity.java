@@ -299,6 +299,6 @@ public class ZBVerificationActivity extends BaseActivity {
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
-                dtAccountText.getText(),true);
+                dtAccountText.getText(),1);
     }
 }

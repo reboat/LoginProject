@@ -275,7 +275,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 }
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
-                dtAccountText.getText(),false);
+                dtAccountText.getText(),0);
     }
 
 }
