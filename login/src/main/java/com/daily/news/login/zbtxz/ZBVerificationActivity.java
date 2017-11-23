@@ -284,8 +284,8 @@ public class ZBVerificationActivity extends BaseActivity {
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-
-                    if (!userBiz.isCertification()) { // 进入实名制页面
+                    if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) {
+//                    if (!userBiz.isCertification()) { // 进入实名制页面
                         if (bundle == null) {
                             bundle = new Bundle();
                         }

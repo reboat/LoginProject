@@ -207,7 +207,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
                     ZBUtils.showPointDialog(bean);
-                    if (!userBiz.isCertification()) { // 进入实名制页面
+                    if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) {// 进入实名制页面
                         if (bundle == null) {
                             bundle = new Bundle();
                         }
