@@ -56,7 +56,7 @@
             android:background="?attr/border_edit_bg"
             android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left"
-            android:hint="密码"
+            android:hint="密码(6~30位数字或字母)"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLength="30"

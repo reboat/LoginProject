@@ -21,7 +21,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.task.ZBRegisterValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -31,11 +30,11 @@ import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
+import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
@@ -186,12 +185,22 @@ public class ZBVerificationActivity extends BaseActivity {
                 tvResend.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvResend.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
+                if (!ThemeMode.isNightMode()) {
+                    tvResend.setTextColor(getResources().getColor(R.color.tc_999999));
+                } else {
+                    tvResend.setTextColor(getResources().getColor(R.color.tc_7a7b7d));
+                }
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvResend.setEnabled(true);
                     tvResend.setBackground(null);
                     tvResend.setText(getString(R.string
                             .zb_login_resend));
+                    if (!ThemeMode.isNightMode()) {
+                        tvResend.setTextColor(getResources().getColor(R.color.bc_f44b50));
+                    } else {
+                        tvResend.setTextColor(getResources().getColor(R.color.tc_8e3636));
+                    }
                 }
             }
         };
@@ -299,6 +308,6 @@ public class ZBVerificationActivity extends BaseActivity {
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
-                dtAccountText.getText(),1);
+                dtAccountText.getText(), 1);
     }
 }
