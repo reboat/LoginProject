@@ -18,7 +18,7 @@ import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
-import com.daily.news.login.task.ZBRegisterValidateTask;
+import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -118,11 +118,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             if (mTvTitle.getVisibility() == View.VISIBLE) {
                 mTvTitle.setVisibility(View.GONE);
             }
+            btConfirm.setText("登录");
         } else {
             if (mTvTitle.getVisibility() == View.GONE) {
                 mTvTitle.setVisibility(View.VISIBLE);
             }
             tvChangeLoginType.setText(getString(R.string.zb_input_sms_tip));
+            btConfirm.setText("确定");
         }
     }
 
@@ -206,7 +208,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 @Override
                 public void onSuccess(String token) {
                     if (null == token || token.isEmpty()) {
-                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
+                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                     } else {
                         loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
                     }
@@ -246,7 +248,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      */
     private void loginZBServer(String sessionId, final String phoneNum) {
         //登录验证
-        new ZBRegisterValidateTask(new APIExpandCallBack<ZBLoginBean>() {
+        new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600015")
@@ -293,11 +295,11 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
+                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
-                dtAccountText.getText().toString(), dtAccountText.getText().toString());
+                dtAccountText.getText().toString(), dtAccountText.getText().toString(),0);
     }
 
     /**
