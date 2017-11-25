@@ -11,7 +11,7 @@ import com.zjrb.core.domain.ZBLoginBean;
  * Created by wanglinjie.
  * create time:2017/8/25  下午4:32
  */
-
+@Deprecated
 public class ZBRegisterValidateTask extends APIPostTask<ZBLoginBean> {
     public ZBRegisterValidateTask(LoadingCallBack<ZBLoginBean> callBack) {
         super(callBack);
@@ -24,7 +24,7 @@ public class ZBRegisterValidateTask extends APIPostTask<ZBLoginBean> {
 
     @Override
     protected String getApi() {
-        return APIManager.endpoint.ZB_REG_SERVER;
+        return "";
     }
 }
 
