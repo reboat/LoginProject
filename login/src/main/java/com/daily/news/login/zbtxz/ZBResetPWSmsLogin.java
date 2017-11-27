@@ -317,7 +317,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                         @Override
                                         public void onFailure(int i, String s) {
                                             TimerManager.cancel(timerTask);
-                                            T.showShort(ZBResetPWSmsLogin.this, "短信发送失败");
+                                            T.showShort(ZBResetPWSmsLogin.this, s);
                                         }
 
                                         @Override
