@@ -255,7 +255,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         .setIscuccesee(false)
                         .build()
                         .send();
-                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_reg_error));
+                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
             }
 
             @Override
