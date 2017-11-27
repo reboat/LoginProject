@@ -1,6 +1,8 @@
 <resources>
 
     <style name="AppTheme" parent="CoreTheme.Base">
+
+        <item name="android:theme">@style/LoginDayTheme</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -64,6 +66,8 @@
     </style>
 
     <style name="NightAppTheme" parent="CoreThemeNight.Base">
+
+        <item name="android:theme">@style/LoginNightTheme</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

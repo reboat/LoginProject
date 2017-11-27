@@ -44,8 +44,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
 
-import static com.zjrb.core.utils.UIUtils.getContext;
-
 /**
  * 短信验证码登录 / 重置密码获取验证码
  * Created by wanglinjie.
@@ -210,7 +208,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     if (null == token || token.isEmpty()) {
                         T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                     } else {
-                        loginZBServer(WoaSdk.getTokenInfo().getSessionId(), phoneNum);
+                        loginZBServer(WoaSdk.getTokenInfo().getSessionId());
                     }
 
                 }
@@ -231,7 +229,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     bundle.putString(Key.UUID, uuid);
                     bundle.putString(Key.ACCOUNTID, dtAccountText.getText().toString());
                     bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
-                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
+                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager
+                            .ZB_RESET_PASSWORD);
                 }
             }, dtAccountText.getText().toString(), smsCode);
         }
@@ -242,16 +241,14 @@ public class ZBResetPWSmsLogin extends BaseActivity {
      * 短信验证码登录
      * 服务端这边短信验证登录需要我们调用注册验证接口
      *
-     * @param sessionId
-     * @param phoneNum  登录ZB服务器
-     *                  返回浙报服务器的token
+     * @param sessionId 登录ZB服务器 返回浙报服务器的token
      */
-    private void loginZBServer(String sessionId, final String phoneNum) {
+    private void loginZBServer(String sessionId) {
         //登录验证
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600015")
+                new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                         .setEvenName("浙报通行证，手机验证码登录成功")
                         .setPageType("登录页")
                         .setEventDetail("手机号登入")
@@ -264,7 +261,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600015")
+                    new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                             .setEvenName("浙报通行证，手机验证码登录成功")
                             .setPageType("登录页")
                             .setEventDetail("手机号登入")
@@ -281,7 +278,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                             bundle = new Bundle();
                         }
                         bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
-                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager
+                                .ZB_MOBILE_VERIFICATION);
                         // 关闭 密码登录页面
                         AppManager.get().finishActivity(ZBLoginActivity.class);
                         // 关闭本页面 （短信验证码登录页面）
@@ -299,7 +297,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
-                dtAccountText.getText().toString(), dtAccountText.getText().toString(),0);
+                null, dtAccountText.getText().toString(), 1);
     }
 
     /**
@@ -388,7 +386,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);
                     //TODO  WLJ 夜间模式
-                    tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
+                    tvTerification.setBackgroundResource(R.drawable
+                            .module_login_bg_sms_verification);
                     tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
                     tvTerification.setText(getString(R.string
                             .zb_login_resend));

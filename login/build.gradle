@@ -33,5 +33,9 @@ dependencies {
     compile butterknifeDeps.butterknife
     annotationProcessor butterknifeDeps.butterknifeCompiler
 //    compile project(':core-library')
+<<<<<<< HEAD
     compile 'cn.daily.android:core-library:5.0.0.58'
+=======
+    compile 'cn.daily.android:core-library:5.0.0.59-SNAPSHOT'
+>>>>>>> b0da306d5e77cb92d7d1d84706b5b639c62bef09
 }

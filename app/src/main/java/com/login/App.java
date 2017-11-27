@@ -8,6 +8,7 @@ import com.bianfeng.woa.WoaSdk;
 import com.squareup.leakcanary.LeakCanary;
 import com.zjrb.core.common.base.BaseInit;
 import com.zjrb.core.db.ThemeMode;
+import com.zjrb.core.utils.SettingManager;
 import com.zjrb.core.utils.UIUtils;
 
 public class App extends Application {
@@ -28,5 +29,6 @@ public class App extends Application {
             return;
         }
         LeakCanary.install(this);
+        SettingManager.init(this);
     }
 }
