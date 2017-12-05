@@ -29,9 +29,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'org.jsoup:jsoup:1.10.2'
     compile butterknifeDeps.butterknife
     annotationProcessor butterknifeDeps.butterknifeCompiler
 //    compile project(':core-library')
-    compile 'cn.daily.android:core-library:5.0.0.59'
+    compile 'cn.daily.android:core-library:5.0.0.63.beta'
 }
