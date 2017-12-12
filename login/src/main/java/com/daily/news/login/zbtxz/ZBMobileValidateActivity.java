@@ -190,8 +190,10 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 //设置用户数据
                 UserBiz userBiz = UserBiz.get();
                 AccountBean loginBean = userBiz.getAccount();
-                loginBean.setMobile(mobile);
-                userBiz.setAccount(loginBean);
+                if(loginBean != null){
+                    loginBean.setMobile(mobile);
+                    userBiz.setAccount(loginBean);
+                }
 
                 setResult(RESULT_OK);
                 isAuthSuccess = true;
