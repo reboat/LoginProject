@@ -156,6 +156,8 @@ public class ZBVerificationActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etSmsCode.getText().toString())) {
                     T.showShortNow(ZBVerificationActivity.this, "请输入验证码");
                 } else {
+                    //防止高并发服务端来不及处理，客户端做容错
+                    btRegister.setClickable(false);
                     regAndLogin(mUuid, etSmsCode.getText().toString());
                 }
             }
@@ -241,11 +243,13 @@ public class ZBVerificationActivity extends BaseActivity {
 
             @Override
             public void onFailure(int i, String s) {
+                btRegister.setClickable(true);
                 T.showShort(ZBVerificationActivity.this, s);
             }
 
             @Override
             public void onSuccess(String s) {
+                btRegister.setClickable(true);
                 //注册验证
                 if (null == s || s.isEmpty()) {
                     T.showShort(ZBVerificationActivity.this, getString(R.string.zb_reg_error));

@@ -206,7 +206,6 @@ public class ZBRegisterActivity extends BaseActivity implements ConfirmDialog.On
                     dialog.setTitle("该手机号码已经注册，是否立即登录?");
                     dialog.setOnConfirmListener(ZBRegisterActivity.this);
                     dialog.show();
-//                    T.showShort(ZBRegisterActivity.this, getString(R.string.zb_account_exise));
                 }
             }
         });
