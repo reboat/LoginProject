@@ -1,5 +1,6 @@
 package com.daily.news.login.zbtxz;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -31,8 +33,10 @@ import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
@@ -66,7 +70,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
 
     private WebJsCallBack callback;
-
+    private LoadingIndicatorDialog loginDialog;
 
     /**
      * 是否点击了可视密码
@@ -117,6 +121,27 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
 
+
+//    /**
+//     * 登录加载框
+//     */
+//    private void getLoginingDialog(String s) {
+//        Activity activity = UIUtils.getActivity();
+//        loginDialog = new LoadingIndicatorDialog(activity);
+//        if (!activity.isDestroyed()) {
+//            loginDialog.setToastText(s);
+//            loginDialog.show();
+//        }
+//    }
+//
+//    /**
+//     * 关闭dialog
+//     */
+//    private void dismissLoadingDialog(boolean isSuccess) {
+//        if (loginDialog != null && loginDialog.isShowing()) {
+//            loginDialog.finish(isSuccess);
+//        }
+//    }
 
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
@@ -214,6 +239,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
      */
     @Override
     public void onSuccess(String s, String s1, String s2) {
+        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
         loginVerification(s);
     }
 
@@ -226,6 +252,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
                         .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                         .setPageType("主登录页")
@@ -233,12 +260,13 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         .setIscuccesee(false)
                         .build()
                         .send();
-                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
+//                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                             .setPageType("主登录页")
@@ -267,7 +295,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+//                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
                 }
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),

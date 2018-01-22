@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: 'http://10.100.47.176:8086/nexus/service/local/repositories/releases/content/cn/daily/android/publish/0.0.4/publish-0.0.4.gradle'
-apply from: "${rootDir}/public.gradle"
+apply plugin: 'com.jakewharton.butterknife'
+//apply from: "${rootDir}/public.gradle"
 
 android {
     compileSdkVersion 25
@@ -29,8 +30,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile butterknifeDeps.butterknife
-    annotationProcessor butterknifeDeps.butterknifeCompiler
+    compile 'com.android.support:percent:25.3.1'
 //    compile project(':core-library')
-    compile 'cn.daily.android:core-library:5.0.1.10-SNAPSHOT'
+    compile 'cn.daily.android:core-library:5.0.2.6-SNAPSHOT'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }

@@ -1,5 +1,6 @@
 package com.daily.news.login.zbtxz;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -33,8 +35,10 @@ import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -208,6 +212,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     if (null == token || token.isEmpty()) {
                         T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                     } else {
+                        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
                         loginZBServer(WoaSdk.getTokenInfo().getSessionId());
                     }
 
@@ -248,6 +253,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
                 new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                         .setEvenName("浙报通行证，手机验证码登录成功")
                         .setPageType("登录页")
@@ -255,12 +261,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         .setIscuccesee(false)
                         .build()
                         .send();
-                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
+//                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                             .setEvenName("浙报通行证，手机验证码登录成功")
                             .setPageType("登录页")
@@ -293,7 +300,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+//                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
