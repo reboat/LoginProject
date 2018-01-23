@@ -18,6 +18,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -142,6 +143,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             T.showShortNow(ZBResetNewPassWord.this, "密码长度不可小于6位");
             return;
         }
+        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在重置");
         WoaSdk.resetPassword(this,
                 mAccountID,
                 mUuid,
@@ -150,6 +152,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 
                     @Override
                     public void onFailure(int i, String s) {
+                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                         T.showShort(ZBResetNewPassWord.this, s);
                     }
 
@@ -162,6 +165,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 
                                     @Override
                                     public void onFailure(int i, String s) {
+                                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                                         T.showShort(ZBResetNewPassWord.this, s);
                                     }
 
@@ -183,6 +187,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
                         .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                         .setPageType("密码重置页")
@@ -190,12 +195,13 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                         .setIscuccesee(false)
                         .build()
                         .send();
-                T.showShortNow(ZBResetNewPassWord.this, errMsg);
+//                T.showShortNow(ZBResetNewPassWord.this, errMsg);
             }
 
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                             .setPageType("密码重置页")
@@ -231,7 +237,8 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+//                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0);

@@ -1,6 +1,5 @@
 package com.daily.news.login.zbtxz;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,7 +35,6 @@ import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
@@ -53,8 +51,7 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * created by wanglinjie on 2016/11/23
  */
 
-public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener,
-        OnLoginListener, SkipScoreInterface {
+public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExistListener, SkipScoreInterface {
     @BindView(R2.id.dt_account_text)
     EditText dtAccountText;
     @BindView(R2.id.et_password_text)
@@ -121,28 +118,6 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         tvForgetPassword.setText(getString(R.string.zb_forget_password));
     }
 
-
-//    /**
-//     * 登录加载框
-//     */
-//    private void getLoginingDialog(String s) {
-//        Activity activity = UIUtils.getActivity();
-//        loginDialog = new LoadingIndicatorDialog(activity);
-//        if (!activity.isDestroyed()) {
-//            loginDialog.setToastText(s);
-//            loginDialog.show();
-//        }
-//    }
-//
-//    /**
-//     * 关闭dialog
-//     */
-//    private void dismissLoadingDialog(boolean isSuccess) {
-//        if (loginDialog != null && loginDialog.isShowing()) {
-//            loginDialog.finish(isSuccess);
-//        }
-//    }
-
     @OnClick({R2.id.dt_account_text, R2.id.tv_login,
             R2.id.tv_forget_password_btn, R2.id.verification_code_see_btn,
             R2.id.tv_verification_btn})
@@ -160,6 +135,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 T.showShort(this, getString(R.string.zb_phone_password_empty));
             } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
                 if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                    ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
                     WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
                 } else {
                     T.showShort(this, getString(R.string.zb_phone_num_error));
@@ -220,8 +196,20 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     @Override
     public void onSuccess(boolean b, @NonNull String s) {
         if (b) {
-            WoaSdk.login(this, s, etPasswordText.getText().toString(), this);
+            WoaSdk.login(this, s, etPasswordText.getText().toString(), new OnLoginListener() {
+                @Override
+                public void onSuccess(String s, String s1, String s2) {
+                    loginVerification(s);
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
+                    T.showShort(getApplicationContext(), s);
+                }
+            });
         } else {
+            ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
             T.showShort(this, getString(R.string.zb_account_not_exise));
         }
 
@@ -229,18 +217,8 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
     @Override
     public void onFailure(int i, String s) {
+        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
         T.showShort(this, s);
-    }
-
-    /**
-     * @param s  sessionId
-     * @param s1
-     * @param s2 登录回调
-     */
-    @Override
-    public void onSuccess(String s, String s1, String s2) {
-        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
-        loginVerification(s);
     }
 
     private Bundle bundle;

@@ -21,6 +21,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -157,7 +158,7 @@ public class ZBVerificationActivity extends BaseActivity {
                     T.showShortNow(ZBVerificationActivity.this, "请输入验证码");
                 } else {
                     //防止高并发服务端来不及处理，客户端做容错
-                    btRegister.setClickable(false);
+                    ZBLoginDialogUtils.newInstance().getLoginingDialog("正在注册");
                     regAndLogin(mUuid, etSmsCode.getText().toString());
                 }
             }
@@ -243,15 +244,15 @@ public class ZBVerificationActivity extends BaseActivity {
 
             @Override
             public void onFailure(int i, String s) {
-                btRegister.setClickable(true);
+                ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                 T.showShort(ZBVerificationActivity.this, s);
             }
 
             @Override
             public void onSuccess(String s) {
-                btRegister.setClickable(true);
                 //注册验证
                 if (null == s || s.isEmpty()) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                     T.showShort(ZBVerificationActivity.this, getString(R.string.zb_reg_error));
                 } else {
                     loginZBServer(WoaSdk.getTokenInfo().getSessionId());
@@ -271,6 +272,7 @@ public class ZBVerificationActivity extends BaseActivity {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
+                ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                 T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
             }
 
@@ -278,6 +280,7 @@ public class ZBVerificationActivity extends BaseActivity {
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     //注册成功
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000")
                             .setEvenName("注册成功")
                             .setPageType("注册页")
@@ -308,6 +311,7 @@ public class ZBVerificationActivity extends BaseActivity {
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                     T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
                 }
             }

@@ -200,34 +200,39 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     String phoneNum) {
         if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             //短信验证
+            ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
             WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
 
                 @Override
                 public void onFailure(int i, String s) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                     T.showShort(ZBResetPWSmsLogin.this, s);
                 }
 
                 @Override
                 public void onSuccess(String token) {
                     if (null == token || token.isEmpty()) {
+                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                         T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                     } else {
-                        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
                         loginZBServer(WoaSdk.getTokenInfo().getSessionId());
                     }
 
                 }
             });
         } else {//重置密码验证
+            ZBLoginDialogUtils.newInstance().getLoginingDialog("正在处理");
             Passport.validateSmsCaptch(ZBResetPWSmsLogin.this, new OnValidateSmsCaptchListener() {
 
                 @Override
                 public void onFailure(int i, String s) {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                     T.showShort(ZBResetPWSmsLogin.this, s);
                 }
 
                 @Override
                 public void onSuccess() {
+                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
                     if (bundle == null) {
                         bundle = new Bundle();
                     }
@@ -261,7 +266,6 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         .setIscuccesee(false)
                         .build()
                         .send();
-//                T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
             }
 
             @Override
@@ -301,7 +305,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                     }
                 } else {
                     ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
-//                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
+                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
