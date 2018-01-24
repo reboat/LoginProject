@@ -18,7 +18,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -31,6 +30,7 @@ import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -143,7 +143,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             T.showShortNow(ZBResetNewPassWord.this, "密码长度不可小于6位");
             return;
         }
-        ZBLoginDialogUtils.newInstance().getLoginingDialog("正在重置");
+        LoadingDialogUtils.newInstance().getLoginingDialog("正在重置");
         WoaSdk.resetPassword(this,
                 mAccountID,
                 mUuid,
@@ -152,8 +152,8 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 
                     @Override
                     public void onFailure(int i, String s) {
-                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                        T.showShort(ZBResetNewPassWord.this, s);
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//                        T.showShort(ZBResetNewPassWord.this, s);
                     }
 
                     @Override
@@ -165,8 +165,8 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 
                                     @Override
                                     public void onFailure(int i, String s) {
-                                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                                        T.showShort(ZBResetNewPassWord.this, s);
+                                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//                                        T.showShort(ZBResetNewPassWord.this, s);
                                     }
 
                                     @Override
@@ -187,7 +187,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,errMsg);
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
                         .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                         .setPageType("密码重置页")
@@ -201,7 +201,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                             .setPageType("密码重置页")
@@ -237,7 +237,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"密码重置失败");
 //                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }

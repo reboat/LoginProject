@@ -1,6 +1,5 @@
 package com.daily.news.login.zbtxz;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -35,10 +33,9 @@ import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.List;
@@ -200,20 +197,20 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     String phoneNum) {
         if (login_type.equals(Key.Value.LOGIN_SMS_TYPE)) {
             //短信验证
-            ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
+            LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
             WoaSdk.registerBySmsCaptcha(this, uid, smsCode, new OnRegisterBySmsListener() {
 
                 @Override
                 public void onFailure(int i, String s) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                    T.showShort(ZBResetPWSmsLogin.this, s);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//                    T.showShort(ZBResetPWSmsLogin.this, s);
                 }
 
                 @Override
                 public void onSuccess(String token) {
                     if (null == token || token.isEmpty()) {
-                        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(true,getString(R.string.zb_login_error));
+//                        T.showShort(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                     } else {
                         loginZBServer(WoaSdk.getTokenInfo().getSessionId());
                     }
@@ -221,18 +218,18 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 }
             });
         } else {//重置密码验证
-            ZBLoginDialogUtils.newInstance().getLoginingDialog("正在处理");
+            LoadingDialogUtils.newInstance().getLoginingDialog("正在处理");
             Passport.validateSmsCaptch(ZBResetPWSmsLogin.this, new OnValidateSmsCaptchListener() {
 
                 @Override
                 public void onFailure(int i, String s) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                    T.showShort(ZBResetPWSmsLogin.this, s);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//                    T.showShort(ZBResetPWSmsLogin.this, s);
                 }
 
                 @Override
                 public void onSuccess() {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
+                    LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                     if (bundle == null) {
                         bundle = new Bundle();
                     }
@@ -258,7 +255,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(false);
                 new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                         .setEvenName("浙报通行证，手机验证码登录成功")
                         .setPageType("登录页")
@@ -271,7 +268,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
                             .setEvenName("浙报通行证，手机验证码登录成功")
                             .setPageType("登录页")
@@ -304,8 +301,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
-                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+//                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),

@@ -20,7 +20,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.utils.ZBLoginDialogUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -34,6 +33,7 @@ import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -135,7 +135,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 T.showShort(this, getString(R.string.zb_phone_password_empty));
             } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
                 if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
-                    ZBLoginDialogUtils.newInstance().getLoginingDialog("正在登录");
+                    LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                     WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
                 } else {
                     T.showShort(this, getString(R.string.zb_phone_num_error));
@@ -204,21 +204,21 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
                 @Override
                 public void onFailure(int i, String s) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-                    T.showShort(getApplicationContext(), s);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//                    T.showShort(getApplicationContext(), s);
                 }
             });
         } else {
-            ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-            T.showShort(this, getString(R.string.zb_account_not_exise));
+            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_account_not_exise));
+//            T.showShort(this, getString(R.string.zb_account_not_exise));
         }
 
     }
 
     @Override
     public void onFailure(int i, String s) {
-        ZBLoginDialogUtils.newInstance().dismissLoadingDialogNoText();
-        T.showShort(this, s);
+        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
+//        T.showShort(this, s);
     }
 
     private Bundle bundle;
@@ -230,7 +230,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
                         .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                         .setPageType("主登录页")
@@ -244,7 +244,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(true);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                             .setPageType("主登录页")
@@ -273,7 +273,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    ZBLoginDialogUtils.newInstance().dismissLoadingDialog(false);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
 //                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
                 }
             }
