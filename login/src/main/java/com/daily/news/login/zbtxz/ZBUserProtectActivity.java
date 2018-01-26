@@ -29,7 +29,7 @@ public class ZBUserProtectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_user_protect);
         ButterKnife.bind(this);
-        mWeb.loadUrl("https://zj.8531.cn/page/agreement.html");
+        mWeb.loadUrl("https://zj.zjol.com.cn/page/agreement.html");
     }
 
     @Override
