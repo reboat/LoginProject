@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.daily.news.login.zbtxz.ZBLoginActivity;
 import com.login.tesk.TestAuthActivity;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.nav.Nav;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Nav.with(this).toPath("/login/ZBMobileValidateActivity");
                 break;
             case R.id.test_login:
-                startActivity(new Intent(this, TestLoginActivity.class));
+                startActivity(new Intent(this, ZBLoginActivity.class));
                 break;
             case R.id.test_auth:
                 startActivity(new Intent(this, TestAuthActivity.class));

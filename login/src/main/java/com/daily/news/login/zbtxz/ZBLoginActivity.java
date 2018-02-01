@@ -204,21 +204,21 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
                 @Override
                 public void onFailure(int i, String s) {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
-//                    T.showShort(getApplicationContext(), s);
+                    LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                    T.showShort(getApplicationContext(), s);
                 }
             });
         } else {
-            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_account_not_exise));
-//            T.showShort(this, getString(R.string.zb_account_not_exise));
+            LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+            T.showShort(this, "账号不存在或者密码错误，请您重新输入");
         }
 
     }
 
     @Override
     public void onFailure(int i, String s) {
-        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,s);
-//        T.showShort(this, s);
+        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+        T.showShort(this, "账号不存在或者密码错误，请您重新输入");
     }
 
     private Bundle bundle;
