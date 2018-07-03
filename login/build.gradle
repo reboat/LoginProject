@@ -1,10 +1,5 @@
 apply plugin: 'com.android.library'
-<<<<<<< HEAD
 apply from: 'http://10.100.62.98:8086/nexus/service/local/repositories/releases/content/cn/daily/android/publish/0.0.4/publish-0.0.4.gradle'
-=======
-apply from: 'http://10.100.62.98:8086/nexus/service/local/repositories/releases/content/cn/daily' +
-        '/android/publish/0.0.4/publish-0.0.4.gradle'
->>>>>>> b6e2545e3ad502c2a160ccdf688ea18e61e218aa
 apply plugin: 'com.jakewharton.butterknife'
 //apply from: "${rootDir}/public.gradle"
 
