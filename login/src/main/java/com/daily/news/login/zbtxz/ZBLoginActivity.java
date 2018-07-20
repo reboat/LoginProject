@@ -231,11 +231,13 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onError(String errMsg, int errCode) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
                         .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                         .setPageType("主登录页")
                         .setEventDetail("手机号/个性账号/邮箱")
                         .setIscuccesee(false)
+                        .pageType("主登录页")
+                        .loginType("手机号;个性账号;邮箱")
                         .build()
                         .send();
 //                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
@@ -245,11 +247,13 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016")
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                             .setPageType("主登录页")
                             .setEventDetail("手机号/个性账号/邮箱")
                             .setIscuccesee(true)
+                            .pageType("主登录页")
+                            .loginType("手机号;个性账号;邮箱")
                             .build()
                             .send();
                     UserBiz userBiz = UserBiz.get();

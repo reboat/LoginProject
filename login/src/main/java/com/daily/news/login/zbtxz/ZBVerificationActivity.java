@@ -281,10 +281,12 @@ public class ZBVerificationActivity extends BaseActivity {
                 if (bean != null) {
                     //注册成功
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000")
+                    new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000", "SignUp",false)
                             .setEvenName("注册成功")
                             .setPageType("注册页")
                             .setIscuccesee(true)
+                            .pageType("注册页")
+                            .signUpType("手机号")
                             .build()
                             .send();
 

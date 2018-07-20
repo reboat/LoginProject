@@ -188,11 +188,13 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onError(String errMsg, int errCode) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(false,errMsg);
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                         .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                         .setPageType("密码重置页")
                         .setEventDetail("重置密码")
                         .setIscuccesee(false)
+                        .pageType("密码重置页")
+                        .clickTabName("重置密码")
                         .build()
                         .send();
 //                T.showShortNow(ZBResetNewPassWord.this, errMsg);
@@ -202,11 +204,13 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017")
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                             .setPageType("密码重置页")
                             .setEventDetail("重置密码")
                             .setIscuccesee(true)
+                            .pageType("密码重置页")
+                            .clickTabName("重置密码")
                             .build()
                             .send();
                     UserBiz userBiz = UserBiz.get();

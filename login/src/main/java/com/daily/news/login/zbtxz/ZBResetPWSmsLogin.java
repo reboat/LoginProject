@@ -256,11 +256,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onError(String errMsg, int errCode) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(false);
-                new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
+                new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015", "Login",false)
                         .setEvenName("浙报通行证，手机验证码登录成功")
                         .setPageType("登录页")
                         .setEventDetail("手机号登入")
                         .setIscuccesee(false)
+                        .pageType("登录页")
+                        .loginType("手机号")
                         .build()
                         .send();
             }
@@ -269,11 +271,13 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015")
+                    new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015", "Login",false)
                             .setEvenName("浙报通行证，手机验证码登录成功")
                             .setPageType("登录页")
                             .setEventDetail("手机号登入")
                             .setIscuccesee(true)
+                            .pageType("登录页")
+                            .loginType("手机号")
                             .build()
                             .send();
 
