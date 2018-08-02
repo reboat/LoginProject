@@ -278,6 +278,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                             .setIscuccesee(true)
                             .pageType("登录页")
                             .loginType("手机号")
+                            .userID(bean.getAccount().getRef_user_uid())
+                            .mobilePhone(bean.getAccount().getMobile())
                             .build()
                             .send();
 
