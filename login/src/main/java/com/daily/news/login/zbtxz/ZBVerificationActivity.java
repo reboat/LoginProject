@@ -287,6 +287,8 @@ public class ZBVerificationActivity extends BaseActivity {
                             .setIscuccesee(true)
                             .pageType("注册页")
                             .signUpType("手机号")
+                            .mobilePhone(bean.getAccount().getMobile())
+                            .userID(bean.getAccount().getRef_user_uid())
                             .build()
                             .send();
 
