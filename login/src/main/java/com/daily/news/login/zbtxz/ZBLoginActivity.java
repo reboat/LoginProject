@@ -254,7 +254,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                             .setIscuccesee(true)
                             .pageType("主登录页")
                             .loginType("手机号;个性账号;邮箱")
-                            .userID(bean.getAccount().getRef_user_uid())
+                            .userID(bean.getSession().getAccount_id())
                             .mobilePhone(bean.getAccount().getMobile())
                             .build()
                             .send();
