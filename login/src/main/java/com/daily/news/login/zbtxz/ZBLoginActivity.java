@@ -20,6 +20,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -247,6 +248,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                    SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                             .setPageType("主登录页")
