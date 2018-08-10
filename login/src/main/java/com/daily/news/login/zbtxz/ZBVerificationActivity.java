@@ -21,6 +21,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -281,6 +282,7 @@ public class ZBVerificationActivity extends BaseActivity {
                 if (bean != null) {
                     //注册成功
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                    SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                     new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000", "SignUp",false)
                             .setEvenName("注册成功")
                             .setPageType("注册页")
