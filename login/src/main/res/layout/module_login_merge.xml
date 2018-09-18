@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bc_ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_bind_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        />
+
+
+    <include
+        android:id="@+id/user_info_top"
+        layout="@layout/module_login_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"
+        android:layout_marginTop="35dp"
+        />
+
+    <include
+        android:id="@+id/user_info_bottom"
+        layout="@layout/module_login_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"
+        android:layout_marginTop="39dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="38.5dp"
+        android:paddingRight="38.5dp"
+        android:layout_marginTop="37dp"
+        >
+
+        <!--调整背景-->
+        <TextView
+            android:id="@+id/tv_quit"
+            android:layout_width="124dp"
+            android:layout_height="34dp"
+            android:gravity="center"
+            android:textColor="?attr/tc_000000"
+            android:textSize="@dimen/ts_14sp"
+            tools:text="放弃绑定" />
+
+        <TextView
+            android:id="@+id/tv_bind"
+            android:layout_width="124dp"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="?attr/tc_ffffff"
+            android:textSize="@dimen/ts_14sp"
+            tools:text="确定绑定" />
+    </RelativeLayout>
+
+
+</LinearLayout>

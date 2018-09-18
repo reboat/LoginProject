@@ -10,6 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="ZBP_APP_ID"
+            android:value="1"/>
+        <meta-data
+            android:name="ZBP_APP_KEY"
+            android:value="fQNZBzR9ej"/>
+        <meta-data
+            android:name="ZBP_APP_SECRET"
+            android:value="E1v9TSMLLit2VHTTl0i9"/>
+        <meta-data
+            android:name="ZBP_APP_ENV"
+            android:value="dev"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

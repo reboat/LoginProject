@@ -43,6 +43,13 @@
         <item name="bc_f44b50">@color/bc_f44b50</item>
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_ffffff</item>
+        <!--f7f7f7 303030-->
+        <item name="bc_f7f7f7">@color/bc_f7f7f7</item>
+        <!--a9a9a9a 7a7b7d-->
+        <item name="bc_a9a9a9">@color/bc_a9a9a9</item>
+        <!--808080 7a7b7d-->
+        <item name="tc_808080">@color/tc_808080</item>
+
 
         <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification
         </item>
@@ -111,6 +118,12 @@
         <item name="bc_f44b50">@color/bc_f44b50_night</item>
         <!--ffffff  999999-->
         <item name="tc_ffffff">@color/tc_999999</item>
+        <!--f7f7f7 303030-->
+        <item name="bc_f7f7f7">@color/bc_f7f7f7_night</item>
+        <!--a9a9a9a 7a7b7d-->
+        <item name="bc_a9a9a9">@color/bc_a9a9a9_night</item>
+        <!--808080 7a7b7d-->
+        <item name="tc_808080">@color/tc_808080_night</item>
 
         <item name="module_login_bg_sms_verification">
             @drawable/module_login_bg_sms_verification_night

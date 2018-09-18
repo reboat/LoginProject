@@ -45,6 +45,12 @@
         <attr name="bc_f44b50" format="color|reference" />
         <!--ffffff  999999-->
         <attr name="tc_ffffff" format="color|reference" />
+        <!--f7f7f7 303030-->
+        <attr name="bc_f7f7f7" format="color|reference" />
+        <!--a9a9a9a 7a7b7d-->
+        <attr name="bc_a9a9a9" format="color|reference" />
+        <!--808080 7a7b7d-->
+        <attr name="tc_808080" format="color|reference" />
 
         <attr name="module_login_bg_sms_verification" format="reference" />
 

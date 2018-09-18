@@ -10,6 +10,9 @@ import com.zjrb.core.common.base.BaseInit;
 import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.utils.SettingManager;
 import com.zjrb.core.utils.UIUtils;
+import com.zjrb.passport.ZbConfig;
+import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 public class App extends Application {
 
@@ -22,7 +25,7 @@ public class App extends Application {
         UiModeManager.init(this, R.styleable.SupportUiMode);
         WoaSdk.init(this);
         Passport.init(this);
-
+        initPassport();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -30,5 +33,13 @@ public class App extends Application {
         }
         LeakCanary.install(this);
         SettingManager.init(this);
+    }
+
+    private void initPassport() {
+        ZbPassport.init(this,
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                        .setDebug(true)
+                        .setAppVersion("1.0")
+                        .setAppUuid("uuid"));
     }
 }

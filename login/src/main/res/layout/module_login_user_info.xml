@@ -1,0 +1,191 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/bc_f7f7f7">
+    
+    <!--todo 背景修改为1dp圆角-->
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前登录账户"
+            android:layout_marginLeft="25dp"
+            android:layout_centerVertical="true"
+            android:textColor="?attr/tc_f44b50"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_logo"
+                android:layout_marginLeft="12dp"
+                android:layout_alignTop="@+id/iv_logo"
+                android:text="我爱吃火锅"
+                android:textColor="?attr/tc_808080"
+                android:textSize="@dimen/ts_14sp"
+                />
+            
+            <LinearLayout
+                android:id="@+id/ll_user_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+        
+        <CheckBox
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bc_a9a9a9"
+        android:layout_marginLeft="10.5dp"
+        android:layout_marginRight="10.5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:id="@+id/tv_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="积分"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+            <TextView
+                android:id="@+id/tv_score_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="14.5dp"
+                android:text="888"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/tv_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="文章收藏"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+            <TextView
+                android:id="@+id/tv_fav_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="14.5dp"
+                android:text="888"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="发表评论"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+            <TextView
+                android:id="@+id/tv_comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="14.5dp"
+                android:text="888"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="?attr/tc_808080"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+  
+
+</LinearLayout>

@@ -2,6 +2,8 @@
     <string name="app_name">Login</string>
 
     <string name="zb_login">登录</string>
+    <string name="zb_login_register">登录注册</string>
+    <string name="zb_login_by_password">通过账号密码登录</string>
     <string name="zb_toolbar_login">浙报通行证登录</string>
     <string name="zb_register_toolbar">注册</string>
     <string name="zb_confirm">确认</string>
@@ -31,14 +33,19 @@
     <string name="zb_input_sms_tip">验证码短信可能有一定延迟，请耐心稍微等待</string>
     <string name="zb_sms_send">短信已发送成功</string>
     <string name="zb_reg_tip">已阅读并同意</string>
+    <string name="zb_login_tip">登录注册表示同意</string>
     <string name="zb_reg_link">用户服务协议</string>
     <string name="zb_mobile_contact">联系方式</string>
     <string name="zb_set_password_tip">重设通行证密码</string>
     <string name="zb_mobile_jump">跳过</string>
     <string name="zb_mobile_valideta_tip">填写联系方式,兑换礼品更方便快捷</string>
+    <string name="zb_mobile_bind_tip">绑定手机后,可通过手机号快速登录</string>
+    <string name="zb_mobile_bind_title">手机号绑定</string>
+
 
 
     <string name="zb_mobile_submit">提交</string>
+    <string name="zb_mobile_ok">确定 </string>
     <string name="zb_login_type_qq">QQ</string>
     <string name="zb_login_type_wx">微信</string>
     <string name="zb_login_type_wb">微博</string>

@@ -32,6 +32,18 @@ public class APIManager {
          * 用户协议
          */
         public static final String USER_PROTECT = "/api/account/agreement";
+
+        /**
+         * 多账号详情接口  GET
+         */
+        public static final String MULTI_ACCOUNT_DETAIL = "/api/account/multi_account_detail";
+
+        /**
+         * 账号合并接口  POST
+         */
+        public static final String ACCOUNT_MERGE = "/api/account/account_merge";
+
+
     }
 
 }

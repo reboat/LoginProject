@@ -1,0 +1,290 @@
+<com.aliya.view.fitsys.FitWindowsRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    app:fitType="bottom"
+    android:background="?attr/bc_ffffff">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:src="@mipmap/module_login_day_zbtxz" />
+
+
+    <RelativeLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_below="@+id/iv_logo"
+        android:layout_marginTop="25dp"
+        >
+
+        <EditText
+            android:id="@+id/et_account_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/border_edit_bg"
+            android:cursorVisible="true"
+            android:gravity="left"
+            android:hint="手机号码"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textColor="?attr/tc_484848"
+            android:textColorHint="?attr/tc_999999"
+            android:textSize="@dimen/ts_14sp" />
+
+        <ImageView
+            android:id="@+id/iv_phone_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/module_login_close"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ly_sms_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_phone"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="35dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            >
+
+            <EditText
+                android:id="@+id/et_sms_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/border_edit_bg"
+                android:digits="1234567890"
+                android:gravity="left"
+                android:hint="验证码"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:singleLine="true"
+                android:textColor="?attr/tc_484848"
+                android:textColorHint="?attr/tc_999999"
+                android:textSize="@dimen/ts_14sp" />
+
+            <ImageView
+                android:id="@+id/iv_sms_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/module_login_close"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+
+
+        <!--@drawable/border_reset_password_timer_bg-->
+        <TextView
+            android:id="@+id/tv_sms_verification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:background="?attr/module_login_bg_sms_verification"
+            android:gravity="center"
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp"
+            android:textColor="?attr/sl_tc_sms_verification"
+            android:textSize="@dimen/ts_11sp"
+            tools:text="重新发送验证码" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignStart="@+id/ly_login_button_bar"
+        android:layout_below="@+id/ly_sms_code"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="35dp"
+        android:background="?attr/border_login_text_bg"
+        android:gravity="center"
+        android:textColor="?attr/tc_ffffff"
+        android:textSize="@dimen/ts_16sp"
+        tools:text="登录" />
+
+    <TextView
+        android:id="@+id/tv_password_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="?attr/tc_f44b50"
+        android:textSize="@dimen/ts_11sp"
+        tools:text="通过账号密码登录" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv_password_login"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_module_login_wx"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                app:iv_maskColor="@android:color/transparent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="?attr/module_login_wx" />
+
+            <TextView
+                android:id="@+id/tv_module_login_wx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_login_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:maxLines="1"
+                android:textColor="?attr/tc_999999"
+                android:textSize="11sp"
+                tools:text="微信" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_module_login_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                app:iv_maskColor="@android:color/transparent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="?attr/module_login_qq" />
+
+            <TextView
+                android:id="@+id/tv_module_login_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_login_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:maxLines="1"
+                android:textColor="?attr/tc_999999"
+                android:textSize="11sp"
+                tools:text="QQ" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_module_login_wb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                app:iv_maskColor="@android:color/transparent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="?attr/module_login_wb" />
+
+            <TextView
+                android:id="@+id/tv_module_login_wb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_login_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:maxLines="1"
+                android:textColor="?attr/tc_999999"
+                android:textSize="11sp"
+                tools:text="微博" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_link_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:textColor="?attr/tc_484848"
+            android:textSize="@dimen/ts_11sp"
+            tools:text="登录注册表示同意" />
+
+        <TextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?attr/tc_f44b50"
+            android:textSize="@dimen/ts_11sp"
+            tools:text="用户服务协议" />
+
+    </LinearLayout>
+
+
+</com.aliya.view.fitsys.FitWindowsRelativeLayout>
