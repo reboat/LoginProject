@@ -39,6 +39,9 @@ import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -293,6 +296,15 @@ public class ZBVerificationActivity extends BaseActivity {
                             .userID(bean.getSession().getAccount_id())
                             .build()
                             .send();
+
+                    try {
+                        JSONObject properties = new JSONObject();
+                        properties.put("userID", bean.getSession().getAccount_id());
+                        properties.put("mobilePhone", bean.getAccount().getMobile());
+                        SensorsDataAPI.sharedInstance().profileSet(properties);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);

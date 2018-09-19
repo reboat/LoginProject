@@ -40,6 +40,9 @@ import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -260,6 +263,14 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                             .mobilePhone(bean.getAccount().getMobile())
                             .build()
                             .send();
+                    try {
+                        JSONObject properties = new JSONObject();
+                        properties.put("userID", bean.getSession().getAccount_id());
+                        properties.put("mobilePhone", bean.getAccount().getMobile());
+                        SensorsDataAPI.sharedInstance().profileSet(properties);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功

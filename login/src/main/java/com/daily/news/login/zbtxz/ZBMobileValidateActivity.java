@@ -14,6 +14,7 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetSmsCodeTask;
 import com.daily.news.login.task.MobileValidateTask;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.RealNameAuthHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -30,6 +31,9 @@ import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -193,6 +197,14 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 if(loginBean != null){
                     loginBean.setMobile(mobile);
                     userBiz.setAccount(loginBean);
+                }
+                try {
+                    JSONObject properties = new JSONObject();
+                    properties.put("userID", userBiz.getAccountID());
+                    properties.put("mobilePhone", mobile);
+                    SensorsDataAPI.sharedInstance().profileSet(properties);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
                 setResult(RESULT_OK);
