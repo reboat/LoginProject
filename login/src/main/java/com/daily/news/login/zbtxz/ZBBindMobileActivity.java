@@ -18,6 +18,7 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
@@ -36,6 +37,7 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -183,6 +185,25 @@ public class ZBBindMobileActivity extends BaseActivity {
      * @param smsCode
      */
     private void bindMobile(final String mobile, final String smsCode) {
+        /* datebypass传参
+         {
+          "type": 1,
+          "data": 13965146707,
+          "session_id": "59a9272bf7bf513f18a7bf9b"
+        }
+        1：表示修改手机号码（包含绑定和修改）
+        data: 表示对应的手机号码
+        session_id：app端请求时会话的sessionId */
+        try {
+            JSONObject object = new JSONObject();
+            object.put("type", 1);
+            object.put("data", mobile);
+            object.put("session_id", UserBiz.get().getSessionId());
+            ZbPassport.getZbConfig().setData_bypass(object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
         ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
             @Override
             public void onSuccess(JSONObject object) {

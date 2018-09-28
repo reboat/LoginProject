@@ -49,7 +49,7 @@
 
                 <data android:scheme="@string/data_scheme" />
 
-                <data android:path="/login/LoginMainActivity" />
+                <data android:path="/login/LoginActivity" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
@@ -238,7 +238,7 @@
             </intent-filter>
         </activity>
 
-        <!--<activity
+        <activity
             android:name="com.daily.news.login.zbtxz.ZBMobileValidateActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -250,11 +250,11 @@
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBMobileValidateActivity" />
 
-                &lt;!&ndash;以下测试 host &ndash;&gt;
+                <!--以下测试 host -->
                 <data android:host="@string/data_host" />
 
             </intent-filter>
-        </activity>-->
+        </activity>
         <!--用户协议-->
         <activity
             android:name=".zbtxz.ZBUserProtectActivity"
