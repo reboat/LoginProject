@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?attr/bc_f7f7f7">
-    
-    <!--todo 背景修改为1dp圆角-->
+    android:background="?attr/module_bind_user_info_bg">
     
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,6 +31,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_centerVertical="true"
+                android:src="@mipmap/default_user_icon"
                 />
 
             <TextView
@@ -42,6 +41,8 @@
                 android:layout_toRightOf="@+id/iv_logo"
                 android:layout_marginLeft="12dp"
                 android:layout_alignTop="@+id/iv_logo"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="我爱吃火锅"
                 android:textColor="?attr/tc_808080"
                 android:textSize="@dimen/ts_14sp"
@@ -51,22 +52,58 @@
                 android:id="@+id/ll_user_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_logo"
+                android:layout_marginLeft="12dp"
+                android:layout_below="@+id/tv_name"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 >
-                
-            </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/iv_mobile"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="?attr/module_bind_mobile"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_weixin"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:src="?attr/module_bind_wx"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_weibo"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:src="?attr/module_bind_wb"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_qq"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:src="?attr/module_bind_qq"
+                    />
+
+            </LinearLayout>
 
 
         </RelativeLayout>
         
         <CheckBox
+            android:id="@+id/cb_userinfo"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
+            android:background="?attr/module_login_userinfo_select"
             />
 
 

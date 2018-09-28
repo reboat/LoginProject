@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,12 +15,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.bean.MultiAccountBean;
-import com.daily.news.login.task.GetMuitiAccountTask;
 import com.daily.news.login.task.UserAccountMergeTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.utils.T;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +51,16 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     ImageView mUserLogoTop;
     ImageView mUserLogoBottom;
 
+    ImageView mIvMobile;
+    ImageView mIvQQ;
+    ImageView mIvWeixin;
+    ImageView mIvWeibo;
+
+    ImageView mIvMobileBottom;
+    ImageView mIvQQBottom;
+    ImageView mIvWeixinBottom;
+    ImageView mIvWeiboBottom;
+
     TextView mUserNameTop; // 用户名
     TextView mUserNameBottom;
 
@@ -66,7 +79,13 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     TextView mUserCommentNumTop;
     TextView mUserCommentNumBottom;
 
+    CheckBox mCbTop;
+    CheckBox mCbBottom;
+
     private MultiAccountBean multiAccountBean;
+    private MultiAccountBean.AccountBean mSelectBean;
+    private String mSelectId;
+    private String mUnSelectedId;
     private int authType = 1;
     private String authUid;
 
@@ -75,12 +94,13 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
      */
     private void getIntentData(Intent intent) {
         if (intent != null) {
-            if (intent.hasExtra("auth_type")) {
-                authType = intent.getIntExtra("auth_type", 0);
-            }
-            if (intent.hasExtra("auth_uid")) {
-                authUid = intent.getStringExtra("auth_uid");
-            }
+            multiAccountBean = (MultiAccountBean) intent.getSerializableExtra("merge_data");
+//            if (intent.hasExtra("auth_type")) {
+//                authType = intent.getIntExtra("auth_type", 0);
+//            }
+//            if (intent.hasExtra("auth_uid")) {
+//                authUid = intent.getStringExtra("auth_uid");
+//            }
         }
     }
 
@@ -92,34 +112,35 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
-        initData();
+        refreshView(multiAccountBean);
+//        initData();
     }
 
-    private void initData() {
-        new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
-
-            @Override
-            public void onSuccess(MultiAccountBean data) {
-                if (data != null) {
-                    multiAccountBean = data;
-                    refreshView(multiAccountBean);
-                }
-            }
-
-            @Override
-            public void onError(String errMsg, int errCode) {
-                super.onError(errMsg, errCode);
-            }
-        }).setTag(this).exe(authType, authUid);
-
-    }
+//    private void initData() {
+//        new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
+//
+//            @Override
+//            public void onSuccess(MultiAccountBean data) {
+//                if (data != null) {
+//                    multiAccountBean = data;
+//                    refreshView(multiAccountBean);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(String errMsg, int errCode) {
+//                super.onError(errMsg, errCode);
+//            }
+//        }).setTag(this).exe(authType, authUid);
+//
+//    }
 
     private void refreshView(MultiAccountBean bean) {
         if (bean == null) {
             return;
         }
-        MultiAccountBean.AccountBean firstAccount = bean.getFirst_account();
-        MultiAccountBean.AccountBean secondAccount = bean.getSecond_account();
+        final MultiAccountBean.AccountBean firstAccount = bean.getFirst_account();
+        final MultiAccountBean.AccountBean secondAccount = bean.getSecond_account();
         if (firstAccount != null) {
             RequestOptions options = new RequestOptions();
             options.placeholder(R.mipmap.default_user_icon);
@@ -144,6 +165,29 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
             mUserFavNumTop.setText(firstAccount.getNews_favorite_size());
             mUserCommentNumTop.setText(firstAccount.getComment_size());
         }
+        mCbTop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCbBottom.setChecked(false);
+                    mSelectBean = firstAccount;
+                    mSelectId = firstAccount.getId();
+                    mUnSelectedId = secondAccount.getId();
+                }
+            }
+        });
+
+        mCbBottom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCbTop.setChecked(false);
+                    mSelectBean = secondAccount;
+                    mSelectId = secondAccount.getId();
+                    mUnSelectedId = firstAccount.getId();
+                }
+            }
+        });
 
     }
 
@@ -159,7 +203,12 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserScoreNumTop = (TextView) mInfoTop.findViewById(R.id.tv_score_num);
         mUserFavNumTop = (TextView) mInfoTop.findViewById(R.id.tv_fav_num);
         mUserCommentNumTop = (TextView) mInfoTop.findViewById(R.id.tv_comment_num);
-        // TODO: 2018/9/3 图片组及checkBox
+        mIvMobile = (ImageView) mInfoTop.findViewById(R.id.iv_mobile);
+        mIvQQ = (ImageView) mInfoTop.findViewById(R.id.iv_qq);
+        mIvWeixin = (ImageView) mInfoTop.findViewById(R.id.iv_weixin);
+        mIvWeibo = (ImageView) mInfoTop.findViewById(R.id.iv_weibo);
+        mCbTop = (CheckBox) mInfoTop.findViewById(R.id.cb_userinfo);
+
 
         mUserLogoBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_logo);
         mUserNameBottom = (TextView) mInfoBottom.findViewById(R.id.tv_name);
@@ -169,6 +218,20 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserScoreNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_score_num);
         mUserFavNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_fav_num);
         mUserCommentNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_comment_num);
+        mIvMobileBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_mobile);
+        mIvQQBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_qq);
+        mIvWeixinBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_weixin);
+        mIvWeiboBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_weibo);
+        mCbBottom = (CheckBox) mInfoBottom.findViewById(R.id.cb_userinfo);
+
+        // TODO: 2018/9/19 设置 确认绑定按钮的选中态  设置背景
+        if (mCbTop.isChecked() || mCbBottom.isChecked()) {
+            mTvBind.setClickable(true);
+
+        } else {
+            mTvBind.setClickable(false);
+            // TODO: 2018/9/19 设置背景
+        }
     }
 
     @Override
@@ -193,7 +256,6 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         switch (v.getId()) {
             default:
                 break;
-            // TODO: 2018/9/3 R.id
             case R2.id.tv_quit:
                 finish();
                 break;
@@ -207,12 +269,19 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
      * 账号合并页面确认绑定功能
      */
     private void bindAccount() {
-        // TODO: 2018/9/10 添加参数
         new UserAccountMergeTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onSuccess(ZBLoginBean data) {
-
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(data);
+                T.showShort(ZBBindMergeInfoActivity.this, getResources().getString(R.string.zb_mobile_bind_success_tip));
             }
-        }).setTag(this).exe();
+
+            @Override
+            public void onError(String errMsg, int errCode) {
+                super.onError(errMsg, errCode);
+                T.showShort(ZBBindMergeInfoActivity.this, errMsg);
+            }
+        }).setTag(this).exe(mSelectId, mUnSelectedId);
     }
 }

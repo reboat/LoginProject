@@ -51,6 +51,10 @@
         <attr name="bc_a9a9a9" format="color|reference" />
         <!--808080 7a7b7d-->
         <attr name="tc_808080" format="color|reference" />
+        <!--ffffff cccbcb-->
+        <attr name="tc_cccbcb" format="color|reference" />
+        <!--ffffff 7a7b7d-->
+        <attr name="tc_7a7b7d" format="color|reference" />
 
         <attr name="module_login_bg_sms_verification" format="reference" />
 
@@ -70,7 +74,23 @@
 
         <attr name="module_login_wb" format="reference" />
 
+        <attr name="module_bind_mobile" format="reference" />
+
+        <attr name="module_bind_wx" format="reference" />
+
+        <attr name="module_bind_qq" format="reference" />
+
+        <attr name="module_bind_wb" format="reference" />
+
+        <attr name="module_bind_user_info_bg" format="reference" />
+
         <attr name="module_login_register_select" format="reference" />
+
+        <attr name="module_login_userinfo_select" format="reference" />
+
+        <attr name="border_login_bind_btn_bg" format="reference" />
+
+        <attr name="border_login_cancel_bind_btn_bg" format="reference" />
 
     </declare-styleable>
 

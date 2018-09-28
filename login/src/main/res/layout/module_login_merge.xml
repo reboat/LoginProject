@@ -13,6 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/ts_11sp"
+        android:textColor="?attr/tc_484848"
         />
 
 
@@ -48,19 +51,21 @@
         <TextView
             android:id="@+id/tv_quit"
             android:layout_width="124dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:textColor="?attr/tc_000000"
+            android:background="?attr/border_login_cancel_bind_btn_bg"
             android:textSize="@dimen/ts_14sp"
             tools:text="放弃绑定" />
 
         <TextView
             android:id="@+id/tv_bind"
             android:layout_width="124dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:textColor="?attr/tc_ffffff"
+            android:textColor="?attr/tc_7a7b7d"
+            android:background="?attr/border_login_bind_btn_bg"
             android:textSize="@dimen/ts_14sp"
             tools:text="确定绑定" />
     </RelativeLayout>

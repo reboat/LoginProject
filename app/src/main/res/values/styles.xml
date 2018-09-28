@@ -49,6 +49,10 @@
         <item name="bc_a9a9a9">@color/bc_a9a9a9</item>
         <!--808080 7a7b7d-->
         <item name="tc_808080">@color/tc_808080</item>
+        <!--ffffff cccbcb-->
+        <item name="tc_cccbcb">@color/tc_ffffff</item>
+        <!--ffffff 7a7b7d-->
+        <item name="tc_7a7b7d">@color/tc_ffffff</item>
 
 
         <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification
@@ -57,6 +61,10 @@
         <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
 
         <item name="border_login_text_bg">@drawable/border_login_text_bg</item>
+
+        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_bg</item>
+
+        <item name="border_login_cancel_bind_btn_bg">@drawable/border_login_cancel_bind_btn_bg</item>
 
         <item name="border_edit_bg">@drawable/border_edit_bg</item>
 
@@ -69,6 +77,16 @@
         <item name="module_login_qq">@mipmap/module_login_day_qq</item>
 
         <item name="module_login_wb">@mipmap/module_login_day_wb</item>
+
+        <item name="module_bind_mobile">@mipmap/module_login_phone</item>
+
+        <item name="module_bind_wx">@mipmap/module_login_weixin</item>
+
+        <item name="module_bind_qq">@mipmap/module_login_qq</item>
+
+        <item name="module_bind_wb">@mipmap/module_login_weibo</item>
+
+        <item name="module_bind_user_info_bg">@drawable/module_bind_user_info_bg</item>
 
     </style>
 
@@ -124,6 +142,10 @@
         <item name="bc_a9a9a9">@color/bc_a9a9a9_night</item>
         <!--808080 7a7b7d-->
         <item name="tc_808080">@color/tc_808080_night</item>
+        <!--ffffff cccbcb-->
+        <item name="tc_cccbcb">@color/continuous_text_color_night</item>
+        <!--ffffff 7a7b7d-->
+        <item name="tc_7a7b7d">@color/tc_7a7b7d</item>
 
         <item name="module_login_bg_sms_verification">
             @drawable/module_login_bg_sms_verification_night
@@ -132,6 +154,10 @@
         <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
 
         <item name="border_login_text_bg">@drawable/border_login_text_bg_night</item>
+
+        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_bg_night</item>
+
+        <item name="border_login_cancel_bind_btn_bg">@drawable/border_login_cancel_bind_btn_bg_night</item>
 
         <item name="border_edit_bg">@drawable/border_edit_bg_night</item>
 
@@ -144,6 +170,18 @@
         <item name="module_login_qq">@mipmap/module_login_night_qq</item>
 
         <item name="module_login_wb">@mipmap/module_login_night_wb</item>
+
+        <item name="module_bind_mobile">@mipmap/module_login_phone_night</item>
+
+        <item name="module_bind_wx">@mipmap/module_login_weixin_night</item>
+
+        <item name="module_bind_qq">@mipmap/module_login_qq_night</item>
+
+        <item name="module_bind_wb">@mipmap/module_login_weibo_night</item>
+
+        <item name="module_bind_user_info_bg">@drawable/module_bind_user_info_bg_night</item>
+
+
     </style>
 
 </resources>

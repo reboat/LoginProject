@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.daily.news.login.baseview.TipPopup;
 import com.daily.news.login.task.UserProtectBean;
 import com.daily.news.login.task.UserProtectTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
@@ -114,8 +117,49 @@ public class LoginMainActivity extends BaseActivity {
         setContentView(R.layout.module_login_main);
         getIntentData(getIntent());
         ButterKnife.bind(this);
+
         initLoginRV();
         LoginHelper.get().setLogin(true); // 标记开启
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        handleLastLogin();
+    }
+
+    /**
+     * 处理上次登录的状态
+     */
+    private void handleLastLogin() {
+        // TODO: 2018/9/18 删除
+//        showPopup(mLlModuleLoginQq);
+        boolean isPhone = SPHelper.get().get("isPhone", false);
+        String lastLogin = SPHelper.get().get("last_login", "");
+        if (isPhone) { // 显示上次登录的手机号及头像
+            String lastLogo = SPHelper.get().get("last_logo", "");
+            if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
+                mEtAccountText.setText(lastLogin);
+                mIvPhoneClose.setVisibility(View.VISIBLE);
+                RequestOptions options = new RequestOptions();
+                options.placeholder(R.mipmap.default_user_icon);
+                options.centerCrop();
+                options.circleCrop();
+                Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
+            }
+        } else { // 显示三方登录的气泡
+            if (TextUtils.equals(lastLogin, "wei_xin")) {
+                showPopup(mLlModuleLoginWx);
+            } else if (TextUtils.equals(lastLogin, "wei_bo")) {
+                showPopup(mLlModuleLoginWb);
+            } else if (TextUtils.equals(lastLogin, "wei_qq")) {
+                showPopup(mLlModuleLoginQq);
+            }
+        }
+    }
+
+    private void showPopup(View view) {
+        new TipPopup(this).showAboveView(view);
     }
 
     @Override
@@ -258,7 +302,6 @@ public class LoginMainActivity extends BaseActivity {
             mEtSmsText.setText("");
             mIvSmsClose.setVisibility(View.GONE);
         } else if (v.getId() == R.id.tv_link) {
-            T.showShortNow(this, "link........");
             getUserProject();
         }
     }

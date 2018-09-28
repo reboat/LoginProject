@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.bean.MultiAccountBean;
 import com.daily.news.login.global.Key;
+import com.daily.news.login.task.GetMuitiAccountTask;
+import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
@@ -224,16 +227,37 @@ public class ZBBindMobileActivity extends BaseActivity {
                             }));
                     zbBindDialog.show();
                 } else if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED_CAN_MERGE) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("auth_type", 1);
-                    bundle.putString("auth_uid", mobile);
-                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("auth_type", 1);
+//                    bundle.putString("auth_uid", mobile);
+//                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+                    new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
+
+                        @Override
+                        public void onSuccess(MultiAccountBean data) {
+                            if (data != null) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("merge_data", data);
+                                Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+                            } else {
+                                T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(String errMsg, int errCode) {
+                            super.onError(errMsg, errCode);
+                            T.showShortNow(ZBBindMobileActivity.this, errMsg);
+                        }
+                    }).setTag(this).exe(1, mobile);
                 } else {
                     T.showShortNow(ZBBindMobileActivity.this, errorMessage);
                 }
 
             }
         });
+    }
+
 
         //短信验证码验证
 //        new MobileValidateTask(new APIExpandCallBack<Void>() {
@@ -257,7 +281,6 @@ public class ZBBindMobileActivity extends BaseActivity {
 //                finish();
 //            }
 //        }).setTag(this).exe(mobile, smsCode);
-    }
 
     /**
      * 获取绑定手机号短信验证码
