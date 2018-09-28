@@ -33,6 +33,8 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbBindPhoneListener;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -180,7 +182,7 @@ public class ZBBindMobileActivity extends BaseActivity {
     private void bindMobile(final String mobile, final String smsCode) {
         ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(JSONObject object) {
                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                         .setTitle("绑定成功")
@@ -269,7 +271,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                     public void onGranted(boolean isAlreadyDef) {
                         ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, mobile, new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess() {
+                            public void onSuccess(JSONObject object) {
                                 startTimeCountDown();
                                 T.showShortNow(getActivity(), getString(R.string
                                         .zb_sms_send));

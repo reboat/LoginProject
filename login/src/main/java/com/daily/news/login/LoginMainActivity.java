@@ -44,6 +44,8 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -319,7 +321,7 @@ public class LoginMainActivity extends BaseActivity {
                         //短信登录
                         ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtAccountText.getText().toString(), new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess() {
+                            public void onSuccess(JSONObject object) {
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(LoginMainActivity.this, getString(R
@@ -360,7 +362,7 @@ public class LoginMainActivity extends BaseActivity {
         ZbPassport.loginCaptcha(phone, captcha, new ZbLoginListener() {
 
             @Override
-            public void onSuccess(LoginInfo loginInfo) {
+            public void onSuccess(LoginInfo loginInfo, JSONObject jsonObject) {
                 if (loginInfo != null) {
                     // 登录认证
                     loginValidate(phone, loginInfo.getToken());

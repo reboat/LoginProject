@@ -36,6 +36,8 @@ import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbFindPasswordListener;
 import com.zjrb.passport.listener.ZbLoginListener;
 
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -143,12 +145,12 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
         LoadingDialogUtils.newInstance().getLoginingDialog("正在重置");
         ZbPassport.findPassword(phoneNum, sms, etPasswordText.getText().toString(), new ZbFindPasswordListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(JSONObject object) {
                 // TODO: 2018/8/17 找回密码成功,重新登录
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                 ZbPassport.login(phoneNum, etPasswordText.getText().toString(), new ZbLoginListener() {
                     @Override
-                    public void onSuccess(LoginInfo bean) {
+                    public void onSuccess(LoginInfo bean, JSONObject jsonObject) {
                         if (bean != null) {
                             loginValidate(phoneNum, bean.getToken(), "phone_number");
                         } else {

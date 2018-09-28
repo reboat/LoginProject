@@ -28,6 +28,8 @@ import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -149,7 +151,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
     public void doNext(final String phoneNum, final String sms) {
         ZbPassport.verifyCaptcha(ZbConstants.Sms.FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
             @Override
-            public void onSuccess(boolean isValid) {
+            public void onSuccess(boolean isValid, JSONObject object) {
                 if (isValid) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                     if (bundle == null) {
@@ -187,7 +189,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
                     public void onGranted(boolean isAlreadyDef) {
                         ZbPassport.sendCaptcha(ZbConstants.Sms.FIND, phoneNum, new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess() {
+                            public void onSuccess(JSONObject object) {
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(ZBResetPasswordActivity.this, getString(R

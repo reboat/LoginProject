@@ -39,6 +39,8 @@ import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbLoginListener;
 
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -232,7 +234,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         } else {
             ZbPassport.login(text, password, new ZbLoginListener() {
                 @Override
-                public void onSuccess(LoginInfo bean) {
+                public void onSuccess(LoginInfo bean, JSONObject object) {
                     if (bean != null) {
                        loginValidate(text, bean.getToken(), type);
                     } else {
