@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.test_login:
             startActivity(new Intent(this, LoginMainActivity.class));
-//            startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.test_auth:
                 startActivity(new Intent(this, TestAuthActivity.class));

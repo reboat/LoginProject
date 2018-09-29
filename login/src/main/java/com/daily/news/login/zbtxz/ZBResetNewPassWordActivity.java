@@ -293,7 +293,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                         // 关闭本页面 （短信验证码登录页面）
                         finish();
                         // 关闭登录入口页
-                        AppManager.get().finishActivity(LoginActivity.class);
+                        AppManager.get().finishActivity(LoginMainActivity.class);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"密码重置失败");

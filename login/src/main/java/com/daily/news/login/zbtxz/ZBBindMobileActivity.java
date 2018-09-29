@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.daily.news.login.LoginActivity;
+import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.bean.MultiAccountBean;
@@ -390,6 +390,6 @@ public class ZBBindMobileActivity extends BaseActivity {
         super.finish();
         // TODO: 2018/8/31
 //        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
-        AppManager.get().finishActivity(LoginActivity.class);
+        AppManager.get().finishActivity(LoginMainActivity.class);
     }
 }

@@ -11,24 +11,25 @@ import com.zjrb.core.domain.base.BaseData;
 public class MultiAccountBean extends BaseData{
 
 
-    private AccountBean first_account;
-    private AccountBean second_account;
+    private AccountBean current_account;
+    private AccountBean candidate_account;
 
-    public AccountBean getFirst_account() {
-        return first_account;
+    public AccountBean getCurrent_account() {
+        return current_account;
     }
 
-    public void setFirst_account(AccountBean first_account) {
-        this.first_account = first_account;
+    public void setCurrent_account(AccountBean current_account) {
+        this.current_account = current_account;
     }
 
-    public AccountBean getSecond_account() {
-        return second_account;
+    public AccountBean getCandidate_account() {
+        return candidate_account;
     }
 
-    public void setSecond_account(AccountBean second_account) {
-        this.second_account = second_account;
+    public void setCandidate_account(AccountBean candidate_account) {
+        this.candidate_account = candidate_account;
     }
+
 
     public static class AccountBean {
         /**
@@ -48,7 +49,7 @@ public class MultiAccountBean extends BaseData{
         private String nick_name;
         private int total_score;
         private int comment_size;
-        private String id;
+        private String passport_id;
         private BindingLogMapBean binding_log_map;
 
         public boolean isCurrent_account() {
@@ -99,13 +100,6 @@ public class MultiAccountBean extends BaseData{
             this.comment_size = comment_size;
         }
 
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
 
         public BindingLogMapBean getBinding_log_map() {
             return binding_log_map;
@@ -113,6 +107,14 @@ public class MultiAccountBean extends BaseData{
 
         public void setBinding_log_map(BindingLogMapBean binding_log_map) {
             this.binding_log_map = binding_log_map;
+        }
+
+        public String getPassport_id() {
+            return passport_id;
+        }
+
+        public void setPassport_id(String passport_id) {
+            this.passport_id = passport_id;
         }
     }
 

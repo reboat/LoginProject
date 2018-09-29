@@ -139,8 +139,8 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         if (bean == null) {
             return;
         }
-        final MultiAccountBean.AccountBean firstAccount = bean.getFirst_account();
-        final MultiAccountBean.AccountBean secondAccount = bean.getSecond_account();
+        final MultiAccountBean.AccountBean firstAccount = bean.getCurrent_account();
+        final MultiAccountBean.AccountBean secondAccount = bean.getCandidate_account();
         if (firstAccount != null) {
             RequestOptions options = new RequestOptions();
             options.placeholder(R.mipmap.default_user_icon);
@@ -171,8 +171,8 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
                 if (isChecked) {
                     mCbBottom.setChecked(false);
                     mSelectBean = firstAccount;
-                    mSelectId = firstAccount.getId();
-                    mUnSelectedId = secondAccount.getId();
+                    mSelectId = firstAccount.getPassport_id();
+                    mUnSelectedId = secondAccount.getPassport_id();
                 }
             }
         });
@@ -183,8 +183,8 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
                 if (isChecked) {
                     mCbTop.setChecked(false);
                     mSelectBean = secondAccount;
-                    mSelectId = secondAccount.getId();
-                    mUnSelectedId = firstAccount.getId();
+                    mSelectId = secondAccount.getPassport_id();
+                    mUnSelectedId = firstAccount.getPassport_id();
                 }
             }
         });

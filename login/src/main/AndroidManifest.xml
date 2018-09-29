@@ -16,26 +16,6 @@
             android:name="WOA_APP_ID"
             android:value="416" />
 
-        <!--<activity-->
-            <!--android:name="com.daily.news.login.LoginActivity"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-                <!--<data android:scheme="@string/data_scheme" />-->
-
-                <!--<data android:path="/login/LoginActivity" />-->
-
-                <!--&lt;!&ndash;以下测试 host &ndash;&gt;-->
-                <!--<data android:host="@string/data_host" />-->
-
-            <!--</intent-filter>-->
-
-        <!--</activity>-->
 
         <activity
             android:name="com.daily.news.login.LoginMainActivity"
@@ -96,25 +76,6 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name="com.daily.news.login.zbtxz.ZBRegisterActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/data_scheme" />
-
-                <data android:scheme="@string/data_scheme" />
-                <data android:path="/login/ZBRegisterActivity" />
-
-                <!--以下测试 host -->
-                <data android:host="@string/data_host" />
-
-            </intent-filter>
-        </activity>
         <!--<activity-->
             <!--android:name="com.daily.news.login.zbtxz.ZBResetNewPassWord"-->
             <!--android:screenOrientation="portrait">-->
@@ -142,7 +103,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/data_scheme" />
-                <data android:path="/login/ZBResetNewPassWordActivity" />
+                <data android:path="/login/ZBResetNewPassWord" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
@@ -166,24 +127,7 @@
 
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.daily.news.login.zbtxz.ZBResetPWSmsLogin"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/data_scheme" />
-                <data android:path="/login/ZBResetPWSmsLogin" />
-
-                <!--以下测试 host -->
-                <data android:host="@string/data_host" />
-
-            </intent-filter>
-        </activity>
-        <activity
+        <!--        <activity
             android:name="com.daily.news.login.zbtxz.ZBVerificationActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -195,11 +139,11 @@
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBVerificationActivity" />
 
-                <!--以下测试 host -->
+                &lt;!&ndash;以下测试 host &ndash;&gt;
                 <data android:host="@string/data_host" />
 
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity
             android:name="com.daily.news.login.zbtxz.ZBBindMobileActivity"
@@ -238,7 +182,7 @@
             </intent-filter>
         </activity>
 
-        <activity
+<!--        <activity
             android:name="com.daily.news.login.zbtxz.ZBMobileValidateActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -250,11 +194,11 @@
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBMobileValidateActivity" />
 
-                <!--以下测试 host -->
+                &lt;!&ndash;以下测试 host &ndash;&gt;
                 <data android:host="@string/data_host" />
 
             </intent-filter>
-        </activity>
+        </activity>-->
         <!--用户协议-->
         <activity
             android:name=".zbtxz.ZBUserProtectActivity"
