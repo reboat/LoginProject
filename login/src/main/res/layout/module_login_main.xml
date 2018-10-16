@@ -43,7 +43,7 @@
             android:singleLine="true"
             android:textColor="?attr/tc_484848"
             android:textColorHint="?attr/tc_999999"
-            android:textSize="@dimen/ts_14sp" />
+            android:textSize="@dimen/ts_11sp" />
 
         <ImageView
             android:id="@+id/iv_phone_close"
@@ -53,7 +53,6 @@
             android:layout_alignParentRight="true"
             android:visibility="gone"
             />
-
 
     </RelativeLayout>
 
@@ -65,7 +64,7 @@
         android:layout_below="@+id/ll_phone"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="34dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
@@ -91,7 +90,7 @@
                 android:singleLine="true"
                 android:textColor="?attr/tc_484848"
                 android:textColorHint="?attr/tc_999999"
-                android:textSize="@dimen/ts_14sp" />
+                android:textSize="@dimen/ts_11sp" />
 
             <ImageView
                 android:id="@+id/iv_sms_close"
@@ -104,8 +103,6 @@
                 />
         </RelativeLayout>
 
-
-
         <!--@drawable/border_reset_password_timer_bg-->
         <TextView
             android:id="@+id/tv_sms_verification"
@@ -114,10 +111,11 @@
             android:layout_marginLeft="13dp"
             android:background="?attr/module_login_bg_sms_verification"
             android:gravity="center"
-            android:paddingBottom="12dp"
+            android:paddingBottom="11dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="12dp"
+            android:paddingTop="11dp"
+            android:includeFontPadding="false"
             android:textColor="?attr/sl_tc_sms_verification"
             android:textSize="@dimen/ts_11sp"
             tools:text="重新发送验证码" />
@@ -132,7 +130,7 @@
         android:layout_below="@+id/ly_sms_code"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="34dp"
         android:background="?attr/border_login_text_bg"
         android:gravity="center"
         android:textColor="?attr/tc_ffffff"
@@ -146,6 +144,7 @@
         android:layout_below="@+id/btn_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:includeFontPadding="false"
         android:gravity="center"
         android:textColor="?attr/tc_f44b50"
         android:textSize="@dimen/ts_11sp"
@@ -156,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="38.5dp"
         android:layout_below="@+id/tv_password_login"
         android:orientation="horizontal">
 
@@ -193,6 +192,38 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_module_login_wb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                app:iv_maskColor="@android:color/transparent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="?attr/module_login_wb" />
+
+            <TextView
+                android:id="@+id/tv_module_login_wb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_login_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:maxLines="1"
+                android:textColor="?attr/tc_999999"
+                android:textSize="11sp"
+                tools:text="新浪微博" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_module_login_qq"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -224,37 +255,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_module_login_wb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <ImageView
-                app:iv_maskColor="@android:color/transparent"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerHorizontal="true"
-                android:scaleType="fitXY"
-                android:src="?attr/module_login_wb" />
-
-            <TextView
-                android:id="@+id/tv_module_login_wb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_login_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:lineSpacingExtra="8sp"
-                android:maxLines="1"
-                android:textColor="?attr/tc_999999"
-                android:textSize="11sp"
-                tools:text="微博" />
-
-        </LinearLayout>
     </LinearLayout>
 
 

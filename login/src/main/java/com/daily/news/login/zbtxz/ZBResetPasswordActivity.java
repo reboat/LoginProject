@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,6 @@ import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbCaptchaVerifyListener;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -151,7 +150,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
     public void doNext(final String phoneNum, final String sms) {
         ZbPassport.verifyCaptcha(ZbConstants.Sms.FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
             @Override
-            public void onSuccess(boolean isValid, JSONObject object) {
+            public void onSuccess(boolean isValid, @Nullable String passData) {
                 if (isValid) {
                     LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                     if (bundle == null) {
@@ -189,7 +188,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
                     public void onGranted(boolean isAlreadyDef) {
                         ZbPassport.sendCaptcha(ZbConstants.Sms.FIND, phoneNum, new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess(JSONObject object) {
+                            public void onSuccess(@Nullable String passData) {
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(ZBResetPasswordActivity.this, getString(R

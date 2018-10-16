@@ -54,15 +54,15 @@
         <!--ffffff 7a7b7d-->
         <item name="tc_7a7b7d">@color/tc_ffffff</item>
 
-
-        <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification
-        </item>
+        <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification</item>
 
         <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
 
         <item name="border_login_text_bg">@drawable/border_login_text_bg</item>
 
-        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_bg</item>
+        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_selector</item>
+
+        <item name="border_login_bind_text_color">@drawable/border_login_bind_text_color_selector</item>
 
         <item name="border_login_cancel_bind_btn_bg">@drawable/border_login_cancel_bind_btn_bg</item>
 
@@ -155,7 +155,9 @@
 
         <item name="border_login_text_bg">@drawable/border_login_text_bg_night</item>
 
-        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_bg_night</item>
+        <item name="border_login_bind_btn_bg">@drawable/border_login_bind_btn_selector_night</item>
+
+        <item name="border_login_bind_text_color">@drawable/border_login_bind_text_color_selector_night</item>
 
         <item name="border_login_cancel_bind_btn_bg">@drawable/border_login_cancel_bind_btn_bg_night</item>
 

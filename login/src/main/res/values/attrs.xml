@@ -90,6 +90,8 @@
 
         <attr name="border_login_bind_btn_bg" format="reference" />
 
+        <attr name="border_login_bind_text_color" format="reference" />
+
         <attr name="border_login_cancel_bind_btn_bg" format="reference" />
 
     </declare-styleable>

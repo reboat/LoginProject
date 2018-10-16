@@ -11,9 +11,11 @@
         android:layout_height="58dp">
 
         <TextView
+            android:id="@+id/tv_current_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="当前登录账户"
+            android:textSize="@dimen/ts_11sp"
             android:layout_marginLeft="25dp"
             android:layout_centerVertical="true"
             android:textColor="?attr/tc_f44b50"
@@ -64,6 +66,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="?attr/module_bind_mobile"
+                    android:visibility="gone"
                     />
 
                 <ImageView
@@ -72,6 +75,7 @@
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
                     android:src="?attr/module_bind_wx"
+                    android:visibility="gone"
                     />
 
                 <ImageView
@@ -80,6 +84,7 @@
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
                     android:src="?attr/module_bind_wb"
+                    android:visibility="gone"
                     />
 
                 <ImageView
@@ -88,6 +93,7 @@
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
                     android:src="?attr/module_bind_qq"
+                    android:visibility="gone"
                     />
 
             </LinearLayout>
@@ -97,13 +103,14 @@
         
         <CheckBox
             android:id="@+id/cb_userinfo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:padding="5dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:background="?attr/module_login_userinfo_select"
+            android:button="?attr/module_login_userinfo_select"
             />
 
 

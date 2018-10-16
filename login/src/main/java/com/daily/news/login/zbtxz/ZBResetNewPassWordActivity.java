@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -35,8 +36,6 @@ import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbFindPasswordListener;
 import com.zjrb.passport.listener.ZbLoginListener;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -145,12 +144,12 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
         LoadingDialogUtils.newInstance().getLoginingDialog("正在重置");
         ZbPassport.findPassword(phoneNum, sms, etPasswordText.getText().toString(), new ZbFindPasswordListener() {
             @Override
-            public void onSuccess(JSONObject object) {
+            public void onSuccess(@Nullable String passData) {
                 // TODO: 2018/8/17 找回密码成功,重新登录
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                 ZbPassport.login(phoneNum, etPasswordText.getText().toString(), new ZbLoginListener() {
                     @Override
-                    public void onSuccess(LoginInfo bean, JSONObject jsonObject) {
+                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
                         if (bean != null) {
                             loginValidate(phoneNum, bean.getToken(), "phone_number");
                         } else {

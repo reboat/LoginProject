@@ -7,9 +7,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.daily.news.login.R;
+import com.zjrb.core.utils.UIUtils;
 
 /**
  * Date: 2018/9/18 下午4:10
@@ -25,7 +27,9 @@ public class TipPopup extends PopupWindow {
 
     public TipPopup(Context context) {
         super(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.module_login_pop, null);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.module_login_pop, null);
         setContentView(view);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -36,7 +40,10 @@ public class TipPopup extends PopupWindow {
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         popupWidth = view.getMeasuredWidth();
         popupHeight = view.getMeasuredHeight();
-//        System.out.println("width: " + popupWidth + "  height: " + popupHeight);
+        // 设置弹出窗体需要软键盘，
+        setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        //再设置模式，和Activity的一样，覆盖。
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     /**
@@ -47,8 +54,7 @@ public class TipPopup extends PopupWindow {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         if (!isShowing()) {
-//            System.out.println("xxx:  " + location[0] + "  yyy: " + location[1]);
-            showAtLocation(view, Gravity.NO_GRAVITY, location[0] + view.getWidth() / 2 - popupWidth / 2, location[1] - popupHeight);
+            showAtLocation(view, Gravity.NO_GRAVITY, location[0] + view.getWidth() / 2 - popupWidth / 2, location[1] - popupHeight - UIUtils.dip2px(4.0f));
         }
     }
 }

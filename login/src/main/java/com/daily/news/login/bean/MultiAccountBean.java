@@ -2,6 +2,8 @@ package com.daily.news.login.bean;
 
 import com.zjrb.core.domain.base.BaseData;
 
+import java.io.Serializable;
+
 /**
  * Date: 2018/9/6 上午10:28
  * Email: sisq@8531.cn
@@ -31,7 +33,7 @@ public class MultiAccountBean extends BaseData{
     }
 
 
-    public static class AccountBean {
+    public static class AccountBean implements Serializable{
         /**
          * current_account : true
          * news_favorite_size : 10
@@ -118,7 +120,7 @@ public class MultiAccountBean extends BaseData{
         }
     }
 
-    public static class BindingLogMapBean {
+    public static class BindingLogMapBean implements Serializable{
         public boolean wei_bo;
         public boolean qq;
         public boolean wei_xin;

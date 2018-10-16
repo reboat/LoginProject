@@ -2,8 +2,10 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.bean.MultiAccountBean;
@@ -20,8 +23,10 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
+import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +49,9 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     @BindView(R2.id.user_info_bottom)
     LinearLayout mInfoBottom;
     @BindView(R2.id.tv_quit)
-    TextView mTvQuit;
+    Button mBtnQuit;
     @BindView(R2.id.tv_bind)
-    TextView mTvBind;
+    Button mBtnBind;
 
     ImageView mUserLogoTop;
     ImageView mUserLogoBottom;
@@ -78,6 +83,8 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     TextView mUserCommentBottom;
     TextView mUserCommentNumTop;
     TextView mUserCommentNumBottom;
+    TextView mCurrentAccountTop;
+    TextView mCurrentAccountBottom;
 
     CheckBox mCbTop;
     CheckBox mCbBottom;
@@ -109,7 +116,6 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getIntentData(getIntent());
         setContentView(R.layout.module_login_merge);
-        getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
         refreshView(multiAccountBean);
@@ -139,41 +145,57 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         if (bean == null) {
             return;
         }
-        final MultiAccountBean.AccountBean firstAccount = bean.getCurrent_account();
-        final MultiAccountBean.AccountBean secondAccount = bean.getCandidate_account();
-        if (firstAccount != null) {
+        setBindBtnState();
+        final MultiAccountBean.AccountBean currentAccount = bean.getCurrent_account();
+        final MultiAccountBean.AccountBean candidateAccount = bean.getCandidate_account();
+        // 上面为候选账号
+        if (candidateAccount != null) {
             RequestOptions options = new RequestOptions();
             options.placeholder(R.mipmap.default_user_icon);
             options.centerCrop();
             options.circleCrop();
-            Glide.with(this).load(firstAccount.getImage_url()).apply(options).into(mUserLogoTop);
-            mUserNameTop.setText(firstAccount.getNick_name());
-            mUserScoreNumTop.setText(firstAccount.getTotal_score());
-            mUserFavNumTop.setText(firstAccount.getNews_favorite_size());
-            mUserCommentNumTop.setText(firstAccount.getComment_size());
-
+            Glide.with(this).load(candidateAccount.getImage_url()).apply(options).into(mUserLogoTop);
+            mUserNameTop.setText(candidateAccount.getNick_name());
+            mUserScoreNumTop.setText(String.valueOf(candidateAccount.getTotal_score()));
+            mUserFavNumTop.setText(String.valueOf(candidateAccount.getNews_favorite_size()));
+            mUserCommentNumTop.setText(String.valueOf(candidateAccount.getComment_size()));
+            MultiAccountBean.BindingLogMapBean topMap = candidateAccount.getBinding_log_map();
+            if (topMap != null) {
+                mIvMobile.setVisibility(topMap.phone_number ? View.VISIBLE : View.GONE);
+                mIvQQ.setVisibility(topMap.qq ? View.VISIBLE : View.GONE);
+                mIvWeibo.setVisibility(topMap.wei_bo ? View.VISIBLE : View.GONE);
+                mIvWeixin.setVisibility(topMap.wei_xin ? View.VISIBLE : View.GONE);
+            }
         }
-
-        if (secondAccount != null) {
+        // 下面为当前登录账号
+        if (currentAccount != null) {
             RequestOptions options = new RequestOptions();
             options.placeholder(R.mipmap.default_user_icon);
             options.centerCrop();
             options.circleCrop();
-            Glide.with(this).load(secondAccount.getImage_url()).apply(options).into(mUserLogoTop);
-            mUserNameTop.setText(firstAccount.getNick_name());
-            mUserScoreNumTop.setText(firstAccount.getTotal_score());
-            mUserFavNumTop.setText(firstAccount.getNews_favorite_size());
-            mUserCommentNumTop.setText(firstAccount.getComment_size());
+            Glide.with(this).load(currentAccount.getImage_url()).apply(options).into(mUserLogoBottom);
+            mUserNameBottom.setText(currentAccount.getNick_name());
+            mUserScoreNumBottom.setText(String.valueOf(currentAccount.getTotal_score()));
+            mUserFavNumBottom.setText(String.valueOf(currentAccount.getNews_favorite_size()));
+            mUserCommentNumBottom.setText(String.valueOf(currentAccount.getComment_size()));
+            MultiAccountBean.BindingLogMapBean bottomMap = currentAccount.getBinding_log_map();
+            if (bottomMap != null) {
+                mIvMobileBottom.setVisibility(bottomMap.phone_number ? View.VISIBLE : View.GONE);
+                mIvQQBottom.setVisibility(bottomMap.qq ? View.VISIBLE : View.GONE);
+                mIvWeiboBottom.setVisibility(bottomMap.wei_bo ? View.VISIBLE : View.GONE);
+                mIvWeixinBottom.setVisibility(bottomMap.wei_xin ? View.VISIBLE : View.GONE);
+            }
         }
         mCbTop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mCbBottom.setChecked(false);
-                    mSelectBean = firstAccount;
-                    mSelectId = firstAccount.getPassport_id();
-                    mUnSelectedId = secondAccount.getPassport_id();
+                    mSelectBean = candidateAccount;
+                    mSelectId = candidateAccount.getPassport_id();
+                    mUnSelectedId = currentAccount.getPassport_id();
                 }
+                setBindBtnState();
             }
         });
 
@@ -182,13 +204,24 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mCbTop.setChecked(false);
-                    mSelectBean = secondAccount;
-                    mSelectId = secondAccount.getPassport_id();
-                    mUnSelectedId = firstAccount.getPassport_id();
+                    mSelectBean = currentAccount;
+                    mSelectId = currentAccount.getPassport_id();
+                    mUnSelectedId = candidateAccount.getPassport_id();
                 }
+                setBindBtnState();
             }
         });
+    }
 
+    /**
+     * 设置绑定按钮的选中态
+     */
+    private void setBindBtnState() {
+        if (mCbTop.isChecked() || mCbBottom.isChecked()) {
+            mBtnBind.setEnabled(true);
+        } else {
+            mBtnBind.setEnabled(false);
+        }
     }
 
     /**
@@ -199,6 +232,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserNameTop = (TextView) mInfoTop.findViewById(R.id.tv_name);
         mUserScoreTop = (TextView) mInfoTop.findViewById(R.id.tv_score);
         mUserFavTop = (TextView) mInfoTop.findViewById(R.id.tv_fav);
+        mCurrentAccountTop = (TextView) mInfoTop.findViewById(R.id.tv_current_account);
         mUserCommentTop = (TextView) mInfoTop.findViewById(R.id.tv_comment);
         mUserScoreNumTop = (TextView) mInfoTop.findViewById(R.id.tv_score_num);
         mUserFavNumTop = (TextView) mInfoTop.findViewById(R.id.tv_fav_num);
@@ -214,6 +248,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserNameBottom = (TextView) mInfoBottom.findViewById(R.id.tv_name);
         mUserScoreBottom = (TextView) mInfoBottom.findViewById(R.id.tv_score);
         mUserFavBottom = (TextView) mInfoBottom.findViewById(R.id.tv_fav);
+        mCurrentAccountBottom = (TextView) mInfoBottom.findViewById(R.id.tv_current_account);
         mUserCommentBottom = (TextView) mInfoBottom.findViewById(R.id.tv_comment);
         mUserScoreNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_score_num);
         mUserFavNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_fav_num);
@@ -224,14 +259,10 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mIvWeiboBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_weibo);
         mCbBottom = (CheckBox) mInfoBottom.findViewById(R.id.cb_userinfo);
 
-        // TODO: 2018/9/19 设置 确认绑定按钮的选中态  设置背景
-        if (mCbTop.isChecked() || mCbBottom.isChecked()) {
-            mTvBind.setClickable(true);
-
-        } else {
-            mTvBind.setClickable(false);
-            // TODO: 2018/9/19 设置背景
-        }
+        mCurrentAccountTop.setVisibility(View.GONE);
+        mCurrentAccountBottom.setVisibility(View.VISIBLE);
+        mBtnQuit.setText(getResources().getString(R.string.zb_mobile_bind_quit));
+        mBtnBind.setText(getResources().getString(R.string.zb_mobile_bind_confirm));
     }
 
     @Override
@@ -253,15 +284,11 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
 
     @OnClick({R2.id.tv_quit, R2.id.tv_bind})
     public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R2.id.tv_quit:
-                finish();
-                break;
-            case R2.id.tv_bind:
-                bindAccount();
-                break;
+        if (ClickTracker.isDoubleClick()) return;
+        if (v.getId() == R.id.tv_quit) {
+            finish();
+        } else if (v.getId() == R.id.tv_bind) {
+            bindAccount();
         }
     }
 
@@ -275,6 +302,12 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(data);
                 T.showShort(ZBBindMergeInfoActivity.this, getResources().getString(R.string.zb_mobile_bind_success_tip));
+                Intent intent = new Intent("bind_mobile_successful");
+                LocalBroadcastManager.getInstance(ZBBindMergeInfoActivity.this).sendBroadcast(intent);
+                finish();
+                AppManager.get().finishActivity(ZBBindMobileActivity.class);
+                AppManager.get().finishActivity(LoginMainActivity.class);
+
             }
 
             @Override
@@ -282,6 +315,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
                 super.onError(errMsg, errCode);
                 T.showShort(ZBBindMergeInfoActivity.this, errMsg);
             }
-        }).setTag(this).exe(mSelectId, mUnSelectedId);
+        }).setTag(this).exe(mUnSelectedId + "", mSelectId + "");
+
     }
 }

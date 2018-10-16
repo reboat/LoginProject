@@ -2,6 +2,8 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.ZBBindDialog;
 import com.zjrb.core.utils.AppUtils;
@@ -206,7 +209,7 @@ public class ZBBindMobileActivity extends BaseActivity {
         
         ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
             @Override
-            public void onSuccess(JSONObject object) {
+            public void onSuccess(@Nullable String passData) {
                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                         .setTitle("绑定成功")
@@ -223,14 +226,17 @@ public class ZBBindMobileActivity extends BaseActivity {
                             }
                         }));
                 zbBindDialog.show();
+                // 更新手机号信息
+                AccountBean account = UserBiz.get().getAccount();
+                account.setMobile(mobile);
+                UserBiz.get().setAccount(account);
+                Intent intent = new Intent("bind_mobile_successful");
+                LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                // TODO: 2018/9/11 积分处理
-                // TODO: 2018/8/31 绑定手机号后续操作 三种情况 根据errorMessage判断
                 if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED) {
-                    // TODO: 2018/9/11 对话框提示 三方和个性化分情况?
                     final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                     zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                             .setTitle("绑定失败")
@@ -247,11 +253,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                                 }
                             }));
                     zbBindDialog.show();
-                } else if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED_CAN_MERGE) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putInt("auth_type", 1);
-//                    bundle.putString("auth_uid", mobile);
-//                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+                } else if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED_CAN_MERGE || errorCode == ErrorCode.ERROR_THIRD_REGISTERED_CAN_MERGE) {
                     new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
 
                         @Override
@@ -315,7 +317,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                     public void onGranted(boolean isAlreadyDef) {
                         ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, mobile, new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess(JSONObject object) {
+                            public void onSuccess(@Nullable String passData) {
                                 startTimeCountDown();
                                 T.showShortNow(getActivity(), getString(R.string
                                         .zb_sms_send));
@@ -374,7 +376,6 @@ public class ZBBindMobileActivity extends BaseActivity {
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvVerification.setEnabled(true);
-                    //TODO  WLJ 夜间模式
                     tvVerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
                     tvVerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
                     tvVerification.setText(getString(R.string
@@ -392,4 +393,5 @@ public class ZBBindMobileActivity extends BaseActivity {
 //        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
         AppManager.get().finishActivity(LoginMainActivity.class);
     }
+
 }

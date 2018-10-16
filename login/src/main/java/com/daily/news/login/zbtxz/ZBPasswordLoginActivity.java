@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -38,8 +39,6 @@ import com.zjrb.core.utils.webjs.WebJsCallBack;
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbLoginListener;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -234,7 +233,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         } else {
             ZbPassport.login(text, password, new ZbLoginListener() {
                 @Override
-                public void onSuccess(LoginInfo bean, JSONObject object) {
+                public void onSuccess(LoginInfo bean, @Nullable String passData) {
                     if (bean != null) {
                        loginValidate(text, bean.getToken(), type);
                     } else {

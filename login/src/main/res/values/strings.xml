@@ -42,6 +42,8 @@
     <string name="zb_mobile_bind_tip">绑定手机后,可通过手机号快速登录</string>
     <string name="zb_mobile_bind_title">手机号绑定</string>
     <string name="zb_mobile_bind_success_tip">绑定成功！下次可使用手机号直接登录该账号</string>
+    <string name="zb_mobile_bind_quit">放弃绑定</string>
+    <string name="zb_mobile_bind_confirm">确认绑定</string>
 
 
 
@@ -49,7 +51,7 @@
     <string name="zb_mobile_ok">确定 </string>
     <string name="zb_login_type_qq">QQ</string>
     <string name="zb_login_type_wx">微信</string>
-    <string name="zb_login_type_wb">微博</string>
+    <string name="zb_login_type_wb">新浪微博</string>
     <string name="zb_login_type_zb">浙报通行证</string>
     <string name="please_agree_protocol">请先同意协议</string>
     <string name="zb_register">注册</string>

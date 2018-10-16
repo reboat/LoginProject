@@ -3,6 +3,7 @@ package com.daily.news.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -46,8 +47,6 @@ import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ZbConstants;
 import com.zjrb.passport.listener.ZbCaptchaSendListener;
 import com.zjrb.passport.listener.ZbLoginListener;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -132,14 +131,13 @@ public class LoginMainActivity extends BaseActivity {
      * 处理上次登录的状态
      */
     private void handleLastLogin() {
-        // TODO: 2018/9/18 删除
-//        showPopup(mLlModuleLoginQq);
         boolean isPhone = SPHelper.get().get("isPhone", false);
         String lastLogin = SPHelper.get().get("last_login", "");
         if (isPhone) { // 显示上次登录的手机号及头像
             String lastLogo = SPHelper.get().get("last_logo", "");
             if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
                 mEtAccountText.setText(lastLogin);
+                mEtAccountText.setSelection(lastLogin.length());
                 mIvPhoneClose.setVisibility(View.VISIBLE);
                 RequestOptions options = new RequestOptions();
                 options.placeholder(R.mipmap.default_user_icon);
@@ -152,14 +150,14 @@ public class LoginMainActivity extends BaseActivity {
                 showPopup(mLlModuleLoginWx);
             } else if (TextUtils.equals(lastLogin, "wei_bo")) {
                 showPopup(mLlModuleLoginWb);
-            } else if (TextUtils.equals(lastLogin, "wei_qq")) {
+            } else if (TextUtils.equals(lastLogin, "qq")) {
                 showPopup(mLlModuleLoginQq);
             }
         }
     }
 
     private void showPopup(View view) {
-        new TipPopup(this).showAboveView(view);
+        new TipPopup(getActivity()).showAboveView(view);
     }
 
     @Override
@@ -275,7 +273,7 @@ public class LoginMainActivity extends BaseActivity {
             } else {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
-        } else if (v.getId() == R2.id.ll_module_login_wx) {
+        } else if (v.getId() == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN, isFromComment);
         } else if (v.getId() == R.id.ll_module_login_qq) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ, isFromComment);
@@ -364,7 +362,7 @@ public class LoginMainActivity extends BaseActivity {
                         //短信登录
                         ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtAccountText.getText().toString(), new ZbCaptchaSendListener() {
                             @Override
-                            public void onSuccess(JSONObject object) {
+                            public void onSuccess(@Nullable String passData) {
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(LoginMainActivity.this, getString(R
@@ -405,7 +403,7 @@ public class LoginMainActivity extends BaseActivity {
         ZbPassport.loginCaptcha(phone, captcha, new ZbLoginListener() {
 
             @Override
-            public void onSuccess(LoginInfo loginInfo, JSONObject jsonObject) {
+            public void onSuccess(LoginInfo loginInfo, @Nullable String passData) {
                 if (loginInfo != null) {
                     // 登录认证
                     loginValidate(phone, loginInfo.getToken());
