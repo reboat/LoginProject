@@ -1,10 +1,10 @@
 package com.daily.news.login.task;
 
 
-import com.daily.news.login.bean.MultiAccountBean;
 import com.daily.news.login.global.APIManager;
 import com.zjrb.core.api.base.APIGetTask;
 import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.domain.MultiAccountBean;
 
 /**
  * 多账号详情接口

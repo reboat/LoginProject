@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.daily.news.login.Entity.ZbBindEntity;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.bean.MultiAccountBean;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetMuitiAccountTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
@@ -29,10 +29,13 @@ import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.domain.AccountBean;
+import com.zjrb.core.domain.MultiAccountBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.ZBBindDialog;
 import com.zjrb.core.utils.AppUtils;
+import com.zjrb.core.utils.JsonUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
@@ -210,6 +213,10 @@ public class ZBBindMobileActivity extends BaseActivity {
         ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
             @Override
             public void onSuccess(@Nullable String passData) {
+                if (passData != null) {
+                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
+                    ZBUtils.showPointDialog(zbBindEntity.data);
+                }
                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                         .setTitle("绑定成功")

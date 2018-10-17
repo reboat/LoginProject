@@ -10,7 +10,7 @@
     app:fitType="bottom">
 
 
-    <WebView
+    <com.zjrb.core.ui.widget.web.WebProView
         android:id="@+id/v_web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

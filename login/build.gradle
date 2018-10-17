@@ -32,7 +32,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:percent:25.3.1'
 //    compile project(':core-library')
-    compile 'cn.daily.android:core-library:5.5.0.0.PASSPORT-SNAPSHOT'
+    compile 'cn.daily.android:core-library:5.5.0.1.passport-SNAPSHOT'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'cn.daily.android:analytics:5.4.0.5-SNAPSHOT'

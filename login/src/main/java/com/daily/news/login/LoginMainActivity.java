@@ -300,7 +300,7 @@ public class LoginMainActivity extends BaseActivity {
             mEtSmsText.setText("");
             mIvSmsClose.setVisibility(View.GONE);
         } else if (v.getId() == R.id.tv_link) {
-            getUserProject();
+            Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }
     }
 
