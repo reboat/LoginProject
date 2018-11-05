@@ -157,7 +157,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
             }
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
             bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_SMS_LOGIN);
+            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             finish();
@@ -294,7 +294,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     if (TextUtils.equals(type, "phone_number")) {
                         SPHelper.get().put("isPhone", true).commit();
                         SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
-                        SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url());
+                        SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url()).commit();
                         ZBUtils.showPointDialog(bean);
                         finish();
                         AppManager.get().finishActivity(LoginMainActivity.class);

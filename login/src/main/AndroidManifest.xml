@@ -103,7 +103,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/data_scheme" />
-                <data android:path="/login/ZBResetNewPassWord" />
+                <data android:path="/login/ZBResetNewPassWordActivity" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />

@@ -465,7 +465,7 @@ public class LoginMainActivity extends BaseActivity {
                     ZBUtils.showPointDialog(bean);
                     SPHelper.get().put("isPhone", true).commit();
                     SPHelper.get().put("last_login", phone).commit();
-                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url());
+                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url()).commit();
                     finish();
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");
