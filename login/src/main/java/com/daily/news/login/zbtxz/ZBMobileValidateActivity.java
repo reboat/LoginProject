@@ -266,7 +266,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
             public void run(long count) {
                 long value = (120 - count);
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
+                tvTerification.setTextColor(getResources().getColor(R.color._999999));
                 tvTerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
                 if (value == 0) {
@@ -274,7 +274,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                     tvTerification.setEnabled(true);
                     //TODO  WLJ 夜间模式
                     tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
-                    tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
+                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
                     tvTerification.setText(getString(R.string
                             .zb_login_resend));
                 }

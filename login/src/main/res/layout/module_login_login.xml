@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/bc_ffffff"
+    android:background="@color/_ffffff_202124"
     android:orientation="vertical">
 
     <LinearLayout
@@ -28,8 +28,7 @@
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_zbtxz"
-                app:iv_maskColor="@android:color/transparent" />
+                android:src="@mipmap/module_login_day_zbtxz" />
 
             <TextView
                 android:id="@+id/tv_module_login_zbtxz"
@@ -41,7 +40,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="浙报通行证" />
 
@@ -60,8 +59,7 @@
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_wx"
-                app:iv_maskColor="@android:color/transparent" />
+                android:src="@mipmap/module_login_day_wx" />
 
             <TextView
                 android:id="@+id/tv_module_login_wx"
@@ -73,7 +71,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="微信" />
 
@@ -92,8 +90,7 @@
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_qq"
-                app:iv_maskColor="@android:color/transparent" />
+                android:src="@mipmap/module_login_day_qq" />
 
             <TextView
                 android:id="@+id/tv_module_login_qq"
@@ -105,7 +102,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="QQ" />
 
@@ -124,8 +121,7 @@
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_wb"
-                app:iv_maskColor="@android:color/transparent" />
+                android:src="@mipmap/module_login_day_wb" />
 
             <TextView
                 android:id="@+id/tv_module_login_wb"
@@ -137,7 +133,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="微博" />
 
@@ -151,9 +147,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="26dp"
-        android:background="?attr/border_login_text_bg"
+        android:background="@drawable/border_login_text_bg"
         android:gravity="center"
-        android:textColor="?attr/tc_ffffff"
+        android:textColor="@color/_ffffff_999999"
         android:textSize="@dimen/ts_16sp"
         tools:text="注册" />
 

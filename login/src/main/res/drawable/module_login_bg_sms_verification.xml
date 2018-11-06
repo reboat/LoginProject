@@ -3,13 +3,13 @@
 
     <item android:state_selected="true">
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <stroke android:width="1dp" android:color="@color/tc_4d95fa" />
+            <stroke android:width="1dp" android:color="@color/_4d95fa_5c5c5c" />
             <corners android:radius="4dp" />
         </shape>
     </item>
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <stroke android:width="1dp" android:color="@color/tc_f44b50" />
+            <stroke android:width="1dp" android:color="@color/_f44b50_8e3636" />
             <corners android:radius="4dp" />
         </shape>
     </item>

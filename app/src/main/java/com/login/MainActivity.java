@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.daily.news.login.LoginActivity;
 import com.daily.news.login.zbtxz.ZBLoginActivity;
 import com.login.tesk.TestAuthActivity;
 import com.zjrb.core.common.base.BaseActivity;
+import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.nav.Nav;
 
 
@@ -23,6 +25,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tv.setOnClickListener(this);
         findViewById(R.id.test_login).setOnClickListener(this);
         findViewById(R.id.test_auth).setOnClickListener(this);
+        findViewById(R.id.test_night).setOnClickListener(this);
     }
 
     @Override
@@ -36,6 +39,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.test_auth:
                 startActivity(new Intent(this, TestAuthActivity.class));
+                break;
+            case R.id.test_night:
+                ThemeMode.setUiMode(!ThemeMode.isNightMode());
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }

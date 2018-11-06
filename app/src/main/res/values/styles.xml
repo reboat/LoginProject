@@ -2,135 +2,19 @@
 
     <style name="AppTheme" parent="CoreTheme.Base">
 
-        <item name="android:theme">@style/LoginDayTheme</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--#484848  7a7b7d-->
-        <item name="tc_484848">@color/tc_484848</item>
-        <!--#ffffff  #202124-->
-        <item name="bc_202124">@color/bc_ffffff</item>
-        <!--#191919  #ffffff-->
-        <item name="bc_191919">@color/bc_191919</item>
-        <!--dddddd  7a7b7d-->
-        <item name="bc_dddddd">@color/bc_dddddd</item>
-        <!--999999  5c5c5c-->
-        <item name="tc_999999">@color/tc_999999</item>
-        <!--f44b50  8e3636-->
-        <item name="tc_f44b50">@color/tc_f44b50</item>
-        <!--ffffff  aaaaaa-->
-        <item name="tc_aaaaaa">@color/tc_ffffff</item>
-        <!--000000   7a7b7d-->
-        <item name="tc_000000">@color/tc_000000</item>
-        <!--f5f5f5  191919-->
-        <item name="bc_f5f5f5">@color/tc_f5f5f5</item>
-        <!--f5f5f5 343434-->
-        <item name="bc_343434">@color/bc_f5f5f5</item>
-        <!--e85757 8e3636-->
-        <item name="bc_e85757">@color/bc_e85757</item>
-        <!--7f080808  202124-->
-        <item name="bc_7f080808">@color/bc_7f080808</item>
-        <!--ffffff f0f0f0-->
-        <item name="bc_f0f0f0">@color/bc_ffffff</item>
-        <!--4d95fa  5c5c5c-->
-        <item name="tc_4d95fa">@color/tc_4d95fa</item>
-        <!--4682c5 315277-->
-        <item name="tc_4682c5">@color/tc_4682c5</item>
-        <!--e2e2e2  343434-->
-        <item name="bc_e2e2e2">@color/bc_e2e2e2</item>
-        <!--f44b50  8e3636-->
-        <item name="bc_f44b50">@color/bc_f44b50</item>
-        <!--ffffff  999999-->
-        <item name="tc_ffffff">@color/tc_ffffff</item>
-
-        <item name="module_login_bg_sms_verification">@drawable/module_login_bg_sms_verification
-        </item>
-
-        <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
-
-        <item name="border_login_text_bg">@drawable/border_login_text_bg</item>
-
-        <item name="border_edit_bg">@drawable/border_edit_bg</item>
-
-        <item name="module_login_password_see">@drawable/module_login_day_password_see</item>
-
-        <item name="module_login_zbtxz">@mipmap/module_login_day_zbtxz</item>
-
-        <item name="module_login_wx">@mipmap/module_login_day_wx</item>
-
-        <item name="module_login_qq">@mipmap/module_login_day_qq</item>
-
-        <item name="module_login_wb">@mipmap/module_login_day_wb</item>
-
     </style>
 
     <style name="NightAppTheme" parent="CoreThemeNight.Base">
-
-        <item name="android:theme">@style/LoginNightTheme</item>
-
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary_night</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_night</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--#484848  7a7b7d-->
-        <item name="tc_484848">@color/tc_484848_night</item>
-        <!--#ffffff  #202124-->
-        <item name="bc_202124">@color/bc_ffffff_night</item>
-        <!--#191919  #ffffff-->
-        <item name="bc_191919">@color/bc_191919_night</item>
-        <!--dddddd  7a7b7d-->
-        <item name="bc_dddddd">@color/bc_dddddd_night</item>
-        <!--999999  5c5c5c-->
-        <item name="tc_999999">@color/tc_999999_night</item>
-        <!--f44b50  8e3636-->
-        <item name="tc_f44b50">@color/tc_f44b50_night</item>
-        <!--ffffff  aaaaaa-->
-        <item name="tc_aaaaaa">@color/tc_ffffff_night</item>
-        <!--000000   7a7b7d-->
-        <item name="tc_000000">@color/tc_000000_night</item>
-        <!--f5f5f5  191919-->
-        <item name="bc_f5f5f5">@color/tc_f5f5f5_night</item>
-        <!--f5f5f5 343434-->
-        <item name="bc_343434">@color/bc_f5f5f5_night</item>
-        <!--e85757 8e3636-->
-        <item name="bc_e85757">@color/bc_e85757_night</item>
-        <!--7f080808  202124-->
-        <item name="bc_7f080808">@color/bc_7f080808_night</item>
-        <!--ffffff f0f0f0-->
-        <item name="bc_f0f0f0">@color/bc_f0f0f0_night</item>
-        <!--4d95fa  5c5c5c-->
-        <item name="tc_4d95fa">@color/tc_4d95fa_night</item>
-        <!--4682c5 315277-->
-        <item name="tc_4682c5">@color/tc_4682c5_night</item>
-        <!--e2e2e2  343434-->
-        <item name="bc_e2e2e2">@color/bc_e2e2e2_night</item>
-        <!--f44b50 8e3636-->
-        <item name="bc_f44b50">@color/bc_f44b50_night</item>
-        <!--ffffff  999999-->
-        <item name="tc_ffffff">@color/tc_999999</item>
-
-        <item name="module_login_bg_sms_verification">
-            @drawable/module_login_bg_sms_verification_night
-        </item>
-
-        <item name="sl_tc_sms_verification">@color/sl_tc_sms_verification</item>
-
-        <item name="border_login_text_bg">@drawable/border_login_text_bg_night</item>
-
-        <item name="border_edit_bg">@drawable/border_edit_bg_night</item>
-
-        <item name="module_login_password_see">@drawable/module_login_night_password_see</item>
-
-        <item name="module_login_zbtxz">@mipmap/module_login_night_zbtxz</item>
-
-        <item name="module_login_wx">@mipmap/module_login_night_wx</item>
-
-        <item name="module_login_qq">@mipmap/module_login_night_qq</item>
-
-        <item name="module_login_wb">@mipmap/module_login_night_wb</item>
     </style>
 
 </resources>

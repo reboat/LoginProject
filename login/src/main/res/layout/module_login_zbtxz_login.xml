@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/bc_ffffff">
+                android:background="@color/_ffffff_202124">
 
     <LinearLayout
         android:id="@+id/ly_login_button_bar"
@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:padding="5dp"
-            android:textColor="?attr/tc_f44b50"
+            android:textColor="@color/_f44b50_8e3636"
             android:textSize="@dimen/ts_11sp"
             tools:text="通过短信验证码登录" />
 
@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:padding="5dp"
-            android:textColor="?attr/tc_f44b50"
+            android:textColor="@color/_f44b50_8e3636"
             android:textSize="@dimen/ts_11sp"
             tools:text="忘记密码" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/dt_account_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/border_edit_bg"
+            android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
             android:hint="手机号／个性账号／邮箱"
@@ -73,8 +73,8 @@
             android:maxLines="1"
             android:paddingBottom="8dp"
             android:singleLine="true"
-            android:textColor="?attr/tc_484848"
-            android:textColorHint="?attr/tc_999999"
+            android:textColor="@color/_484848_7a7b7d"
+            android:textColorHint="@color/_999999_5c5c5c"
             android:textSize="@dimen/ts_14sp" />
 
     </LinearLayout>
@@ -96,7 +96,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
-            android:background="?attr/border_edit_bg"
+            android:background="@drawable/border_edit_bg"
             android:gravity="left"
             android:hint="密码"
             android:imeOptions="actionDone"
@@ -105,8 +105,8 @@
             android:maxLines="1"
             android:paddingBottom="10dp"
             android:singleLine="true"
-            android:textColor="?attr/tc_484848"
-            android:textColorHint="?attr/tc_999999"
+            android:textColor="@color/_484848_7a7b7d"
+            android:textColorHint="@color/_999999_5c5c5c"
             android:textSize="@dimen/ts_14sp" />
 
         <ImageView
@@ -116,8 +116,7 @@
             android:layout_gravity="right|center"
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside"
-            android:src="?attr/module_login_password_see"
-            app:iv_maskColor="@android:color/transparent" />
+            android:src="@drawable/module_login_day_password_see" />
     </FrameLayout>
 
     <TextView
@@ -128,9 +127,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
-        android:background="?attr/border_login_text_bg"
+        android:background="@drawable/border_login_text_bg"
         android:gravity="center"
-        android:textColor="?attr/tc_ffffff"
+        android:textColor="@color/_ffffff_999999"
         android:textSize="@dimen/ts_16sp"
         tools:text="登录" />
 

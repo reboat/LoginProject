@@ -19,6 +19,7 @@
         <activity
             android:name="com.daily.news.login.LoginActivity"
             android:launchMode="singleTop"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -40,6 +41,7 @@
         <activity
             android:name="com.daily.news.login.zbtxz.ZBLoginActivity"
             android:screenOrientation="portrait"
+            android:configChanges="uiMode"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -58,6 +60,7 @@
         </activity>
         <activity
             android:name="com.daily.news.login.zbtxz.ZBRegisterActivity"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -77,6 +80,7 @@
         </activity>
         <activity
             android:name="com.daily.news.login.zbtxz.ZBResetNewPassWord"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -94,6 +98,7 @@
         </activity>
         <activity
             android:name="com.daily.news.login.zbtxz.ZBResetPWSmsLogin"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -111,6 +116,7 @@
         </activity>
         <activity
             android:name="com.daily.news.login.zbtxz.ZBVerificationActivity"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -129,6 +135,7 @@
 
         <activity
             android:name="com.daily.news.login.zbtxz.ZBMobileValidateActivity"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -147,6 +154,7 @@
         <!--用户协议-->
         <activity
             android:name=".zbtxz.ZBUserProtectActivity"
+            android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -2,7 +2,6 @@ package com.login;
 
 import android.app.Application;
 
-import com.aliya.uimode.UiModeManager;
 import com.bianfeng.passport.Passport;
 import com.bianfeng.woa.WoaSdk;
 import com.squareup.leakcanary.LeakCanary;
@@ -18,8 +17,7 @@ public class App extends Application {
         super.onCreate();
         UIUtils.init(this);
         BaseInit.init(UIUtils.getApp(), "bianfeng");
-        ThemeMode.initTheme(R.style.AppTheme, R.style.NightAppTheme);
-        UiModeManager.init(this, R.styleable.SupportUiMode);
+        ThemeMode.init(this);
         WoaSdk.init(this);
         Passport.init(this);
 

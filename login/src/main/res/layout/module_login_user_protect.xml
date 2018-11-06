@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/bc_ffffff"
+    android:background="@color/_ffffff_202124"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     app:fitType="bottom">
 
 
-    <WebView
+    <com.zjrb.core.ui.widget.web.WebProView
         android:id="@+id/v_web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,6 +19,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/bc_mask" />
+        android:background="@color/_00000000_7f000000" />
 
 </com.aliya.view.fitsys.FitWindowsFrameLayout>

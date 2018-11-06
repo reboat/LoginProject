@@ -193,9 +193,9 @@ public class ZBVerificationActivity extends BaseActivity {
                 tvResend.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
                 if (!ThemeMode.isNightMode()) {
-                    tvResend.setTextColor(getResources().getColor(R.color.tc_999999));
+                    tvResend.setTextColor(getResources().getColor(R.color._999999));
                 } else {
-                    tvResend.setTextColor(getResources().getColor(R.color.tc_7a7b7d));
+                    tvResend.setTextColor(getResources().getColor(R.color._7a7b7d));
                 }
                 if (value == 0) {
                     TimerManager.cancel(this);
@@ -204,9 +204,9 @@ public class ZBVerificationActivity extends BaseActivity {
                     tvResend.setText(getString(R.string
                             .zb_login_resend));
                     if (!ThemeMode.isNightMode()) {
-                        tvResend.setTextColor(getResources().getColor(R.color.bc_f44b50));
+                        tvResend.setTextColor(getResources().getColor(R.color._f44b50));
                     } else {
-                        tvResend.setTextColor(getResources().getColor(R.color.tc_8e3636));
+                        tvResend.setTextColor(getResources().getColor(R.color._8e3636));
                     }
                 }
             }
