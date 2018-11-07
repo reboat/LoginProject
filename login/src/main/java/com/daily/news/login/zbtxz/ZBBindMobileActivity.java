@@ -229,6 +229,8 @@ public class ZBBindMobileActivity extends BaseActivity {
                                     if (zbBindDialog.isShowing()) {
                                         zbBindDialog.dismiss();
                                     }
+                                    finish();
+                                    AppManager.get().finishActivity(LoginMainActivity.class);
                                 }
                             }
                         }));
