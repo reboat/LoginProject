@@ -10,12 +10,11 @@ android {
             storePassword 'kIwfs16KsM'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.zhejiangdaily"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -42,12 +41,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':login')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':login')
 //    compile 'cn.daily.android:daily-login:1.0.6-SNAPSHOT'
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    debugApi 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
 }
