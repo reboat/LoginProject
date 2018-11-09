@@ -215,7 +215,9 @@ public class ZBBindMobileActivity extends BaseActivity {
             public void onSuccess(@Nullable String passData) {
                 if (passData != null) {
                     ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
-                    ZBUtils.showPointDialog(zbBindEntity.data);
+                    if (zbBindEntity != null) {
+                        ZBUtils.showPointDialog(zbBindEntity.data);
+                    }
                 }
                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
