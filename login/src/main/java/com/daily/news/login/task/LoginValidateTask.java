@@ -25,6 +25,7 @@ public class LoginValidateTask extends APIPostTask<ZBLoginBean> {
         put("nick_name", params[3]);
         put("union_id", params[4]);
         put("is_new",params[5]);
+        put("check_token",params[6]);
     }
 
     @Override

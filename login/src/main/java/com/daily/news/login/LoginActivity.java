@@ -113,7 +113,6 @@ public class LoginActivity extends BaseActivity {
         }
         super.finish();
         LoginHelper.get().finish(); // 登录结束
-
     }
 
     private Bundle bundle;

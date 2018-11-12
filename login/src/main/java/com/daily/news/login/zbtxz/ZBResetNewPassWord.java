@@ -18,6 +18,7 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
+import com.daily.news.login.utils.YiDunUtils;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -245,7 +246,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 //                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0);
+        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0,YiDunUtils.getToken());
 
     }
 }

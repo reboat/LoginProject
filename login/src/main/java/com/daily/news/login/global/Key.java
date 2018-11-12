@@ -44,4 +44,19 @@ public final class Key {
         public static final String LOGIN_SMS_TYPE = "login_sms_type";
     }
 
+    /**
+     * 网易盾防作弊sdk相关参数
+     */
+    public static class YiDun{
+        /**
+         * business id
+         */
+        public static final String ANTI_CHEAT_REG_KEY_DEBUG = "9b3f30dd27f445518b542b8ef488d7b2";
+        public static final String ANTI_CHEAT_REG_KEY_RELEASE = "68c2023979384a20bacaaa201c83a257";
+        /**
+         * product number
+         */
+        public static final String PRODUCT_NUMBER = "YD00158346389550";
+    }
+
 }
