@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
-import com.daily.news.login.utils.YiDunUtils;
+import cn.daily.news.biz.core.utils.YiDunUtils;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.netease.mobsec.rjsb.watchman;
 import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
@@ -300,7 +301,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 }
             }
         }).setTag(this).exe(s, "BIANFENG", dtAccountText.getText(), dtAccountText.getText(),
-                dtAccountText.getText(), 0, YiDunUtils.getToken());
+                dtAccountText.getText(), 0, YiDunUtils.getToken(Type.REG));
     }
 
 }

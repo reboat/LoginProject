@@ -21,7 +21,8 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.utils.YiDunUtils;
+import cn.daily.news.biz.core.utils.YiDunUtils;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
@@ -335,6 +336,6 @@ public class ZBVerificationActivity extends BaseActivity {
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID,
-                mAccountID, 1,YiDunUtils.getToken());
+                mAccountID, 1,YiDunUtils.getToken(Type.REG));
     }
 }

@@ -19,7 +19,8 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.daily.news.login.utils.YiDunUtils;
+import cn.daily.news.biz.core.utils.YiDunUtils;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -313,7 +314,7 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                 }
             }
         }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
-                null, dtAccountText.getText().toString(), 1,YiDunUtils.getToken());
+                null, dtAccountText.getText().toString(), 1,YiDunUtils.getToken(Type.REG));
     }
 
     /**

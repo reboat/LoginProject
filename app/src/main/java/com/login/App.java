@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.bianfeng.passport.Passport;
 import com.bianfeng.woa.WoaSdk;
-import com.daily.news.login.global.Key;
+import cn.daily.news.biz.core.global.Key;
 import com.squareup.leakcanary.LeakCanary;
 import com.zjrb.core.common.base.BaseInit;
 import com.zjrb.core.db.ThemeMode;
