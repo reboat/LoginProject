@@ -133,17 +133,17 @@ public class LoginMainActivity extends BaseActivity {
     private void handleLastLogin() {
         boolean isPhone = SPHelper.get().get("isPhone", false);
         String lastLogin = SPHelper.get().get("last_login", "");
+        String lastLogo = SPHelper.get().get("last_logo", "");
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.mipmap.default_user_icon);
+        options.centerCrop();
+        options.circleCrop();
+        Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
         if (isPhone) { // 显示上次登录的手机号及头像
-            String lastLogo = SPHelper.get().get("last_logo", "");
             if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
                 mEtAccountText.setText(lastLogin);
                 mEtAccountText.setSelection(lastLogin.length());
                 mIvPhoneClose.setVisibility(View.VISIBLE);
-                RequestOptions options = new RequestOptions();
-                options.placeholder(R.mipmap.default_user_icon);
-                options.centerCrop();
-                options.circleCrop();
-                Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
             }
         } else { // 显示三方登录的气泡
             if (TextUtils.equals(lastLogin, "wei_xin")) {
