@@ -21,6 +21,8 @@
         <attr name="tc_999999" format="color|reference" />
         <!--f44b50  8e3636-->
         <attr name="tc_f44b50" format="color|reference" />
+        <!--000000  8e3636-->
+        <attr name="tc_000000_8e3636" format="color|reference" />
         <!--ffffff  aaaaaa-->
         <attr name="tc_aaaaaa" format="color|reference" />
         <!--000000   7a7b7d-->

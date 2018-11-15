@@ -106,11 +106,10 @@
         android:layout_below="@+id/bt_confirm"
         android:layout_marginTop="15dp"
         android:text="绑定成功后,增加50积分"
-        android:background="?attr/border_login_text_bg"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textSize="11sp"
-        android:textColor="#000000"
+        android:textColor="?attr/tc_000000_8e3636"
         tools:text="绑定成功后,增加50积分" />
 
 </RelativeLayout>

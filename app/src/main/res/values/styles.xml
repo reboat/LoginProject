@@ -19,6 +19,8 @@
         <item name="tc_999999">@color/tc_999999</item>
         <!--f44b50  8e3636-->
         <item name="tc_f44b50">@color/tc_f44b50</item>
+        <!--000000  8e3636-->
+        <item name="tc_000000_8e3636">@color/tc_000000</item>
         <!--ffffff  aaaaaa-->
         <item name="tc_aaaaaa">@color/tc_ffffff</item>
         <!--000000   7a7b7d-->
@@ -112,6 +114,8 @@
         <item name="tc_999999">@color/tc_999999_night</item>
         <!--f44b50  8e3636-->
         <item name="tc_f44b50">@color/tc_f44b50_night</item>
+        <!--000000  8e3636-->
+        <item name="tc_000000_8e3636">@color/tc_8e3636</item>
         <!--ffffff  aaaaaa-->
         <item name="tc_aaaaaa">@color/tc_ffffff_night</item>
         <!--000000   7a7b7d-->
