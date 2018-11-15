@@ -157,7 +157,7 @@ public class ZBBindMobileActivity extends BaseActivity {
             } else {
                 if (dtAccountText.getText().toString().equals("")) {
                     T.showShort(ZBBindMobileActivity.this, getString(R.string
-                            .zb_phone_num_inout_error));
+                            .zb_phone_num_empty));
                 } else {
                     T.showShort(ZBBindMobileActivity.this, getString(R.string
                             .zb_phone_num_error));
@@ -173,7 +173,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                             .toString());
                 } else {
                     T.showShort(ZBBindMobileActivity.this, getString(R.string
-                            .zb_phone_num_inout_error));
+                            .zb_phone_num_empty));
                 }
             } else {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));

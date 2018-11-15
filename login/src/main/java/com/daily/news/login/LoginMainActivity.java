@@ -258,21 +258,22 @@ public class LoginMainActivity extends BaseActivity {
             // 若输入验证码错误，弹出toast“验证码输入错误”
             // 若当前输入的手机号为未注册的手机号，输入短信验证码验证成功之后，则将自动注册并登录成功，跳转回登录前对应的页面。
             // 若当前输入的手机号为已注册的手机号，输入短信验证码验证成功之后，则登录成功，跳转回登录前对应的页面。
-            if (!TextUtils.isEmpty(mEtSmsText.getText().toString())) {
-                if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) { // 手机号验证码登录不需要先进行绑定的校验,因为该接口未注册的手机号会自动注册通行证
-                    LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
-                    doLogin(mEtAccountText.getText().toString(), mEtSmsText.getText().toString());
-                } else {
-                    if (TextUtils.isEmpty(mEtAccountText.getText().toString())) {
-                        T.showShort(LoginMainActivity.this, getString(R.string
-                                .zb_phone_num_inout_error));
+            if (TextUtils.isEmpty(mEtAccountText.getText().toString())) {
+                T.showShort(LoginMainActivity.this, getString(R.string
+                        .zb_phone_num_empty));
+            } else {
+                if (!TextUtils.isEmpty(mEtSmsText.getText().toString())) {
+                    if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) { // 手机号验证码登录不需要先进行绑定的校验,因为该接口未注册的手机号会自动注册通行证
+                        LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
+                        doLogin(mEtAccountText.getText().toString(), mEtSmsText.getText().toString());
                     } else {
                         T.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
                     }
+                } else {
+                    T.showShortNow(this, getString(R.string.zb_input_sms_verication));
                 }
-            } else {
-                T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
+
         } else if (v.getId() == R.id.ll_module_login_wx) {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN, isFromComment);
         } else if (v.getId() == R.id.ll_module_login_qq) {
@@ -285,7 +286,7 @@ public class LoginMainActivity extends BaseActivity {
             } else {
                 if (TextUtils.isEmpty(mEtAccountText.getText().toString())) {
                     T.showShort(LoginMainActivity.this, getString(R.string
-                            .zb_phone_num_inout_error));
+                            .zb_phone_num_empty));
                 } else {
                     T.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
                 }

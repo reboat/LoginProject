@@ -123,7 +123,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
             } else {
                 if (TextUtils.isEmpty(dtAccountText.getText().toString())) {
                     T.showShort(ZBResetPasswordActivity.this, getString(R.string
-                            .zb_phone_num_inout_error));
+                            .zb_phone_num_empty));
                 } else {
                     T.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
                 }
@@ -135,7 +135,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
                 } else {
                     if (TextUtils.isEmpty(dtAccountText.getText().toString())) {
                         T.showShort(ZBResetPasswordActivity.this, getString(R.string
-                                .zb_phone_num_inout_error));
+                                .zb_phone_num_empty));
                     } else {
                         T.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
                     }
