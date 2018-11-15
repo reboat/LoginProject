@@ -105,6 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_confirm"
         android:layout_marginTop="15dp"
+        android:text="绑定成功后,增加50积分"
         android:background="?attr/border_login_text_bg"
         android:layout_centerHorizontal="true"
         android:gravity="center"
