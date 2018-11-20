@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -94,10 +92,6 @@ public class LoginMainActivity extends BaseActivity {
     TextView mTvLinkTip;
     @BindView(R2.id.tv_link)
     TextView mTvLink;
-    @BindView(R2.id.iv_phone_close)
-    ImageView mIvPhoneClose;
-    @BindView(R2.id.iv_sms_close)
-    ImageView mIvSmsClose;
     private UmengAuthUtils mUmengUtils;
 
     private Bundle bundle;
@@ -143,7 +137,6 @@ public class LoginMainActivity extends BaseActivity {
             if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
                 mEtAccountText.setText(lastLogin);
                 mEtAccountText.setSelection(lastLogin.length());
-                mIvPhoneClose.setVisibility(View.VISIBLE);
             }
         } else { // 显示三方登录的气泡
             if (TextUtils.equals(lastLogin, "wei_xin")) {
@@ -186,51 +179,7 @@ public class LoginMainActivity extends BaseActivity {
         AppUtils.setEditTextInhibitInputSpace(mEtAccountText, false);
         if (!TextUtils.isEmpty(mobile)) {
             mEtAccountText.setText(mobile);
-            mIvPhoneClose.setVisibility(View.VISIBLE);
-        } else {
-            mIvPhoneClose.setVisibility(View.GONE);
         }
-        mIvSmsClose.setVisibility(View.GONE);
-        mEtAccountText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    mIvPhoneClose.setVisibility(View.VISIBLE);
-                } else {
-                    mIvPhoneClose.setVisibility(View.GONE);
-                }
-            }
-        });
-        mEtSmsText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    mIvSmsClose.setVisibility(View.VISIBLE);
-                } else {
-                    mIvSmsClose.setVisibility(View.GONE);
-                }
-            }
-        });
         mBtnLogin.setText(getString(R.string.zb_login));
         mTvSmsVerification.setText(getString(R.string.zb_sms_verication));
         mTvPasswordLogin.setText(getString(R.string.zb_login_by_password));
@@ -246,7 +195,7 @@ public class LoginMainActivity extends BaseActivity {
      * @param v 点击注册
      */
     @OnClick({R2.id.btn_login, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq,
-            R2.id.ll_module_login_wb, R2.id.tv_sms_verification, R2.id.tv_password_login, R2.id.iv_phone_close, R2.id.iv_sms_close, R2.id.tv_link})
+            R2.id.ll_module_login_wb, R2.id.tv_sms_verification, R2.id.tv_password_login, R2.id.tv_link})
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
         if (bundle == null) {
@@ -294,12 +243,6 @@ public class LoginMainActivity extends BaseActivity {
         } else if (v.getId() == R.id.tv_password_login) { // 账号密码登录
             bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_PASSWORD_LOGIN);
-        } else if (v.getId() == R.id.iv_phone_close) { // 清空手机号
-            mEtAccountText.setText("");
-            mIvPhoneClose.setVisibility(View.GONE);
-        } else if (v.getId() == R.id.iv_sms_close) { // 清空验证码
-            mEtSmsText.setText("");
-            mIvSmsClose.setVisibility(View.GONE);
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }

@@ -14,7 +14,7 @@
         android:textSize="11sp"
         tools:text="绑定手机后,可通过手机号快速登录" />
 
-    <EditText
+    <com.zjrb.core.ui.widget.DeleteLoginEditText
         android:id="@+id/dt_account_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:gravity="bottom"
         android:orientation="horizontal">
 
-        <EditText
+        <com.zjrb.core.ui.widget.DeleteLoginEditText
             android:id="@+id/et_sms_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
