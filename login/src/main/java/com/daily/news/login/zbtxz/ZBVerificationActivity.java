@@ -303,7 +303,10 @@ public class ZBVerificationActivity extends BaseActivity {
                         JSONObject properties = new JSONObject();
                         properties.put("userID", bean.getSession().getAccount_id());
                         properties.put("mobilePhone", bean.getAccount().getMobile());
-                        SensorsDataAPI.sharedInstance().profileSet(properties);
+                        new Analytics.AnalyticsBuilder(ZBVerificationActivity.this, null, null, null,false)
+                                .setProfile(properties)
+                                .build()
+                                .send();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

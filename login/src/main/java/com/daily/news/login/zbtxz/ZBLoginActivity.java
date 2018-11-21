@@ -271,7 +271,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         JSONObject properties = new JSONObject();
                         properties.put("userID", bean.getSession().getAccount_id());
                         properties.put("mobilePhone", bean.getAccount().getMobile());
-                        SensorsDataAPI.sharedInstance().profileSet(properties);
+                        new Analytics.AnalyticsBuilder(ZBLoginActivity.this, null, null, null,false)
+                                .setProfile(properties)
+                                .build()
+                                .send();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

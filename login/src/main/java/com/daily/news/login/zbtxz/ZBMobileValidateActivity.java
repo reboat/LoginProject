@@ -40,6 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
 
 /**
  * 浙报通行证实名制手机验证页面
@@ -202,7 +203,10 @@ public class ZBMobileValidateActivity extends BaseActivity {
                     JSONObject properties = new JSONObject();
                     properties.put("userID", userBiz.getAccountID());
                     properties.put("mobilePhone", mobile);
-                    SensorsDataAPI.sharedInstance().profileSet(properties);
+                    new Analytics.AnalyticsBuilder(ZBMobileValidateActivity.this, null, null, null,false)
+                            .setProfile(properties)
+                            .build()
+                            .send();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
