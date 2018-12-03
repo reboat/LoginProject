@@ -39,6 +39,7 @@ import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
 import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.ZbLoginListener;
 
 import butterknife.BindView;
@@ -149,7 +150,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                 //非纯数字
             } else if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 邮箱或个性化登录 需求修改为引导用户使用手机号登录或注册
 //                doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString(), "definition");
-                new TipDialog(getContext()).setTitle(getResources().getString(R.string.zb_mobile_login_title)).setOkText(getResources().getString(R.string.zb_mobile_login_ok)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title)).setOkText(getResources().getString(R.string.zb_mobile_login_ok)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                     @Override
                     public void onCancel() {
                     }
@@ -157,7 +158,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     @Override
                     public void onOK() {
                         // 跳转到主登录界面
-                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.LOGIN_ACTIVITY);
+                        Nav.with(getActivity()).toPath(RouteManager.LOGIN_ACTIVITY);
                     }
                 }).show();
             }
@@ -242,39 +243,37 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         } else if (password.length() < 6) {
             T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
-            // 判断手机号是否在新通行证中设置过密码
-            // TODO: 2018/12/3
-            if (true) { // 设置过密码
-                ZbPassport.login(text, password, new ZbLoginListener() {
-                    @Override
-                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
-                        if (bean != null) {
-                            loginValidate(text, bean.getToken());
-                        } else {
-                            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                            T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
-                        }
+            ZbPassport.login(text, password, new ZbLoginListener() {
+                @Override
+                public void onSuccess(LoginInfo bean, @Nullable String passData) {
+                    if (bean != null) {
+                        loginValidate(text, bean.getToken());
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
                     }
+                }
 
-                    @Override
-                    public void onFailure(int errorCode, String errorMessage) {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+                    if (errorCode == ErrorCode.ERROR_PHONE_LGOIIN_NEED_RESET) { // 需要重置密码才能登陆的情况
+                        new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                            @Override
+                            public void onCancel() {
+                            }
+
+                            @Override
+                            public void onOK() {
+                                // 跳转到设置密码页面
+                                Nav.with(getActivity()).toPath(RouteManager.ZB_RESET_PASSWORD);
+                            }
+                        }).show();
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
                         T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
                     }
-                });
-            } else { // 引导用户重置密码
-                new TipDialog(getContext()).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
-                    @Override
-                    public void onCancel() {
-                    }
-
-                    @Override
-                    public void onOK() {
-                        // 跳转到设置密码页面
-                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
-                    }
-                }).show();
-            }
+                }
+            });
         }
     }
 

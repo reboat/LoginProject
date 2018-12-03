@@ -11,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.zjrb.core.R;
+import com.daily.news.login.R;
 import com.zjrb.core.utils.UIUtils;
 
 /**
@@ -42,7 +42,7 @@ public class TipDialog extends Dialog {
 
     private void initView() {
         view = LayoutInflater.from(mContext).inflate(
-                R.layout.module_core_dialog_confirm_layout, null);
+                R.layout.module_core_dialog_tip_layout, null);
         tv_title = (TextView) view.findViewById(R.id.tv_confirm_title);
         button_cancel = (TextView) view.findViewById(R.id.Button_Cancel);
         button_ok = (TextView) view.findViewById(R.id.Button_OK);
@@ -98,7 +98,7 @@ public class TipDialog extends Dialog {
         if (!TextUtils.isEmpty(okText)) {
             button_ok.setText(okText);
         } else {
-            button_ok.setText(mContext.getResources().getString(R.string.module_core_tip_ok));
+            button_ok.setText(mContext.getResources().getString(R.string.zb_mobile_ok));
         }
         return this;
     }
