@@ -32,6 +32,11 @@ public class APIManager {
          * 用户协议
          */
         public static final String USER_PROTECT = "/api/account/agreement";
+
+        /**
+         * 浙报通行证升级校验接口
+         */
+        public static final String PASSPORT_VERSION_CHECK = "/api/account/passport_version_check";
     }
 
 }

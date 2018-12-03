@@ -36,6 +36,8 @@
     <string name="zb_set_password_tip">重设通行证密码</string>
     <string name="zb_mobile_jump">跳过</string>
     <string name="zb_mobile_valideta_tip">填写联系方式,兑换礼品更方便快捷</string>
+    <string name="zb_mobile_update">升级</string>
+    <string name="zb_mobile_ok">确定</string>
 
 
     <string name="zb_mobile_submit">提交</string>
@@ -46,5 +48,6 @@
     <string name="please_agree_protocol">请先同意协议</string>
     <string name="zb_register">注册</string>
     <string name="zb_register_link_title">用户协议</string>
+
 
 </resources>

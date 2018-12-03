@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daily.news.login.baseview.TipDialog;
+import com.daily.news.login.task.VersionCheckTask;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.api.LoginHelper;
+import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
@@ -22,6 +27,8 @@ import com.zjrb.core.utils.click.ClickTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.update.UpdateManager;
+import cn.daily.news.update.UpdateResponse;
 
 /**
  * 登录入口页面，所有登录必须通过该入口
@@ -59,6 +66,50 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected View onCreateTopBar(ViewGroup view) {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_login)).getView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new VersionCheckTask(new APIExpandCallBack<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+            }
+
+            @Override
+            public void onError(String errMsg, int errCode) {
+                super.onError(errMsg, errCode);
+                if (errCode == 52005) {
+                    new TipDialog(LoginActivity.this).
+                            setOkText(getResources().getString(R.string.zb_mobile_update)).
+                            setTitle(errMsg).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onOK() {
+                            UpdateManager.checkUpdate((AppCompatActivity) getActivity(), new UpdateManager.UpdateListener() {
+                                @Override
+                                public void onUpdate(UpdateResponse.DataBean dataBean) {
+                                    if (!dataBean.latest.isNeedUpdate && getActivity() != null) {
+                                        Toast.makeText(getActivity(), "已经是最新版本", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String errMsg, int errCode) {
+                                    if (getActivity() != null) {
+                                        Toast.makeText(getActivity(), "检测失败!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }).show();
+                }
+            }
+        }).setTag(this).exe();
     }
 
     /**
