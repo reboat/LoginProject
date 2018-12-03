@@ -43,6 +43,10 @@
     <string name="zb_mobile_bind_success_tip">绑定成功！下次可使用手机号直接登录该账号</string>
     <string name="zb_mobile_bind_quit">放弃绑定</string>
     <string name="zb_mobile_bind_confirm">确认绑定</string>
+    <string name="zb_mobile_login_title">账号安全指数已进行升级,请使用手机号登录</string>
+    <string name="zb_mobile_login_title_reset">账号安全指数已进行升级,请重新设置密码</string>
+    <string name="zb_mobile_login_ok">使用手机号登录</string>
+    <string name="zb_mobile_reset_password">重设密码</string>
 
 
 

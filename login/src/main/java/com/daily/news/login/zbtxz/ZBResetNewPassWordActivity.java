@@ -3,7 +3,6 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -22,12 +21,10 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
-import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
@@ -151,7 +148,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                     @Override
                     public void onSuccess(LoginInfo bean, @Nullable String passData) {
                         if (bean != null) {
-                            loginValidate(phoneNum, bean.getToken(), "phone_number");
+                            loginValidate(phoneNum, bean.getToken());
                         } else {
                             LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
                             T.showShortNow(ZBResetNewPassWordActivity.this, getString(R.string.zb_login_error)); // 登录失败
@@ -180,7 +177,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
     /**
      * 登录认证
      */
-    private void loginValidate(final String phone, String token, final String type) {
+    private void loginValidate(final String phone, String token) {
         new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -215,18 +212,19 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-                    if (TextUtils.equals(type, "phone_number")) {
-                        SPHelper.get().put("isPhone", true).commit();
-                        SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
-                        SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url()).commit();
-                        ZBUtils.showPointDialog(bean);
-                        finish();
-                        // 关闭 密码登录页面
-                        AppManager.get().finishActivity(ZBResetPasswordActivity.class);
-                        AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
-                        // 关闭登录入口页
-                        AppManager.get().finishActivity(LoginMainActivity.class);
-                    } else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
+//                    if (TextUtils.equals(type, "phone_number")) {
+                    SPHelper.get().put("isPhone", true).commit();
+                    SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
+                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "" : bean.getAccount().getImage_url()).commit();
+                    ZBUtils.showPointDialog(bean);
+                    finish();
+                    // 关闭 密码登录页面
+                    AppManager.get().finishActivity(ZBResetPasswordActivity.class);
+                    AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
+                    // 关闭登录入口页
+                    AppManager.get().finishActivity(LoginMainActivity.class);
+//                    }
+/*                    else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
                         if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未绑定过,个性化账号进入绑定手机号界面
                             if (bundle == null) {
                                 bundle = new Bundle();
@@ -238,8 +236,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                             // TODO: 2018/9/10 需要结束吗
                             finish();
                         }
-                    }
-
+                    }*/
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }

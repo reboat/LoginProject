@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.zjrb.core.api.LoginHelper;
@@ -137,17 +138,28 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
             } else if (etPasswordText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_password_empty));
             } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
-                if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                if (AppUtils.isMobileNum(dtAccountText.getText().toString())) { // 手机号登录
                     LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                     // 不需要进行绑定校验
-                    doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString(), "phone_number");
+                    doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString());
 //                    checkBind(dtAccountText.getText().toString(), etPasswordText.getText().toString());
                 } else {
                     T.showShort(this, getString(R.string.zb_phone_num_error));
                 }
                 //非纯数字
-            } else if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 邮箱或个性化登录
-                doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString(), "definition");
+            } else if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 邮箱或个性化登录 需求修改为引导用户使用手机号登录或注册
+//                doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString(), "definition");
+                new TipDialog(getContext()).setTitle(getResources().getString(R.string.zb_mobile_login_title)).setOkText(getResources().getString(R.string.zb_mobile_login_ok)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onOK() {
+                        // 跳转到主登录界面
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.LOGIN_ACTIVITY);
+                    }
+                }).show();
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
@@ -223,31 +235,46 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
      * 登录
      * @param text
      * @param password
-     * @param type 登录类型 type: "phone_number" 手机号密码登录    type:"definition" 个性化账号登录
      */
-    private void doLogin(final String text, String password, final String type) {
+    private void doLogin(final String text, String password) {
         if (password == null) {
             T.showShort(ZBPasswordLoginActivity.this, "密码不能为空");
         } else if (password.length() < 6) {
             T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
-            ZbPassport.login(text, password, new ZbLoginListener() {
-                @Override
-                public void onSuccess(LoginInfo bean, @Nullable String passData) {
-                    if (bean != null) {
-                       loginValidate(text, bean.getToken(), type);
-                    } else {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
+            // 判断手机号是否在新通行证中设置过密码
+            // TODO: 2018/12/3
+            if (true) { // 设置过密码
+                ZbPassport.login(text, password, new ZbLoginListener() {
+                    @Override
+                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
+                        if (bean != null) {
+                            loginValidate(text, bean.getToken());
+                        } else {
+                            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+                            T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(int errorCode, String errorMessage) {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                    T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
-                }
-            });
+                    @Override
+                    public void onFailure(int errorCode, String errorMessage) {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+                        T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
+                    }
+                });
+            } else { // 引导用户重置密码
+                new TipDialog(getContext()).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                    @Override
+                    public void onCancel() {
+                    }
+
+                    @Override
+                    public void onOK() {
+                        // 跳转到设置密码页面
+                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
+                    }
+                }).show();
+            }
         }
     }
 
@@ -256,7 +283,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
      * @param phone
      * @param token
      */
-    private void loginValidate(final String phone, String token, final String type) {
+    private void loginValidate(final String phone, String token) {
         new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -291,14 +318,15 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-                    if (TextUtils.equals(type, "phone_number")) {
-                        SPHelper.get().put("isPhone", true).commit();
-                        SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
-                        SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url()).commit();
-                        ZBUtils.showPointDialog(bean);
-                        finish();
-                        AppManager.get().finishActivity(LoginMainActivity.class);
-                    } else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
+//                    if (TextUtils.equals(type, "phone_number")) {
+                    SPHelper.get().put("isPhone", true).commit();
+                    SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
+                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "" : bean.getAccount().getImage_url()).commit();
+                    ZBUtils.showPointDialog(bean);
+                    finish();
+                    AppManager.get().finishActivity(LoginMainActivity.class);
+//                    }
+/*                    else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
                         if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未绑定过,个性化账号进入绑定手机号界面
                             if (bundle == null) {
                                 bundle = new Bundle();
@@ -310,12 +338,12 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                             // TODO: 2018/9/10 需要结束吗
                             finish();
                         }
-                    }
+                    }*/
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, type, token);
+        }).setTag(this).exe(phone, phone, "phone_number", token);
     }
 
 }
