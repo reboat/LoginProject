@@ -39,6 +39,9 @@ dependencies {
     api 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     api 'cn.daily.android:analytics:5.4.0.5-SNAPSHOT'
+    api('cn.daily.android:update:5.6.0.6-SNAPSHOT') {
+        transitive false
+    }
 
 }
 
