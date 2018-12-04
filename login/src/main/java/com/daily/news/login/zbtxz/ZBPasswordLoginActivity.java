@@ -153,6 +153,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                 new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title)).setOkText(getResources().getString(R.string.zb_mobile_login_ok)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                     @Override
                     public void onCancel() {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                     }
 
                     @Override
@@ -260,6 +261,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                         new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                             @Override
                             public void onCancel() {
+                                LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                             }
 
                             @Override
