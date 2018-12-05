@@ -153,7 +153,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                 new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title)).setOkText(getResources().getString(R.string.zb_mobile_login_ok)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                     @Override
                     public void onCancel() {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                     }
 
                     @Override
@@ -258,10 +257,10 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                 @Override
                 public void onFailure(int errorCode, String errorMessage) {
                     if (errorCode == ErrorCode.ERROR_PHONE_LGOIIN_NEED_RESET) { // 需要重置密码才能登陆的情况
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                             @Override
                             public void onCancel() {
-                                LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                             }
 
                             @Override
