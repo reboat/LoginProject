@@ -21,19 +21,19 @@ import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
+import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
+import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
-import com.zjrb.passport.Entity.LoginInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbFindPasswordListener;
-import com.zjrb.passport.listener.ZbLoginListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,23 +144,31 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
             @Override
             public void onSuccess(@Nullable String passData) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                ZbPassport.login(phoneNum, etPasswordText.getText().toString(), new ZbLoginListener() {
-                    @Override
-                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
-                        if (bean != null) {
-                            loginValidate(phoneNum, bean.getToken());
-                        } else {
-                            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                            T.showShortNow(ZBResetNewPassWordActivity.this, getString(R.string.zb_login_error)); // 登录失败
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int errorCode, String errorMessage) {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                        T.showShortNow(ZBResetNewPassWordActivity.this, errorMessage);
-                    }
-                });
+                // 跳转到账号密码登录页面,手机号自动填充,密码清空
+                finish();
+                // 关闭 密码登录页面
+                AppManager.get().finishActivity(ZBResetPasswordActivity.class);
+                AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mobile", phoneNum);
+                Nav.with(ZBResetNewPassWordActivity.this).setExtras(bundle).to(RouteManager.ZB_PASSWORD_LOGIN);
+//                ZbPassport.login(phoneNum, etPasswordText.getText().toString(), new ZbLoginListener() {
+//                    @Override
+//                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
+//                        if (bean != null) {
+//                            loginValidate(phoneNum, bean.getToken());
+//                        } else {
+//                            LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+//                            T.showShortNow(ZBResetNewPassWordActivity.this, getString(R.string.zb_login_error)); // 登录失败
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int errorCode, String errorMessage) {
+//                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+//                        T.showShortNow(ZBResetNewPassWordActivity.this, errorMessage);
+//                    }
+//                });
 //                T.showShort(ZBResetNewPassWordActivity.this, "找回密码成功,重新进行登录");
             }
 
