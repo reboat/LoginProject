@@ -151,7 +151,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                 AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mobile", phoneNum);
-                Nav.with(ZBResetNewPassWordActivity.this).setExtras(bundle).to(RouteManager.ZB_PASSWORD_LOGIN);
+                Nav.with(ZBResetNewPassWordActivity.this).setExtras(bundle).toPath(RouteManager.ZB_PASSWORD_LOGIN);
 //                ZbPassport.login(phoneNum, etPasswordText.getText().toString(), new ZbLoginListener() {
 //                    @Override
 //                    public void onSuccess(LoginInfo bean, @Nullable String passData) {
