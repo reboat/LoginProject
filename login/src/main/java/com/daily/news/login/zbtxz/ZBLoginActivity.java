@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.bianfeng.woa.OnCheckAccountExistListener;
 import com.bianfeng.woa.OnLoginListener;
 import com.bianfeng.woa.WoaSdk;
-import cn.daily.news.biz.core.utils.YiDunUtils;
-import cn.daily.news.biz.core.global.Key.YiDun.Type;
-import com.netease.mobsec.rjsb.watchman;
 import com.daily.news.login.LoginActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
@@ -39,7 +36,6 @@ import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.UIUtils;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
@@ -51,6 +47,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
+import cn.daily.news.biz.core.utils.YiDunUtils;
 
 import static com.zjrb.core.utils.UIUtils.getContext;
 
@@ -207,7 +205,11 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             WoaSdk.login(this, s, etPasswordText.getText().toString(), new OnLoginListener() {
                 @Override
                 public void onSuccess(String s, String s1, String s2) {
-                    loginVerification(s);
+                    if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 个性化账号
+                        loginVerification(s, false);
+                    } else {
+                        loginVerification(s, true);
+                    }
                 }
 
                 @Override
@@ -218,7 +220,11 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             });
         } else {
             LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-            T.showShort(this, "账号不存在或者密码错误，请您重新输入");
+            if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 个性化账号
+                T.showShort(this, "不支持此类型账号登录，请使用手机号登录注册");
+            } else {
+                T.showShort(this, "账号不存在或者密码错误，请您重新输入");
+            }
         }
 
     }
@@ -226,15 +232,20 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     @Override
     public void onFailure(int i, String s) {
         LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-        T.showShort(this, "账号不存在或者密码错误，请您重新输入");
+        if (!AppUtils.isNumeric(dtAccountText.getText().toString())) { // 个性化账号
+            T.showShort(this, "不支持此类型账号登录，请使用手机号登录注册");
+        } else {
+            T.showShort(this, "账号不存在或者密码错误，请您重新输入");
+        }
     }
 
     private Bundle bundle;
 
     /**
      * @param s 登录验证
+     * @param isPhone true： 手机号登录  false：个性化账号
      */
-    private void loginVerification(String s) {
+    private void loginVerification(String s, final boolean isPhone) {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -285,6 +296,9 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                     if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 进入实名制页面
                         if (bundle == null) {
                             bundle = new Bundle();
+                        }
+                        if (!isPhone) { // 个性化账号，未进行实名制
+                            isFromComment = true; // 个性化账号,不允许跳过
                         }
                         bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
                         Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);

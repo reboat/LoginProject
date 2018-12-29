@@ -67,7 +67,7 @@
             android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
-            android:hint="手机号／个性账号／邮箱"
+            android:hint="手机号"
             android:imeOptions="actionNext"
             android:lines="1"
             android:maxLines="1"
