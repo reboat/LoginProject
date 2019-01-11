@@ -14,7 +14,7 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetSmsCodeTask;
 import com.daily.news.login.task.MobileValidateTask;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.RealNameAuthHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -28,8 +28,10 @@ import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.domain.AccountBean;
+import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import org.json.JSONException;
@@ -75,6 +77,18 @@ public class ZBMobileValidateActivity extends BaseActivity {
      */
     private boolean isCommentActivity = false;
 
+    /**
+     * 是否来自未认证的个性化账号
+     */
+    private boolean isSpecialLogin = false;
+
+    /**
+     * 用于接收未认证的个性化账号传递过来的数据
+     */
+    private ZBLoginBean mBean = null;
+
+    private String mSessionId = UserBiz.get().getSessionId();
+
 
     /**
      * @param intent 获取intent数据
@@ -84,8 +98,14 @@ public class ZBMobileValidateActivity extends BaseActivity {
             if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
                 isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
             }
+            if (intent.hasExtra(Key.IS_SPECIAL_LOGIN)) {
+                isSpecialLogin = intent.getBooleanExtra(Key.IS_SPECIAL_LOGIN, false);
+            }
             if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
                 isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+            }
+            if (intent.hasExtra(Key.SPECIAL_LOGIN_KEY)) {
+                mBean = (ZBLoginBean) intent.getSerializableExtra(Key.SPECIAL_LOGIN_KEY);
             }
         }
     }
@@ -97,17 +117,28 @@ public class ZBMobileValidateActivity extends BaseActivity {
         setContentView(R.layout.module_zbtxz_mobile_validate);
         ButterKnife.bind(this);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        if (isSpecialLogin) {
+            if (mBean != null && mBean.getSession() != null) {
+                mSessionId = mBean.getSession().getId(); // 发送验证码请求新增该参数,因为未登录状态请求验证码会失败
+            }
+        } else {
+            mSessionId = UserBiz.get().getSessionId();
+        }
     }
 
     /**
      * 初始化标题
      */
     private void initView() {
-        if (!isCommentActivity) {
+        if (isCommentActivity || isSpecialLogin) { // 评论及个性化,不允许跳过
+            mTvJump.setVisibility(View.GONE);
+        } else {
             mTvJump.setVisibility(View.VISIBLE);
             mTvJump.setText(getString(R.string.zb_mobile_jump));
-        } else {
-            mTvJump.setVisibility(View.GONE);
         }
         //不允许输入空格
         AppUtils.setEditTextInhibitInputSpace(dtAccountText,false);
@@ -194,11 +225,25 @@ public class ZBMobileValidateActivity extends BaseActivity {
             public void onSuccess(Void bean) {
                 //设置用户数据
                 UserBiz userBiz = UserBiz.get();
-                AccountBean loginBean = userBiz.getAccount();
-                if(loginBean != null){
-                    loginBean.setMobile(mobile);
-                    userBiz.setAccount(loginBean);
+                if (isSpecialLogin) { // 来自未认证的个性化账号登录
+                    if (mBean != null) {
+                        userBiz.setZBLoginBean(mBean);
+                        LoginHelper.get().setResult(true); // 设置登录成功
+                        ZBUtils.showPointDialog(mBean);
+                        AccountBean account = userBiz.getAccount();
+                        if (account != null) {
+                            account.setMobile(mobile);
+                            userBiz.setAccount(account);
+                        }
+                    }
+                } else {
+                    AccountBean loginBean = userBiz.getAccount();
+                    if(loginBean != null){
+                        loginBean.setMobile(mobile);
+                        userBiz.setAccount(loginBean);
+                    }
                 }
+
                 try {
                     JSONObject properties = new JSONObject();
                     properties.put("userID", userBiz.getAccountID());
@@ -215,7 +260,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 isAuthSuccess = true;
                 finish();
             }
-        }).setTag(this).exe(mobile, smsCode);
+        }).setTag(this).exe(mobile, smsCode, mSessionId);
     }
 
     /**
@@ -228,6 +273,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                 IPermissionCallBack() {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
+
                         new GetSmsCodeTask(new APIExpandCallBack<Void>() {
                             @Override
                             public void onError(String errMsg, int errCode) {
@@ -240,7 +286,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
                                 T.showShortNow(getActivity(), getString(R.string
                                         .zb_sms_send));
                             }
-                        }).setTag(this).exe(mobile);
+                        }).setTag(this).exe(mobile, mSessionId);
                     }
 
                     @Override

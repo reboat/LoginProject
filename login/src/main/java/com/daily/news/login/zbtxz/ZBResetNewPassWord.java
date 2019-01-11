@@ -18,8 +18,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import cn.daily.news.biz.core.utils.YiDunUtils;
-import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -41,6 +39,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
+import cn.daily.news.biz.core.utils.YiDunUtils;
 
 import static com.zjrb.core.utils.UIUtils.getContext;
 
@@ -189,7 +189,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,errMsg);
+                LoadingDialogUtils.newInstance().dismissLoadingDialog(false, errMsg);
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                         .setEvenName("浙报通行证，在设置新密码页面，重置密码")
                         .setPageType("密码重置页")

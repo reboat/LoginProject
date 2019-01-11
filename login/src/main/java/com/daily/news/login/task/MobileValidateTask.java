@@ -25,6 +25,7 @@ public class MobileValidateTask extends APIPostTask<Void> {
     protected void onSetupParams(Object... params) {
         put("mobile", params[0]);
         put("verification_code", params[1]);
+        put("session_id", params[2]); // 5.7及之后版本必传,解决个性化账户未登录不能发验证码的问题
     }
 
     @Override

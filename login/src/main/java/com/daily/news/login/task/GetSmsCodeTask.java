@@ -24,6 +24,7 @@ public class GetSmsCodeTask extends APIGetTask<Void> {
     @Override
     protected void onSetupParams(Object... params) {
         put("mobile", params[0]);
+        put("session_id", params[1]); // 5.7及之后版本必传,解决个性化账户未登录不能发验证码的问题
     }
 
     @Override

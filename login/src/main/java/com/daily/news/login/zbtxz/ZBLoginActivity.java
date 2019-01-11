@@ -29,6 +29,7 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
@@ -148,6 +149,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                 }
                 //非纯数字
             } else if (!AppUtils.isNumeric(dtAccountText.getText().toString())) {
+                LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                 WoaSdk.checkAccountExist(this, dtAccountText.getText().toString(), this);
             }
             //重置密码
@@ -194,7 +196,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
 
 
     /**
-     * 验证账号是否存在及登录
+     * 验证账号是否存在及登录 (注意:个性化账号可能在边锋的体系中存在,但是不在浙江新闻的历史数据库中,所以某个时间节点注册的个性化账号可能不被认为是历史账户)
      *
      * @param b true/false
      * @param s phone number
@@ -242,15 +244,19 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
     private Bundle bundle;
 
     /**
-     * @param s 登录验证
+     * @param s       登录验证
      * @param isPhone true： 手机号登录  false：个性化账号
      */
     private void loginVerification(String s, final boolean isPhone) {
         new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
-                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
+                if (!TextUtils.isEmpty(errMsg)) { // 不支持个性化账号登录的提示
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false, errMsg);
+                } else {
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                }
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
                         .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                         .setPageType("主登录页")
                         .setEventDetail("手机号/个性账号/邮箱")
@@ -265,9 +271,11 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                    AccountBean account = bean.getAccount();
+                    boolean isCertificate = (account != null && !TextUtils.isEmpty(account.getMobile())); // 是否实名认证
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
+                    // 埋点逻辑暂时不动 未认证的个性化账号登录成功,之后可能会放到认证成功之后
+                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
                             .setPageType("主登录页")
                             .setEventDetail("手机号/个性账号/邮箱")
@@ -282,38 +290,56 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         JSONObject properties = new JSONObject();
                         properties.put("userID", bean.getSession().getAccount_id());
                         properties.put("mobilePhone", bean.getAccount().getMobile());
-                        new Analytics.AnalyticsBuilder(ZBLoginActivity.this, null, null, null,false)
+                        new Analytics.AnalyticsBuilder(ZBLoginActivity.this, null, null, null, false)
                                 .setProfile(properties)
                                 .build()
                                 .send();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    UserBiz userBiz = UserBiz.get();
-                    userBiz.setZBLoginBean(bean);
-                    LoginHelper.get().setResult(true); // 设置登录成功
-                    ZBUtils.showPointDialog(bean);
-                    if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 进入实名制页面
+                    if (isPhone || isCertificate) { // 手机号登录或者实名过的个性化账号登录
+                        UserBiz userBiz = UserBiz.get();
+                        userBiz.setZBLoginBean(bean);
+                        LoginHelper.get().setResult(true); // 设置登录成功
+                        ZBUtils.showPointDialog(bean);
+                        if (isPhone) { // 手机号登录
+                            if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未实名的,进入实名制页面 后面条件是避免评论登录二次跳转实名界面的
+                                if (bundle == null) {
+                                    bundle = new Bundle();
+                                }
+                                bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+                                Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
+                                // 关闭短信验证码页面（可能不存在）
+                                AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                                finish();
+                            } else { // 登录成功，关闭相关页面
+                                // 关闭短信验证码页面（可能不存在）
+                                AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                                finish();
+                                // 关闭登录入口页面
+                                AppManager.get().finishActivity(LoginActivity.class);
+                            }
+                        } else { // 已实名的个性化的情况,登录成功,关闭相关页面
+                            // 关闭短信验证码页面（可能不存在）
+                            AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
+                            finish();
+                            // 关闭登录入口页面
+                            AppManager.get().finishActivity(LoginActivity.class);
+                        }
+                    } else { // 未实名过的个性化账号登录,实名认证界面不允许跳过,且验证过手机号后,才认为登录成功
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         if (bundle == null) {
                             bundle = new Bundle();
                         }
-                        if (!isPhone) { // 个性化账号，未进行实名制
-                            isFromComment = true; // 个性化账号,不允许跳过
-                        }
-                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+                        bundle.putSerializable(Key.SPECIAL_LOGIN_KEY, bean);
+                        bundle.putBoolean(Key.IS_SPECIAL_LOGIN, true);
                         Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
                         finish();
-                    } else { // 登录成功，关闭相关页面
-                        // 关闭短信验证码页面（可能不存在）
-                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                        finish();
-                        // 关闭登录入口页面
-                        AppManager.get().finishActivity(LoginActivity.class);
                     }
                 } else {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
+                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
 //                    T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
                 }
             }
