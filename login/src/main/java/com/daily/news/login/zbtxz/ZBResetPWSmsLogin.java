@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,8 +20,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import cn.daily.news.biz.core.utils.YiDunUtils;
-import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
@@ -29,7 +28,6 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
@@ -46,6 +44,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
+import cn.daily.news.biz.core.utils.YiDunUtils;
 
 /**
  * 短信验证码登录 / 重置密码获取验证码
@@ -79,7 +79,9 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     /**
      * 验证码定时器
      */
-    private TimerManager.TimerTask timerTask;
+//    private TimerManager.TimerTask timerTask;
+    private CountDownTimer timer;
+
 
     private boolean isCommentActivity = false;
 
@@ -132,7 +134,10 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TimerManager.cancel(timerTask);
+//        TimerManager.cancel(timerTask);
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
 
@@ -333,7 +338,9 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                     new OnGetSmsCaptchaListener() {
                                         @Override
                                         public void onFailure(int i, String s) {
-                                            TimerManager.cancel(timerTask);
+                                            if (timer != null) {
+                                                timer.cancel();
+                                            }
                                             T.showShort(ZBResetPWSmsLogin.this, s);
                                         }
 
@@ -352,7 +359,10 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                                     new com.bianfeng.passport.OnGetSmsCaptchaListener() {
                                         @Override
                                         public void onFailure(int i, String s) {
-                                            TimerManager.cancel(timerTask);
+//                                            TimerManager.cancel(timerTask);
+                                            if (timer != null) {
+                                                timer.cancel();
+                                            }
                                             T.showShort(ZBResetPWSmsLogin.this, s);
                                         }
 
@@ -391,27 +401,49 @@ public class ZBResetPWSmsLogin extends BaseActivity {
     private void startTimeCountDown() {
         tvTerification.setEnabled(false);
         //倒计时
-        timerTask = new TimerManager.TimerTask(1000, 1000) {
+        timer = new CountDownTimer(61 * 1000, 1000) {
             @Override
-            public void run(long count) {
-                long value = (60 - count);
+            public void onTick(long millisUntilFinished) {
+                long value = millisUntilFinished / 1000;
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvTerification.setTextColor(getResources().getColor(R.color._999999));
                 tvTerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
-                if (value == 0) {
-                    TimerManager.cancel(this);
-                    tvTerification.setEnabled(true);
-                    //TODO  WLJ 夜间模式
-                    tvTerification.setBackgroundResource(R.drawable
-                            .module_login_bg_sms_verification);
-                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
-                    tvTerification.setText(getString(R.string
-                            .zb_login_resend));
-                }
+            }
+
+            @Override
+            public void onFinish() {
+                tvTerification.setEnabled(true);
+                //TODO  WLJ 夜间模式
+                tvTerification.setBackgroundResource(R.drawable
+                        .module_login_bg_sms_verification);
+                tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
+                tvTerification.setText(getString(R.string
+                        .zb_login_resend));
             }
         };
-        TimerManager.schedule(timerTask);
+        timer.start();
+//        timerTask = new TimerManager.TimerTask(1000, 1000) {
+//            @Override
+//            public void run(long count) {
+//                long value = (60 - count);
+//                tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
+//                tvTerification.setTextColor(getResources().getColor(R.color._999999));
+//                tvTerification.setText("(" + value + ")" + getString(R.string
+//                        .zb_login_get_validationcode_again));
+//                if (value == 0) {
+//                    TimerManager.cancel(this);
+//                    tvTerification.setEnabled(true);
+//                    //TODO  WLJ 夜间模式
+//                    tvTerification.setBackgroundResource(R.drawable
+//                            .module_login_bg_sms_verification);
+//                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
+//                    tvTerification.setText(getString(R.string
+//                            .zb_login_resend));
+//                }
+//            }
+//        };
+//        TimerManager.schedule(timerTask);
     }
 
 }

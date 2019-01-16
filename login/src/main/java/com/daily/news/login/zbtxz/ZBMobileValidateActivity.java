@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
 import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
@@ -65,7 +65,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
 
     private boolean isAuthSuccess;
 
-    private TimerManager.TimerTask timerTask;
+//    private TimerManager.TimerTask timerTask;
+    private CountDownTimer timer;
 
     /**
      * 是否来自评论登录
@@ -150,7 +151,10 @@ public class ZBMobileValidateActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TimerManager.cancel(timerTask);
+//        TimerManager.cancel(timerTask);
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     private DefaultTopBarHolder2 topBarHolder;
@@ -311,26 +315,47 @@ public class ZBMobileValidateActivity extends BaseActivity {
     private void startTimeCountDown() {
         tvTerification.setEnabled(false);
         //倒计时
-        timerTask = new TimerManager.TimerTask(1000, 1000) {
+        timer = new CountDownTimer(121 * 1000, 1000) {
             @Override
-            public void run(long count) {
-                long value = (120 - count);
+            public void onTick(long millisUntilFinished) {
+                long value = millisUntilFinished / 1000;
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvTerification.setTextColor(getResources().getColor(R.color._999999));
                 tvTerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
-                if (value == 0) {
-                    TimerManager.cancel(this);
-                    tvTerification.setEnabled(true);
-                    //TODO  WLJ 夜间模式
-                    tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
-                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
-                    tvTerification.setText(getString(R.string
-                            .zb_login_resend));
-                }
+            }
+
+            @Override
+            public void onFinish() {
+                tvTerification.setEnabled(true);
+                //TODO  WLJ 夜间模式
+                tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
+                tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
+                tvTerification.setText(getString(R.string
+                        .zb_login_resend));
             }
         };
-        TimerManager.schedule(timerTask);
+        timer.start();
+//        timerTask = new TimerManager.TimerTask(1000, 1000) {
+//            @Override
+//            public void run(long count) {
+//                long value = (120 - count);
+//                tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
+//                tvTerification.setTextColor(getResources().getColor(R.color._999999));
+//                tvTerification.setText("(" + value + ")" + getString(R.string
+//                        .zb_login_get_validationcode_again));
+//                if (value == 0) {
+//                    TimerManager.cancel(this);
+//                    tvTerification.setEnabled(true);
+//                    //TODO  WLJ 夜间模式
+//                    tvTerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
+//                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
+//                    tvTerification.setText(getString(R.string
+//                            .zb_login_resend));
+//                }
+//            }
+//        };
+//        TimerManager.schedule(timerTask);
     }
 
     @Override
