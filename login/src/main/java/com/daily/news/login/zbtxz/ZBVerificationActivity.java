@@ -3,6 +3,7 @@ package com.daily.news.login.zbtxz;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -21,8 +22,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import cn.daily.news.biz.core.utils.YiDunUtils;
-import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
@@ -32,7 +31,6 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
@@ -48,6 +46,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.global.Key.YiDun.Type;
+import cn.daily.news.biz.core.utils.YiDunUtils;
 
 import static com.zjrb.core.utils.UIUtils.getContext;
 
@@ -85,7 +85,9 @@ public class ZBVerificationActivity extends BaseActivity {
     /**
      * 短信验证码定时器
      */
-    private TimerManager.TimerTask timerTask;
+//    private TimerManager.TimerTask timerTask;
+    private CountDownTimer timer;
+
 
     private boolean isCommentActivity = false;
 
@@ -177,7 +179,10 @@ public class ZBVerificationActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TimerManager.cancel(timerTask);
+//        TimerManager.cancel(timerTask);
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     /**
@@ -187,10 +192,10 @@ public class ZBVerificationActivity extends BaseActivity {
     private void startTimeCountDown() {
         tvResend.setEnabled(false);
         //倒计时
-        timerTask = new TimerManager.TimerTask(1000, 1000) {
+        timer = new CountDownTimer(61 * 1000, 1000) {
             @Override
-            public void run(long count) {
-                long value = (60 - count);
+            public void onTick(long millisUntilFinished) {
+                long value = millisUntilFinished / 1000;
                 tvResend.setBackgroundResource(R.drawable.border_timer_text_bg);
                 tvResend.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
@@ -199,21 +204,49 @@ public class ZBVerificationActivity extends BaseActivity {
                 } else {
                     tvResend.setTextColor(getResources().getColor(R.color._7a7b7d));
                 }
-                if (value == 0) {
-                    TimerManager.cancel(this);
-                    tvResend.setEnabled(true);
-                    tvResend.setBackground(null);
-                    tvResend.setText(getString(R.string
-                            .zb_login_resend));
-                    if (!ThemeMode.isNightMode()) {
-                        tvResend.setTextColor(getResources().getColor(R.color._f44b50));
-                    } else {
-                        tvResend.setTextColor(getResources().getColor(R.color._8e3636));
-                    }
+            }
+
+            @Override
+            public void onFinish() {
+                tvResend.setEnabled(true);
+                tvResend.setBackground(null);
+                tvResend.setText(getString(R.string
+                        .zb_login_resend));
+                if (!ThemeMode.isNightMode()) {
+                    tvResend.setTextColor(getResources().getColor(R.color._f44b50));
+                } else {
+                    tvResend.setTextColor(getResources().getColor(R.color._8e3636));
                 }
             }
         };
-        TimerManager.schedule(timerTask);
+        timer.start();
+//        timerTask = new TimerManager.TimerTask(1000, 1000) {
+//            @Override
+//            public void run(long count) {
+//                long value = (60 - count);
+//                tvResend.setBackgroundResource(R.drawable.border_timer_text_bg);
+//                tvResend.setText("(" + value + ")" + getString(R.string
+//                        .zb_login_get_validationcode_again));
+//                if (!ThemeMode.isNightMode()) {
+//                    tvResend.setTextColor(getResources().getColor(R.color._999999));
+//                } else {
+//                    tvResend.setTextColor(getResources().getColor(R.color._7a7b7d));
+//                }
+//                if (value == 0) {
+//                    TimerManager.cancel(this);
+//                    tvResend.setEnabled(true);
+//                    tvResend.setBackground(null);
+//                    tvResend.setText(getString(R.string
+//                            .zb_login_resend));
+//                    if (!ThemeMode.isNightMode()) {
+//                        tvResend.setTextColor(getResources().getColor(R.color._f44b50));
+//                    } else {
+//                        tvResend.setTextColor(getResources().getColor(R.color._8e3636));
+//                    }
+//                }
+//            }
+//        };
+//        TimerManager.schedule(timerTask);
     }
 
     /**
@@ -227,7 +260,10 @@ public class ZBVerificationActivity extends BaseActivity {
                     @Override
                     public void onFailure(int i, String s) {
                         //关闭验证码
-                        TimerManager.cancel(timerTask);
+//                        TimerManager.cancel(timerTask);
+                        if (timer != null) {
+                            timer.cancel();
+                        }
                         T.showShort(ZBVerificationActivity.this, s);
                     }
 
