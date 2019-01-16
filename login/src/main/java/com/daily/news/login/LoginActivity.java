@@ -27,8 +27,7 @@ import com.zjrb.core.utils.click.ClickTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.daily.news.update.UpdateManager;
-import cn.daily.news.update.UpdateResponse;
+import cn.daily.news.biz.core.update.CheckUpdateTask;
 
 /**
  * 登录入口页面，所有登录必须通过该入口
@@ -90,21 +89,7 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         public void onOK() {
-                            UpdateManager.checkUpdate((AppCompatActivity) getActivity(), new UpdateManager.UpdateListener() {
-                                @Override
-                                public void onUpdate(UpdateResponse.DataBean dataBean) {
-                                    if (!dataBean.latest.isNeedUpdate && getActivity() != null) {
-                                        Toast.makeText(getActivity(), "已经是最新版本", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onError(String errMsg, int errCode) {
-                                    if (getActivity() != null) {
-                                        Toast.makeText(getActivity(), "检测失败!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                            CheckUpdateTask.checkUpdate(LoginActivity.this);
                         }
                     }).show();
                 }
