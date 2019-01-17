@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
@@ -42,6 +44,7 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
+import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -205,6 +208,10 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        UserBiz.get().setClientId(clientId);
+                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")

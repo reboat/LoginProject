@@ -29,6 +29,7 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
@@ -51,6 +52,7 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
+import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -271,6 +273,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        UserBiz.get().setClientId(clientId);
+                    }
                     AccountBean account = bean.getAccount();
                     boolean isCertificate = (account != null && !TextUtils.isEmpty(account.getMobile())); // 是否实名认证
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());

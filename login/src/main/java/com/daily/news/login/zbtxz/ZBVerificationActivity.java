@@ -31,6 +31,7 @@ import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.db.ThemeMode;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
@@ -49,6 +50,7 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
+import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -322,6 +324,10 @@ public class ZBVerificationActivity extends BaseActivity {
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     //注册成功
+                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        UserBiz.get().setClientId(clientId);
+                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                     new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000", "SignUp",false)

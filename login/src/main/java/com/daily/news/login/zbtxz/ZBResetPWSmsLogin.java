@@ -31,6 +31,7 @@ import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
@@ -46,6 +47,8 @@ import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
+
+import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
 
 /**
  * 短信验证码登录 / 重置密码获取验证码
@@ -277,6 +280,10 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        UserBiz.get().setClientId(clientId);
+                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015", "Login",false)
                             .setEvenName("浙报通行证，手机验证码登录成功")
