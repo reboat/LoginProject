@@ -23,6 +23,7 @@ import com.daily.news.login.task.LoginValidateTask;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
+import com.zjrb.core.api.task.UploadCidTask;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
@@ -53,6 +54,7 @@ import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
 import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
+import static com.zjrb.core.common.biz.UserBiz.SP_NAME;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -273,9 +275,9 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
                     if (!TextUtils.isEmpty(clientId)) {
-                        UserBiz.get().setClientId(clientId);
+                        new UploadCidTask(null).exe(clientId);
                     }
                     AccountBean account = bean.getAccount();
                     boolean isCertificate = (account != null && !TextUtils.isEmpty(account.getMobile())); // 是否实名认证
@@ -309,7 +311,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         LoginHelper.get().setResult(true); // 设置登录成功
                         ZBUtils.showPointDialog(bean);
                         if (isPhone) { // 手机号登录
-                            if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未实名的,进入实名制页面 后面条件是避免评论登录二次跳转实名界面的
+                            if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未实名的,进入实名制页面 后面条件是避免评论登录二次跳转实名界面的(手机号登录按道理不会进入该分支,考虑删除该逻辑)
                                 if (bundle == null) {
                                     bundle = new Bundle();
                                 }
@@ -342,7 +344,7 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                        finish();
+//                        finish();
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));

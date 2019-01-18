@@ -203,8 +203,8 @@ public class ZBMobileValidateActivity extends BaseActivity {
             } else {
                 T.showShortNow(this, getString(R.string.zb_input_sms_verication));
             }
-        } else {
-            finish();
+        } else { // 跳过按钮
+            jumpOrFinishAuth();
         }
 
     }
@@ -262,7 +262,7 @@ public class ZBMobileValidateActivity extends BaseActivity {
 
                 setResult(RESULT_OK);
                 isAuthSuccess = true;
-                finish();
+                jumpOrFinishAuth();
             }
         }).setTag(this).exe(mobile, smsCode, mSessionId);
     }
@@ -360,8 +360,20 @@ public class ZBMobileValidateActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        if (isSpecialLogin) { // 个性化账号返回直接返回上一页
+            super.finish();
+        } else {
+            jumpOrFinishAuth();
+        }
+    }
+
+    /**
+     * 跳过或者认证成功时结束相关界面
+     */
+    public void jumpOrFinishAuth() {
         super.finish();
         RealNameAuthHelper.get().finishAuth(isAuthSuccess);
+        AppManager.get().finishActivity(ZBLoginActivity.class);
         AppManager.get().finishActivity(LoginActivity.class);
     }
 }

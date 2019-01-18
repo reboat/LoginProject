@@ -21,6 +21,7 @@ import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
 import com.zjrb.core.api.LoginHelper;
 import com.zjrb.core.api.callback.APIExpandCallBack;
+import com.zjrb.core.api.task.UploadCidTask;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
@@ -45,6 +46,7 @@ import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
 import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
+import static com.zjrb.core.common.biz.UserBiz.SP_NAME;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -208,9 +210,9 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    String clientId = SPHelper.get().get(KEY_CID, "");
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
                     if (!TextUtils.isEmpty(clientId)) {
-                        UserBiz.get().setClientId(clientId);
+                        new UploadCidTask(null).exe(clientId);
                     }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
