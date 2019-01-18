@@ -275,10 +275,6 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
-                    if (!TextUtils.isEmpty(clientId)) {
-                        new UploadCidTask(null).exe(clientId);
-                    }
                     AccountBean account = bean.getAccount();
                     boolean isCertificate = (account != null && !TextUtils.isEmpty(account.getMobile())); // 是否实名认证
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
@@ -345,6 +341,10 @@ public class ZBLoginActivity extends BaseActivity implements OnCheckAccountExist
                         // 关闭短信验证码页面（可能不存在）
                         AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
 //                        finish();
+                    }
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        new UploadCidTask(null).exe(clientId);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));

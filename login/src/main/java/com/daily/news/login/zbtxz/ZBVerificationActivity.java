@@ -326,10 +326,6 @@ public class ZBVerificationActivity extends BaseActivity {
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     //注册成功
-                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
-                    if (!TextUtils.isEmpty(clientId)) {
-                        new UploadCidTask(null).exe(clientId);
-                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                     new Analytics.AnalyticsBuilder(getContext(), "A0000", "A0000", "SignUp",false)
@@ -376,6 +372,10 @@ public class ZBVerificationActivity extends BaseActivity {
                         finish();
                         // 登录入口页
                         AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        new UploadCidTask(null).exe(clientId);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_reg_error));

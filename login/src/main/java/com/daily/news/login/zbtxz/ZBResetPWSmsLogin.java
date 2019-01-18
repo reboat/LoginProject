@@ -282,10 +282,6 @@ public class ZBResetPWSmsLogin extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
-                    if (!TextUtils.isEmpty(clientId)) {
-                        new UploadCidTask(null).exe(clientId);
-                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getActivity(), "A0001", "600015", "Login",false)
                             .setEvenName("浙报通行证，手机验证码登录成功")
@@ -321,6 +317,10 @@ public class ZBResetPWSmsLogin extends BaseActivity {
                         AppManager.get().finishActivity(ZBLoginActivity.class);
                         // 关闭登录入口页
                         AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        new UploadCidTask(null).exe(clientId);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));

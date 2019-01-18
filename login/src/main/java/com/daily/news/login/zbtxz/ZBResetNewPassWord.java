@@ -210,10 +210,6 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
-                    if (!TextUtils.isEmpty(clientId)) {
-                        new UploadCidTask(null).exe(clientId);
-                    }
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")
@@ -250,6 +246,10 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
                         finish();
                         // 关闭登录入口页
                         AppManager.get().finishActivity(LoginActivity.class);
+                    }
+                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
+                    if (!TextUtils.isEmpty(clientId)) {
+                        new UploadCidTask(null).exe(clientId);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"密码重置失败");
