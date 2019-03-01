@@ -48,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
@@ -325,6 +326,8 @@ public class ZBVerificationActivity extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    //新华智云设置userID
+                    AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
                     //注册成功
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());

@@ -42,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.global.Key.YiDun.Type;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 
@@ -210,6 +211,8 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    //新华智云设置userID
+                    AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
                             .setEvenName("浙报通行证，在设置新密码页面，重置密码")
