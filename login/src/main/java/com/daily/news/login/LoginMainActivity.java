@@ -3,7 +3,6 @@ package com.daily.news.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,11 +39,11 @@ import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
-import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.constant.ZbConstants;
-import com.zjrb.passport.listener.ZbCaptchaSendListener;
-import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.constant.ErrorCode;
+import com.zjrb.passport.listener.ZbAuthListener;
+import com.zjrb.passport.listener.ZbResultListener;
 
 import java.util.List;
 
@@ -304,9 +303,24 @@ public class LoginMainActivity extends BaseActivity {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
                         //短信登录
-                        ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtAccountText.getText().toString(), new ZbCaptchaSendListener() {
+//                        ZbPassport.sendCaptcha(ZbConstants.Sms.LOGIN, mEtAccountText.getText().toString(), new ZbCaptchaSendListener() {
+//                            @Override
+//                            public void onSuccess(@Nullable String passData) {
+//                                startTimeCountDown();
+//                                //提示短信已发送成功
+//                                T.showShortNow(LoginMainActivity.this, getString(R
+//                                        .string.zb_sms_send));
+//                            }
+//
+//                            @Override
+//                            public void onFailure(int errorCode, String errorMessage) {
+//                                TimerManager.cancel(timerTask);
+//                                T.showShort(LoginMainActivity.this, errorMessage);
+//                            }
+//                        });
+                        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), "", new ZbResultListener() {
                             @Override
-                            public void onSuccess(@Nullable String passData) {
+                            public void onSuccess() {
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(LoginMainActivity.this, getString(R
@@ -315,8 +329,10 @@ public class LoginMainActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(int errorCode, String errorMessage) {
-                                TimerManager.cancel(timerTask);
-                                T.showShort(LoginMainActivity.this, errorMessage);
+                                // 需要图形验证码的情况
+                                if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
+                                    // TODO: 2019/3/6 弹出图形验证码对话框
+                                }
                             }
                         });
 
@@ -344,13 +360,32 @@ public class LoginMainActivity extends BaseActivity {
      * @param captcha
      */
     private void doLogin(final String phone, String captcha) {
-        ZbPassport.loginCaptcha(phone, captcha, new ZbLoginListener() {
+//        ZbPassport.loginCaptcha(phone, captcha, new ZbLoginListener() {
+//
+//            @Override
+//            public void onSuccess(LoginInfo loginInfo, @Nullable String passData) {
+//                if (loginInfo != null) {
+//                    // 登录认证
+//                    loginValidate(phone, loginInfo.getToken());
+//                } else {
+//                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+//                    T.showShortNow(LoginMainActivity.this, getString(R.string.zb_login_error)); // 登录失败
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int errorCode, String errorMessage) {
+//                LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+//                T.showShort(LoginMainActivity.this, errorMessage);
+//            }
+//        });
+        ZbPassport.loginCaptcha(phone, captcha, new ZbAuthListener() {
 
             @Override
-            public void onSuccess(LoginInfo loginInfo, @Nullable String passData) {
+            public void onSuccess(AuthInfo loginInfo) {
                 if (loginInfo != null) {
                     // 登录认证
-                    loginValidate(phone, loginInfo.getToken());
+                    loginValidate(phone, loginInfo.getCode());
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
                     T.showShortNow(LoginMainActivity.this, getString(R.string.zb_login_error)); // 登录失败
@@ -369,9 +404,9 @@ public class LoginMainActivity extends BaseActivity {
      * 登录认证
      *
      * @param phone
-     * @param token
+     * @param authCode
      */
-    private void loginValidate(final String phone, String token) {
+    private void loginValidate(final String phone, String authCode) {
         new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -415,7 +450,7 @@ public class LoginMainActivity extends BaseActivity {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", token);
+        }).setTag(this).exe(phone, phone, "phone_number", authCode);
     }
 
     /**

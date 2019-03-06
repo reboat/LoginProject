@@ -281,9 +281,9 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
     /**
      * 登录认证
      * @param phone
-     * @param token
+     * @param authCode
      */
-    private void loginValidate(final String phone, String token) {
+    private void loginValidate(final String phone, String authCode) {
         new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -343,7 +343,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", token);
+        }).setTag(this).exe(phone, phone, "phone_number", authCode);
     }
 
 }

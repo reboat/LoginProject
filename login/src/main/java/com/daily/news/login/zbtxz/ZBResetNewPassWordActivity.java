@@ -185,7 +185,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
     /**
      * 登录认证
      */
-    private void loginValidate(final String phone, String token) {
+    private void loginValidate(final String phone, String authCode) {
         new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
@@ -249,7 +249,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", token);
+        }).setTag(this).exe(phone, phone, "phone_number", authCode);
         /*new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onError(String errMsg, int errCode) {
