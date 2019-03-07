@@ -157,9 +157,9 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
             Glide.with(this).load(candidateAccount.getImage_url()).apply(options).into(mUserLogoTop);
             mUserNameTop.setText(candidateAccount.getNick_name());
             mUserScoreNumTop.setText(String.valueOf(candidateAccount.getTotal_score()));
-            mUserFavNumTop.setText(String.valueOf(candidateAccount.getNews_favorite_size()));
+            mUserFavNumTop.setText(String.valueOf(candidateAccount.getFavorite_size()));
             mUserCommentNumTop.setText(String.valueOf(candidateAccount.getComment_size()));
-            MultiAccountBean.BindingLogMapBean topMap = candidateAccount.getBinding_log_map();
+            MultiAccountBean.BindingLogMapBean topMap = candidateAccount.getBinding_logo_map();
             if (topMap != null) {
                 mIvMobile.setVisibility(topMap.phone_number ? View.VISIBLE : View.GONE);
                 mIvQQ.setVisibility(topMap.qq ? View.VISIBLE : View.GONE);
@@ -176,9 +176,9 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
             Glide.with(this).load(currentAccount.getImage_url()).apply(options).into(mUserLogoBottom);
             mUserNameBottom.setText(currentAccount.getNick_name());
             mUserScoreNumBottom.setText(String.valueOf(currentAccount.getTotal_score()));
-            mUserFavNumBottom.setText(String.valueOf(currentAccount.getNews_favorite_size()));
+            mUserFavNumBottom.setText(String.valueOf(currentAccount.getFavorite_size()));
             mUserCommentNumBottom.setText(String.valueOf(currentAccount.getComment_size()));
-            MultiAccountBean.BindingLogMapBean bottomMap = currentAccount.getBinding_log_map();
+            MultiAccountBean.BindingLogMapBean bottomMap = currentAccount.getBinding_logo_map();
             if (bottomMap != null) {
                 mIvMobileBottom.setVisibility(bottomMap.phone_number ? View.VISIBLE : View.GONE);
                 mIvQQBottom.setVisibility(bottomMap.qq ? View.VISIBLE : View.GONE);
