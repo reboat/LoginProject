@@ -332,6 +332,9 @@ public class LoginMainActivity extends BaseActivity {
                                 // 需要图形验证码的情况
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
                                     // TODO: 2019/3/6 弹出图形验证码对话框
+                                } else {
+                                    TimerManager.cancel(timerTask);
+                                    T.showShort(LoginMainActivity.this, errorMessage);
                                 }
                             }
                         });
