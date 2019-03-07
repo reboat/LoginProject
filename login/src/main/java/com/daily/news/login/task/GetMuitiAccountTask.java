@@ -21,7 +21,8 @@ public class GetMuitiAccountTask extends APIGetTask<MultiAccountBean> {
     @Override
     protected void onSetupParams(Object... params) {
         put("auth_type", params[0]); // int 认证类型 1:手机，2:微信，3:QQ，4:微博
-        put("auth_uid", params[1]); // 认证Uid
+        put("auth_uid", params[1]); // (绑定账号的信息）社交账号的union_id或者手机号码
+        put("auth_token", params[2]); // 第三方平台的access_token或者手机短信验证码
     }
 
     @Override
