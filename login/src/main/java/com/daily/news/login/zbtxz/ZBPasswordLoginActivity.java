@@ -2,7 +2,6 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -37,10 +36,9 @@ import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
-import com.zjrb.passport.Entity.LoginInfo;
+import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
-import com.zjrb.passport.constant.ErrorCode;
-import com.zjrb.passport.listener.ZbLoginListener;
+import com.zjrb.passport.listener.ZbAuthListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -243,11 +241,43 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         } else if (password.length() < 6) {
             T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
-            ZbPassport.login(text, password, new ZbLoginListener() {
+//            ZbPassport.login(text, password, new ZbLoginListener() {
+//                @Override
+//                public void onSuccess(LoginInfo bean, @Nullable String passData) {
+//                    if (bean != null) {
+//                        loginValidate(text, bean.getToken());
+//                    } else {
+//                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+//                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(int errorCode, String errorMessage) {
+//                    if (errorCode == ErrorCode.ERROR_PHONE_LGOIIN_NEED_RESET) { // 需要重置密码才能登陆的情况
+//                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+//                        new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+//                            @Override
+//                            public void onCancel() {
+//                            }
+//
+//                            @Override
+//                            public void onOK() {
+//                                // 跳转到设置密码页面
+//                                Nav.with(getActivity()).toPath(RouteManager.ZB_RESET_PASSWORD);
+//                            }
+//                        }).show();
+//                    } else {
+//                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+//                        T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
+//                    }
+//                }
+//            });
+            ZbPassport.loginCustom(text, password, "", new ZbAuthListener() {
                 @Override
-                public void onSuccess(LoginInfo bean, @Nullable String passData) {
-                    if (bean != null) {
-                        loginValidate(text, bean.getToken());
+                public void onSuccess(AuthInfo info) {
+                    if (info != null) {
+                        loginValidate(text, info.getCode());
                     } else {
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
                         T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
@@ -256,7 +286,8 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
 
                 @Override
                 public void onFailure(int errorCode, String errorMessage) {
-                    if (errorCode == ErrorCode.ERROR_PHONE_LGOIIN_NEED_RESET) { // 需要重置密码才能登陆的情况
+                    // TODO: 2019/3/6 历史账号迁移,用户需要重新设置一个密码才能登陆
+                    if (errorCode == -1) { // 需要重置密码才能登陆的情况
                         LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                             @Override
