@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.zjrb.core.common.base.BaseActivity;
@@ -19,6 +20,7 @@ import com.zjrb.core.common.permission.IPermissionCallBack;
 import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.nav.Nav;
+import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
@@ -229,9 +231,50 @@ public class ZBResetPasswordActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(int errorCode, String errorMessage) {
-                                // TODO: 2019/3/7 图形验证码操作
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
+                                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBResetPasswordActivity.this);
+                                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
+                                            .setOkText("知道了")
+                                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+                                                @Override
+                                                public void onLeftClick() {
+                                                    if (zbGraphicDialog.isShowing()) {
+                                                        zbGraphicDialog.dismiss();
+                                                    }
+                                                }
 
+                                                @Override
+                                                public void onRightClick() {
+                                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+                                                        T.showShort(ZBResetPasswordActivity.this, "请先输入图形验证码");
+                                                    } else {
+                                                        ZbPassport.sendCaptcha(phoneNum, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                T.showShort(ZBResetPasswordActivity.this, "验证通过");
+                                                                if (zbGraphicDialog.isShowing()) {
+                                                                    zbGraphicDialog.dismiss();
+                                                                }
+                                                                startTimeCountDown(); // 开始倒计时
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(int errorCode, String errorMessage) {
+                                                                TimerManager.cancel(timerTask);
+                                                                T.showShort(ZBResetPasswordActivity.this, errorMessage);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onRefreshImage() {
+                                                    String url = ZbPassport.getGraphicsCode();
+                                                    Glide.with(ZBResetPasswordActivity.this).load(url).into(zbGraphicDialog.getIvGrahpic());
+                                                }
+                                            }));
+                                    zbGraphicDialog.show();
                                 } else {
                                     TimerManager.cancel(timerTask);
                                     T.showShort(ZBResetPasswordActivity.this, errorMessage);

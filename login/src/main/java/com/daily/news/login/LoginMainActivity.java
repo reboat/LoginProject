@@ -34,6 +34,7 @@ import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
+import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
@@ -331,7 +332,49 @@ public class LoginMainActivity extends BaseActivity {
                             public void onFailure(int errorCode, String errorMessage) {
                                 // 需要图形验证码的情况
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
-                                    // TODO: 2019/3/6 弹出图形验证码对话框
+                                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(LoginMainActivity.this);
+                                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
+                                            .setOkText("知道了")
+                                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+                                                @Override
+                                                public void onLeftClick() {
+                                                    if (zbGraphicDialog.isShowing()) {
+                                                        zbGraphicDialog.dismiss();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onRightClick() {
+                                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+                                                        T.showShort(LoginMainActivity.this, "请先输入图形验证码");
+                                                    } else {
+                                                        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                T.showShort(LoginMainActivity.this, "验证通过");
+                                                                if (zbGraphicDialog.isShowing()) {
+                                                                    zbGraphicDialog.dismiss();
+                                                                }
+                                                                startTimeCountDown(); // 开始倒计时
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(int errorCode, String errorMessage) {
+                                                                TimerManager.cancel(timerTask);
+                                                                T.showShort(LoginMainActivity.this, errorMessage);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onRefreshImage() {
+                                                    String url = ZbPassport.getGraphicsCode();
+                                                    Glide.with(LoginMainActivity.this).load(url).into(zbGraphicDialog.getIvGrahpic());
+                                                }
+                                            }));
+                                    zbGraphicDialog.show();
                                 } else {
                                     TimerManager.cancel(timerTask);
                                     T.showShort(LoginMainActivity.this, errorMessage);

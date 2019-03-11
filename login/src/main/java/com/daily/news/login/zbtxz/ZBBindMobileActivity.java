@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
@@ -30,6 +31,7 @@ import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.domain.MultiAccountBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.ZBBindDialog;
+import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -423,7 +425,48 @@ public class ZBBindMobileActivity extends BaseActivity {
                             public void onFailure(int errorCode, String errorMessage) {
                                 // 需要图形验证码的情况
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
-                                    // TODO: 2019/3/6 弹出图形验证码对话框
+                                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBBindMobileActivity.this);
+                                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
+                                            .setOkText("知道了")
+                                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+                                                @Override
+                                                public void onLeftClick() {
+                                                    if (zbGraphicDialog.isShowing()) {
+                                                        zbGraphicDialog.dismiss();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onRightClick() {
+                                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+                                                        T.showShort(ZBBindMobileActivity.this, "请先输入图形验证码");
+                                                    } else {
+                                                        ZbPassport.sendCaptcha(mobile, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                T.showShort(ZBBindMobileActivity.this, "验证通过");
+                                                                if (zbGraphicDialog.isShowing()) {
+                                                                    zbGraphicDialog.dismiss();
+                                                                }
+                                                                startTimeCountDown(); // 开始倒计时
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(int errorCode, String errorMessage) {
+                                                                T.showShort(ZBBindMobileActivity.this, errorMessage);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onRefreshImage() {
+                                                    String url = ZbPassport.getGraphicsCode();
+                                                    Glide.with(ZBBindMobileActivity.this).load(url).into(zbGraphicDialog.getIvGrahpic());
+                                                }
+                                            }));
+                                    zbGraphicDialog.show();
                                 } else {
                                     T.showShortNow(ZBBindMobileActivity.this, errorMessage);
                                 }

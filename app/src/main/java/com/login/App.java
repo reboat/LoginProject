@@ -46,7 +46,7 @@ public class App extends Application {
                         .setDebug(true)
                         .setAppVersion("1.0")
                         .setClientId(1)
-//                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
+                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
                         .setAppUuid("uuid"));
     }
 }
