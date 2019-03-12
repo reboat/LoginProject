@@ -1,6 +1,7 @@
 package com.daily.news.login.task;
 
-import com.zjrb.core.domain.base.BaseData;
+
+import cn.daily.news.biz.core.model.BaseData;
 
 /**
  * Created by wanglinjie.

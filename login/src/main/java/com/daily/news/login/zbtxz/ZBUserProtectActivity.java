@@ -7,8 +7,8 @@ import android.webkit.WebView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

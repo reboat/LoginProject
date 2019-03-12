@@ -20,16 +20,11 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.UserProtectBean;
 import com.daily.news.login.task.UserProtectTask;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.permission.IPermissionCallBack;
-import com.zjrb.core.common.permission.Permission;
-import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.dialog.ConfirmDialog;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.permission.IPermissionCallBack;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -39,6 +34,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.ui.dialog.ConfirmDialog;
+import cn.daily.news.biz.core.utils.RouteManager;
+
 
 /**
  * 浙报通行证 - 注册页面

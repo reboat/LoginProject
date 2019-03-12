@@ -2,8 +2,11 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.global.APIManager;
-import com.zjrb.core.api.base.APIGetTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.load.LoadingCallBack;
+
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIGetTask;
+
 
 /**
  * 获取用户协议代码
@@ -12,7 +15,7 @@ import com.zjrb.core.api.callback.LoadingCallBack;
  */
 public class UserProtectTask extends APIGetTask<UserProtectBean> {
 
-    public UserProtectTask(LoadingCallBack<UserProtectBean> callBack) {
+    public UserProtectTask(APIExpandCallBack<UserProtectBean> callBack) {
         super(callBack);
     }
 
@@ -22,11 +25,11 @@ public class UserProtectTask extends APIGetTask<UserProtectBean> {
      *               短信验证码
      */
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return APIManager.endpoint.USER_PROTECT;
     }
 }

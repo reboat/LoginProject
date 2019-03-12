@@ -19,23 +19,12 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.LoginValidateTask;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.api.task.UploadCidTask;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.AppManager;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.domain.ZBLoginBean;
-import com.zjrb.core.domain.base.SkipScoreInterface;
-import com.zjrb.core.nav.Nav;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
@@ -43,11 +32,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.AnalyticsManager;
-import cn.daily.news.biz.core.global.Key.YiDun.Type;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.model.SkipScoreInterface;
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.task.UploadCidTask;
+import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.YiDunUtils;
+import cn.daily.news.biz.core.utils.ZBUtils;
 
-import static com.zjrb.core.common.biz.UserBiz.KEY_CID;
-import static com.zjrb.core.common.biz.UserBiz.SP_NAME;
+import static cn.daily.news.biz.core.UserBiz.KEY_CID;
+import static cn.daily.news.biz.core.UserBiz.SP_NAME;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -259,7 +258,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 //                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0,YiDunUtils.getToken(Type.REG));
+        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0,YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
 
     }
 }

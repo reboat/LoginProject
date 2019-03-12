@@ -2,15 +2,18 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.global.APIManager;
-import com.zjrb.core.api.base.APIGetTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.load.LoadingCallBack;
+
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIGetTask;
+
 
 /**
  * 浙报通行证升级校验接口,返回52005代表需要升级
  */
 public class VersionCheckTask extends APIGetTask<Void> {
 
-    public VersionCheckTask(LoadingCallBack<Void> callBack) {
+    public VersionCheckTask(APIExpandCallBack<Void> callBack) {
         super(callBack);
     }
 
@@ -20,11 +23,11 @@ public class VersionCheckTask extends APIGetTask<Void> {
      *               短信验证码
      */
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return APIManager.endpoint.PASSPORT_VERSION_CHECK;
     }
 }

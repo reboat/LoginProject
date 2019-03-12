@@ -2,8 +2,10 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.global.APIManager;
-import com.zjrb.core.api.base.APIPostTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.load.LoadingCallBack;
+
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIPostTask;
 
 /**
  * 实名制短信验证码校验
@@ -12,7 +14,7 @@ import com.zjrb.core.api.callback.LoadingCallBack;
  */
 public class MobileValidateTask extends APIPostTask<Void> {
 
-    public MobileValidateTask(LoadingCallBack<Void> callBack) {
+    public MobileValidateTask(APIExpandCallBack<Void> callBack) {
         super(callBack);
     }
 
@@ -22,14 +24,14 @@ public class MobileValidateTask extends APIPostTask<Void> {
      *               短信验证码
      */
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
         put("mobile", params[0]);
         put("verification_code", params[1]);
         put("session_id", params[2]); // 5.7及之后版本必传,解决个性化账户未登录不能发验证码的问题
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return APIManager.endpoint.ZB_MOBILE_VALIDATE;
     }
 }

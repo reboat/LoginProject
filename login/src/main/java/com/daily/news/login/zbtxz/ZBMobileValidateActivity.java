@@ -15,23 +15,15 @@ import com.daily.news.login.R2;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetSmsCodeTask;
 import com.daily.news.login.task.MobileValidateTask;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.RealNameAuthHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.common.permission.IPermissionCallBack;
-import com.zjrb.core.common.permission.Permission;
-import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.domain.AccountBean;
-import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.DefaultTopBarHolder;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.permission.IPermissionCallBack;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import org.json.JSONException;
@@ -43,6 +35,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.model.AccountBean;
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.RealNameAuthHelper;
+import cn.daily.news.biz.core.utils.ZBUtils;
 
 /**
  * 浙报通行证实名制手机验证页面
@@ -157,16 +157,17 @@ public class ZBMobileValidateActivity extends BaseActivity {
         }
     }
 
-    private DefaultTopBarHolder2 topBarHolder;
+    private DefaultTopBarHolder topBarHolder;
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        topBarHolder = TopBarFactory.createDefault2(view, this);
+        topBarHolder = TopBarFactory.createDefault(view, this, getString(R.string.zb_mobile_contact));
         topBarHolder.setTopBarText(getString(R.string.zb_mobile_contact));
         //来自评论实名制  不显示跳过
-        if (isCommentLogin) {
-            topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
-        }
+        // TODO: 2019/3/12
+//        if (isCommentLogin) {
+//            topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
+//        }
         return topBarHolder.getView();
     }
 

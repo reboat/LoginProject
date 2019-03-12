@@ -1,8 +1,9 @@
 package com.login.tesk;
 
-import com.zjrb.core.api.base.APIGetTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
-import com.zjrb.core.common.global.C;
+import com.zjrb.core.load.LoadingCallBack;
+
+import cn.daily.news.biz.core.constant.C;
+import cn.daily.news.biz.core.network.compatible.APIGetTask;
 
 /**
  * 用户中心收藏列表
@@ -20,7 +21,7 @@ public class UserCollectListTask extends APIGetTask<Void> {
      * @param params start:long,最后一条的时间戳
      */
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
         if (params != null && params.length > 0) {
             put("start", params[0]);
         }
@@ -28,7 +29,7 @@ public class UserCollectListTask extends APIGetTask<Void> {
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return "/api/favorite/collect_list";
     }
 }

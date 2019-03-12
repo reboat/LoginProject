@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.login.tesk.UserCollectListTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.load.LoadingCallBack;
 
 /**
  * 测试登陆结合请求

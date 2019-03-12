@@ -1,9 +1,9 @@
 package com.login.tesk;
 
+import com.zjrb.core.load.LoadingCallBack;
 
-import com.zjrb.core.api.base.APIGetTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
-import com.zjrb.core.common.global.C;
+import cn.daily.news.biz.core.constant.C;
+import cn.daily.news.biz.core.network.compatible.APIGetTask;
 
 /**
  * 用户中心 - 我的动态 - 评论列表 - task
@@ -18,7 +18,7 @@ public class UserDynamicCommentListTask extends APIGetTask<Void> {
     }
 
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
         put("size", C.PAGE_SIZE);
         if (params != null && params.length > 0) {
             put("start", params[0]);
@@ -26,7 +26,7 @@ public class UserDynamicCommentListTask extends APIGetTask<Void> {
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return "/api/account_dynamic/dynamic_list";
     }
 }

@@ -4,30 +4,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.task.VersionCheckTask;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.umeng.UmengAuthUtils;
 import cn.daily.news.biz.core.update.CheckUpdateTask;
+import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.RouteManager;
+
+
 
 /**
  * 登录入口页面，所有登录必须通过该入口

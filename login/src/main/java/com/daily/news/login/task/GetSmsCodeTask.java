@@ -2,8 +2,10 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.global.APIManager;
-import com.zjrb.core.api.base.APIGetTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
+import com.zjrb.core.load.LoadingCallBack;
+
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIGetTask;
 
 /**
  * 实名制获取验证码
@@ -12,7 +14,7 @@ import com.zjrb.core.api.callback.LoadingCallBack;
  */
 public class GetSmsCodeTask extends APIGetTask<Void> {
 
-    public GetSmsCodeTask(LoadingCallBack<Void> callBack) {
+    public GetSmsCodeTask(APIExpandCallBack<Void> callBack) {
         super(callBack);
     }
 
@@ -22,13 +24,13 @@ public class GetSmsCodeTask extends APIGetTask<Void> {
      *               短信验证码
      */
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
         put("mobile", params[0]);
         put("session_id", params[1]); // 5.7及之后版本必传,解决个性化账户未登录不能发验证码的问题
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return APIManager.endpoint.GET_SMS_CODE;
     }
 }
