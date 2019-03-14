@@ -93,8 +93,6 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     private MultiAccountBean.AccountBean mSelectBean;
     private String mSelectId;
     private String mUnSelectedId;
-    private int authType = 1;
-    private String authUid;
 
     /**
      * @param intent 获取intent数据
@@ -102,12 +100,6 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     private void getIntentData(Intent intent) {
         if (intent != null) {
             multiAccountBean = (MultiAccountBean) intent.getSerializableExtra("merge_data");
-//            if (intent.hasExtra("auth_type")) {
-//                authType = intent.getIntExtra("auth_type", 0);
-//            }
-//            if (intent.hasExtra("auth_uid")) {
-//                authUid = intent.getStringExtra("auth_uid");
-//            }
         }
     }
 
@@ -119,27 +111,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         refreshView(multiAccountBean);
-//        initData();
     }
-
-//    private void initData() {
-//        new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
-//
-//            @Override
-//            public void onSuccess(MultiAccountBean data) {
-//                if (data != null) {
-//                    multiAccountBean = data;
-//                    refreshView(multiAccountBean);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(String errMsg, int errCode) {
-//                super.onError(errMsg, errCode);
-//            }
-//        }).setTag(this).exe(authType, authUid);
-//
-//    }
 
     private void refreshView(MultiAccountBean bean) {
         if (bean == null) {
@@ -299,13 +271,13 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         new UserAccountMergeTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onSuccess(ZBLoginBean data) {
-                UserBiz userBiz = UserBiz.get();
-                userBiz.setZBLoginBean(data);
                 T.showShort(ZBBindMergeInfoActivity.this, getResources().getString(R.string.zb_mobile_bind_success_tip));
                 Intent intent = new Intent("bind_mobile_successful");
                 LocalBroadcastManager.getInstance(ZBBindMergeInfoActivity.this).sendBroadcast(intent);
                 finish();
-                AppManager.get().finishActivity(ZBBindMobileActivity.class);
+                AppManager.get().finishActivity(ZBBindMobileActivity.class); // 注意: 这里因为在bind界面的返回做了logout的操作,所以重设数据要在这个步骤之后
+                UserBiz userBiz = UserBiz.get();
+                userBiz.setZBLoginBean(data);
                 AppManager.get().finishActivity(LoginMainActivity.class);
 
             }

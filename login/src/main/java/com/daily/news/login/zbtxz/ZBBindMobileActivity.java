@@ -69,35 +69,10 @@ public class ZBBindMobileActivity extends BaseActivity {
 
     private TimerManager.TimerTask timerTask;
 
-    /**
-     * 是否来自评论登录
-     */
-    private boolean isCommentLogin = false;
-
-    /**
-     * 是否来自于评论的实名制
-     */
-    private boolean isCommentActivity = false;
-
-
-//    /**
-//     * @param intent 获取intent数据
-//     */
-//    private void getIntentData(Intent intent) {
-//        if (intent != null) {
-//            if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
-//                isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
-//            }
-//            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
-//                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
-//            }
-//        }
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getIntentData(getIntent());
         setContentView(R.layout.module_login_mobile_bind);
         ButterKnife.bind(this);
         initView();
@@ -107,12 +82,6 @@ public class ZBBindMobileActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-//        if (!isCommentActivity) {
-//            mTvJump.setVisibility(View.VISIBLE);
-//            mTvJump.setText(getString(R.string.zb_mobile_jump));
-//        } else {
-//            mTvJump.setVisibility(View.GONE);
-//        }
         mTvJump.setVisibility(View.GONE);
         //不允许输入空格
         AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
@@ -133,10 +102,6 @@ public class ZBBindMobileActivity extends BaseActivity {
     protected View onCreateTopBar(ViewGroup view) {
         topBarHolder = TopBarFactory.createDefault2(view, this);
         topBarHolder.setTopBarText(getString(R.string.zb_mobile_bind_title));
-        //来自评论实名制  不显示跳过
-//        if (isCommentLogin) {
-//            topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
-//        }
         topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
         return topBarHolder.getView();
     }
@@ -187,105 +152,6 @@ public class ZBBindMobileActivity extends BaseActivity {
      * @param smsCode
      */
     private void bindMobile(final String mobile, final String smsCode) {
-        /* datebypass传参
-         {
-          "type": 1,
-          "data": 13965146707,
-          "session_id": "59a9272bf7bf513f18a7bf9b"
-        }
-        1：表示修改手机号码（包含绑定和修改）
-        data: 表示对应的手机号码
-        session_id：app端请求时会话的sessionId */
-//        try {
-//            JSONObject object = new JSONObject();
-//            object.put("type", 1);
-//            object.put("data", mobile);
-//            object.put("session_id", UserBiz.get().getSessionId());
-//            ZbPassport.getZbConfig().setData_bypass(object.toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-//        ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
-//            @Override
-//            public void onSuccess(@Nullable String passData) {
-//                if (passData != null) {
-//                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
-//                    if (zbBindEntity != null) {
-//                        ZBUtils.showPointDialog(zbBindEntity.data);
-//                    }
-//                }
-//                final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
-//                zbBindDialog.setBuilder(new ZBBindDialog.Builder()
-//                        .setTitle("绑定成功")
-//                        .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
-//                        .setOkText("知道了")
-//                        .setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                if (v.getId() == com.zjrb.core.R.id.btn_ok) {
-//                                    if (zbBindDialog.isShowing()) {
-//                                        zbBindDialog.dismiss();
-//                                    }
-//                                    finish();
-//                                    AppManager.get().finishActivity(LoginMainActivity.class);
-//                                }
-//                            }
-//                        }));
-//                zbBindDialog.show();
-//                // 更新手机号信息
-//                AccountBean account = UserBiz.get().getAccount();
-//                account.setMobile(mobile);
-//                UserBiz.get().setAccount(account);
-//                Intent intent = new Intent("bind_mobile_successful");
-//                LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//                if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED) {
-//                    final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
-//                    zbBindDialog.setBuilder(new ZBBindDialog.Builder()
-//                            .setTitle("绑定失败")
-//                            .setMessage("该手机号已被注册,且绑定有同种类型的第三方账号")
-//                            .setOkText("知道了")
-//                            .setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    if (v.getId() == com.zjrb.core.R.id.btn_ok) {
-//                                        if (zbBindDialog.isShowing()) {
-//                                            zbBindDialog.dismiss();
-//                                        }
-//                                    }
-//                                }
-//                            }));
-//                    zbBindDialog.show();
-//                } else if (errorCode == ErrorCode.ERROR_PHONE_REGISTERED_CAN_MERGE || errorCode == ErrorCode.ERROR_THIRD_REGISTERED_CAN_MERGE) {
-//                    new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
-//
-//                        @Override
-//                        public void onSuccess(MultiAccountBean data) {
-//                            if (data != null) {
-//                                Bundle bundle = new Bundle();
-//                                bundle.putSerializable("merge_data", data);
-//                                Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
-//                            } else {
-//                                T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onError(String errMsg, int errCode) {
-//                            super.onError(errMsg, errCode);
-//                            T.showShortNow(ZBBindMobileActivity.this, errMsg);
-//                        }
-//                    }).setTag(this).exe(1, mobile);
-//                } else {
-//                    T.showShortNow(ZBBindMobileActivity.this, errorMessage);
-//                }
-//
-//            }
-//        });
         new GetAccessTokenTask(new APIExpandCallBack<AccessTokenBean>() {
             @Override
             public void onSuccess(AccessTokenBean data) {
@@ -383,29 +249,6 @@ public class ZBBindMobileActivity extends BaseActivity {
     }
 
 
-    //短信验证码验证
-//        new MobileValidateTask(new APIExpandCallBack<Void>() {
-//            @Override
-//            public void onError(String errMsg, int errCode) {
-//                T.showShortNow(ZBBindMobileActivity.this, errMsg);
-//            }
-//
-//            @Override
-//            public void onSuccess(Void bean) {
-//                //设置用户数据
-//                UserBiz userBiz = UserBiz.get();
-//                AccountBean loginBean = userBiz.getAccount();
-//                if(loginBean != null){
-//                    loginBean.setMobile(mobile);
-//                    userBiz.setAccount(loginBean);
-//                }
-//
-//                setResult(RESULT_OK);
-//                isAuthSuccess = true;
-//                finish();
-//            }
-//        }).setTag(this).exe(mobile, smsCode);
-
     /**
      * 获取绑定手机号短信验证码
      *
@@ -416,19 +259,6 @@ public class ZBBindMobileActivity extends BaseActivity {
                 IPermissionCallBack() {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
-//                        ZbPassport.sendCaptcha(ZbConstants.Sms.BIND, mobile, new ZbCaptchaSendListener() {
-//                            @Override
-//                            public void onSuccess(@Nullable String passData) {
-//                                startTimeCountDown();
-//                                T.showShortNow(getActivity(), getString(R.string
-//                                        .zb_sms_send));
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int errorCode, String errorMessage) {
-//                                T.showShortNow(ZBBindMobileActivity.this, errorMessage);
-//                            }
-//                        });
                         ZbPassport.sendCaptcha(mobile, "", new ZbResultListener() {
                             @Override
                             public void onSuccess() {
@@ -489,19 +319,6 @@ public class ZBBindMobileActivity extends BaseActivity {
                                 }
                             }
                         });
-                       /* new GetSmsCodeTask(new APIExpandCallBack<Void>() {
-                            @Override
-                            public void onError(String errMsg, int errCode) {
-                                T.showShortNow(ZBBindMobileActivity.this, errMsg);
-                            }
-
-                            @Override
-                            public void onSuccess(Void bean) {
-                                startTimeCountDown();
-                                T.showShortNow(getActivity(), getString(R.string
-                                        .zb_sms_send));
-                            }
-                        }).setTag(this).exe(mobile);*/
                     }
 
                     @Override

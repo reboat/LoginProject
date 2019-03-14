@@ -179,15 +179,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
             bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
             bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.LOGIN_ACTIVITY);
-//            AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-//
-//            if (bundle == null) {
-//                bundle = new Bundle();
-//            }
-//            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_SMS_TYPE);
-//            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
-//            Nav.with(this).toPath(RouteManager.LOGIN_ACTIVITY);
-
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();
@@ -218,7 +209,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     doLogin(phone, password);
                 } else {
                     // 提示注册?
-                    LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                    LoadingDialogUtils.newInstance().NoText();
                     T.showShort(ZBPasswordLoginActivity.this, "账号不存在或者密码错误，请您重新输入");                }
             }
 
@@ -242,38 +233,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         } else if (password.length() < 6) {
             T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
-//            ZbPassport.login(text, password, new ZbLoginListener() {
-//                @Override
-//                public void onSuccess(LoginInfo bean, @Nullable String passData) {
-//                    if (bean != null) {
-//                        loginValidate(text, bean.getToken());
-//                    } else {
-//                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-//                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(int errorCode, String errorMessage) {
-//                    if (errorCode == ErrorCode.ERROR_PHONE_LGOIIN_NEED_RESET) { // 需要重置密码才能登陆的情况
-//                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-//                        new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
-//                            @Override
-//                            public void onCancel() {
-//                            }
-//
-//                            @Override
-//                            public void onOK() {
-//                                // 跳转到设置密码页面
-//                                Nav.with(getActivity()).toPath(RouteManager.ZB_RESET_PASSWORD);
-//                            }
-//                        }).show();
-//                    } else {
-//                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-//                        T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
-//                    }
-//                }
-//            });
             ZbPassport.loginCustom(text, password, "", new ZbAuthListener() {
                 @Override
                 public void onSuccess(AuthInfo info) {
@@ -328,7 +287,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                         .loginType("手机号;个性账号;邮箱")
                         .build()
                         .send();
-//                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
             }
 
             @Override
@@ -349,27 +307,12 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
                     LoginHelper.get().setResult(true); // 设置登录成功
-//                    if (TextUtils.equals(type, "phone_number")) {
                     SPHelper.get().put("isPhone", true).commit();
                     SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
                     SPHelper.get().put("last_logo", bean.getAccount() == null ? "" : bean.getAccount().getImage_url()).commit();
                     ZBUtils.showPointDialog(bean);
                     finish();
                     AppManager.get().finishActivity(LoginMainActivity.class);
-//                    }
-/*                    else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
-                        if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未绑定过,个性化账号进入绑定手机号界面
-                            if (bundle == null) {
-                                bundle = new Bundle();
-                            }
-                            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
-                            Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_BIND);
-                            // 关闭短信验证码页面（可能不存在）
-                            // AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                            // TODO: 2018/9/10 需要结束吗
-                            finish();
-                        }
-                    }*/
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }

@@ -148,30 +148,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
     }
 
     public void doNext(final String phoneNum, final String sms) {
-//        ZbPassport.verifyCaptcha(ZbConstants.Sms.FIND, phoneNum, sms, new ZbCaptchaVerifyListener() {
-//            @Override
-//            public void onSuccess(boolean isValid, @Nullable String passData) {
-//                if (isValid) {
-//                    LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-//                    if (bundle == null) {
-//                        bundle = new Bundle();
-//                    }
-//                    bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
-//                    bundle.putString("phoneNum", phoneNum);
-//                    bundle.putString("sms", sms);
-//                    Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager
-//                            .ZB_RESET_NEW_PASSWORD);
-//                } else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int errorCode, String errorMessage) {
-//                LoadingDialogUtils.newInstance().dismissLoadingDialog(false, errorMessage);
-//
-//            }
-//        });
         ZbPassport.checkCaptcha(phoneNum, sms, new ZbResultListener() {
             @Override
             public void onSuccess() {
@@ -205,21 +181,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
                 IPermissionCallBack() {
                     @Override
                     public void onGranted(boolean isAlreadyDef) {
-//                        ZbPassport.sendCaptcha(ZbConstants.Sms.FIND, phoneNum, new ZbCaptchaSendListener() {
-//                            @Override
-//                            public void onSuccess(@Nullable String passData) {
-//                                startTimeCountDown();
-//                                //提示短信已发送成功
-//                                T.showShortNow(ZBResetPasswordActivity.this, getString(R
-//                                        .string.zb_sms_send));
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int errorCode, String errorMessage) {
-//                                TimerManager.cancel(timerTask);
-//                                T.showShort(ZBResetPasswordActivity.this, errorMessage);
-//                            }
-//                        });
                         ZbPassport.sendCaptcha(phoneNum, "", new ZbResultListener() {
                             @Override
                             public void onSuccess() {
