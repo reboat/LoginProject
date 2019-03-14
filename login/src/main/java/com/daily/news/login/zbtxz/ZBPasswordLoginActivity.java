@@ -38,6 +38,7 @@ import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.core.utils.webjs.WebJsCallBack;
 import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.ZbAuthListener;
 
 import butterknife.BindView;
@@ -286,8 +287,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
 
                 @Override
                 public void onFailure(int errorCode, String errorMessage) {
-                    // TODO: 2019/3/6 历史账号迁移,用户需要重新设置一个密码才能登陆
-                    if (errorCode == -1) { // 需要重置密码才能登陆的情况
+                    if (errorCode == ErrorCode.ERROR_NEED_RESET_PASSWORD) { // 需要重置密码才能登陆的情况
                         LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         new TipDialog(ZBPasswordLoginActivity.this).setTitle(getResources().getString(R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
                             @Override

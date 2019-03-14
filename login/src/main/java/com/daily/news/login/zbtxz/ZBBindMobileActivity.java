@@ -13,14 +13,13 @@ import com.bumptech.glide.Glide;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.global.Key;
 import com.daily.news.login.task.GetMuitiAccountTask;
 import com.zjrb.core.api.callback.APIExpandCallBack;
+import com.zjrb.core.api.task.GetAccessTokenTask;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
 import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
 import com.zjrb.core.common.manager.TimerManager;
@@ -29,6 +28,7 @@ import com.zjrb.core.common.permission.Permission;
 import com.zjrb.core.common.permission.PermissionManager;
 import com.zjrb.core.domain.AccountBean;
 import com.zjrb.core.domain.MultiAccountBean;
+import com.zjrb.core.domain.base.AccessTokenBean;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.ui.widget.dialog.ZBBindDialog;
 import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
@@ -80,24 +80,24 @@ public class ZBBindMobileActivity extends BaseActivity {
     private boolean isCommentActivity = false;
 
 
-    /**
-     * @param intent 获取intent数据
-     */
-    private void getIntentData(Intent intent) {
-        if (intent != null) {
-            if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
-                isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
-            }
-            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
-                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
-            }
-        }
-    }
+//    /**
+//     * @param intent 获取intent数据
+//     */
+//    private void getIntentData(Intent intent) {
+//        if (intent != null) {
+//            if (intent.hasExtra(Key.IS_COMMENT_LOGIN)) {
+//                isCommentLogin = intent.getBooleanExtra(Key.IS_COMMENT_LOGIN, false);
+//            }
+//            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+//                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getIntentData(getIntent());
+//        getIntentData(getIntent());
         setContentView(R.layout.module_login_mobile_bind);
         ButterKnife.bind(this);
         initView();
@@ -107,14 +107,15 @@ public class ZBBindMobileActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-        if (!isCommentActivity) {
-            mTvJump.setVisibility(View.VISIBLE);
-            mTvJump.setText(getString(R.string.zb_mobile_jump));
-        } else {
-            mTvJump.setVisibility(View.GONE);
-        }
+//        if (!isCommentActivity) {
+//            mTvJump.setVisibility(View.VISIBLE);
+//            mTvJump.setText(getString(R.string.zb_mobile_jump));
+//        } else {
+//            mTvJump.setVisibility(View.GONE);
+//        }
+        mTvJump.setVisibility(View.GONE);
         //不允许输入空格
-        AppUtils.setEditTextInhibitInputSpace(dtAccountText,false);
+        AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
         mTvTitle.setText(getString(R.string.zb_mobile_bind_tip));
         btConfirm.setText(getString(R.string.zb_mobile_ok));
         tvVerification.setText(getString(R.string.zb_sms_verication));
@@ -133,9 +134,10 @@ public class ZBBindMobileActivity extends BaseActivity {
         topBarHolder = TopBarFactory.createDefault2(view, this);
         topBarHolder.setTopBarText(getString(R.string.zb_mobile_bind_title));
         //来自评论实名制  不显示跳过
-        if (isCommentLogin) {
-            topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
-        }
+//        if (isCommentLogin) {
+//            topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
+//        }
+        topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
         return topBarHolder.getView();
     }
 
@@ -180,6 +182,7 @@ public class ZBBindMobileActivity extends BaseActivity {
 
     /**
      * 绑定手机号 后续分情况跳账号合并页面,或者弹出解绑或者绑定成功的对话框
+     *
      * @param mobile
      * @param smsCode
      */
@@ -202,7 +205,7 @@ public class ZBBindMobileActivity extends BaseActivity {
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-        
+
 //        ZbPassport.bindPhone(mobile, smsCode, new ZbBindPhoneListener() {
 //            @Override
 //            public void onSuccess(@Nullable String passData) {
@@ -283,91 +286,104 @@ public class ZBBindMobileActivity extends BaseActivity {
 //
 //            }
 //        });
-        // TODO: 2019/3/6 token
-        ZbPassport.changePhoneNum(mobile, smsCode, "", new ZbResultListener() {
+        new GetAccessTokenTask(new APIExpandCallBack<AccessTokenBean>() {
             @Override
-            public void onSuccess() {
-                // TODO: 去掉积分处理
+            public void onSuccess(AccessTokenBean data) {
+                if (data != null) {
+                    String token = data.getAccess_token();
+                    ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
+                        @Override
+                        public void onSuccess() {
+                            // TODO: 去掉积分处理
 //                if (passData != null) {
 //                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
 //                    if (zbBindEntity != null) {
 //                        ZBUtils.showPointDialog(zbBindEntity.data);
 //                    }
 //                }
-                final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
-                zbBindDialog.setBuilder(new ZBBindDialog.Builder()
-                        .setTitle("绑定成功")
-                        .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
-                        .setOkText("知道了")
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (v.getId() == com.zjrb.core.R.id.btn_ok) {
-                                    if (zbBindDialog.isShowing()) {
-                                        zbBindDialog.dismiss();
+                            final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
+                            zbBindDialog.setBuilder(new ZBBindDialog.Builder()
+                                    .setTitle("绑定成功")
+                                    .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
+                                    .setOkText("知道了")
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                                if (zbBindDialog.isShowing()) {
+                                                    zbBindDialog.dismiss();
+                                                }
+                                                finish();
+                                                AppManager.get().finishActivity(LoginMainActivity.class);
+                                            }
+                                        }
+                                    }));
+                            zbBindDialog.show();
+                            // 更新手机号信息
+                            AccountBean account = UserBiz.get().getAccount();
+                            account.setPhone_number(mobile); // 实名认证账号
+                            UserBiz.get().setAccount(account);
+                            Intent intent = new Intent("bind_mobile_successful");
+                            LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
+                        }
+
+                        @Override
+                        public void onFailure(int errorCode, String errorMessage) {
+                            if (errorCode == ErrorCode.ERROR_PHONENUM_ALREADY_BIND) { // 该手机号已经被其他账号占用
+                                final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
+                                zbBindDialog.setBuilder(new ZBBindDialog.Builder()
+                                        .setTitle("绑定失败")
+                                        .setMessage("该手机号已被注册,且绑定有同种类型的第三方账号")
+                                        .setOkText("知道了")
+                                        .setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                                    if (zbBindDialog.isShowing()) {
+                                                        zbBindDialog.dismiss();
+                                                    }
+                                                }
+                                            }
+                                        }));
+                                zbBindDialog.show();
+                            } else if (errorCode == ErrorCode.ERROR_PHONENUM_CAN_MERGE || errorCode == ErrorCode.ERROR_THIRD_PARTY_CAN_MERGE) { // 进行账号合并的情况
+                                new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
+
+                                    @Override
+                                    public void onSuccess(MultiAccountBean data) {
+                                        if (data != null) {
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("merge_data", data);
+                                            Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
+                                        } else {
+                                            T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
+                                        }
                                     }
-                                    finish();
-                                    AppManager.get().finishActivity(LoginMainActivity.class);
-                                }
+
+                                    @Override
+                                    public void onError(String errMsg, int errCode) {
+                                        super.onError(errMsg, errCode);
+                                        T.showShortNow(ZBBindMobileActivity.this, errMsg);
+                                    }
+                                }).setTag(this).exe("phone_number", mobile, smsCode);
+                            } else {
+                                T.showShortNow(ZBBindMobileActivity.this, errorMessage);
                             }
-                        }));
-                zbBindDialog.show();
-                // 更新手机号信息
-                AccountBean account = UserBiz.get().getAccount();
-                account.setMobile(mobile);
-                UserBiz.get().setAccount(account);
-                Intent intent = new Intent("bind_mobile_successful");
-                LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
+                        }
+                    });
+                }
             }
 
             @Override
-            public void onFailure(int errorCode, String errorMessage) {
-                if (errorCode == ErrorCode.ERROR_PHONENUM_ALREADY_BIND) { // 该手机号已经被其他账号占用
-                    final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
-                    zbBindDialog.setBuilder(new ZBBindDialog.Builder()
-                            .setTitle("绑定失败")
-                            .setMessage("该手机号已被注册,且绑定有同种类型的第三方账号")
-                            .setOkText("知道了")
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (v.getId() == com.zjrb.core.R.id.btn_ok) {
-                                        if (zbBindDialog.isShowing()) {
-                                            zbBindDialog.dismiss();
-                                        }
-                                    }
-                                }
-                            }));
-                    zbBindDialog.show();
-                } else if (errorCode == ErrorCode.ERROR_NEED_MERGE) { // 进行账号合并的情况
-                    new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
-
-                        @Override
-                        public void onSuccess(MultiAccountBean data) {
-                            if (data != null) {
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("merge_data", data);
-                                Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
-                            } else {
-                                T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
-                            }
-                        }
-
-                        @Override
-                        public void onError(String errMsg, int errCode) {
-                            super.onError(errMsg, errCode);
-                            T.showShortNow(ZBBindMobileActivity.this, errMsg);
-                        }
-                    }).setTag(this).exe(1, mobile, smsCode);
-                } else {
-                    T.showShortNow(ZBBindMobileActivity.this, errorMessage);
-                }
+            public void onError(String errMsg, int errCode) {
+                super.onError(errMsg, errCode);
             }
-        });
+        }).setTag(this).exe();
+
     }
 
 
-        //短信验证码验证
+    //短信验证码验证
 //        new MobileValidateTask(new APIExpandCallBack<Void>() {
 //            @Override
 //            public void onError(String errMsg, int errCode) {
@@ -427,8 +443,9 @@ public class ZBBindMobileActivity extends BaseActivity {
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
                                     final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBBindMobileActivity.this);
                                     zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
-                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
-                                            .setOkText("知道了")
+                                            .setMessage("请先验证图形验证码")
+                                            .setOkText("确定")
+                                            .setUrl(ZbPassport.getGraphicsCode())
                                             .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
                                                 @Override
                                                 public void onLeftClick() {
@@ -532,10 +549,11 @@ public class ZBBindMobileActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        // 绑定页面点击返回按钮,手动清空session
+        UserBiz.get().logout();
         super.finish();
-        // TODO: 2018/8/31
 //        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
-        AppManager.get().finishActivity(LoginMainActivity.class);
+//        AppManager.get().finishActivity(LoginMainActivity.class);
     }
 
 }

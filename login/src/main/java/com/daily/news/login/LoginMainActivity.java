@@ -13,10 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.baseview.TipPopup;
-import com.daily.news.login.task.UserProtectBean;
-import com.daily.news.login.task.UserProtectTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.api.LoginHelper;
@@ -24,7 +23,6 @@ import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
 import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.TimerManager;
 import com.zjrb.core.common.permission.IPermissionCallBack;
@@ -163,9 +161,9 @@ public class LoginMainActivity extends BaseActivity {
      */
     private void getIntentData(Intent intent) {
         if (intent != null) {
-            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
-                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
-            }
+//            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+//                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+//            }
             if (intent.hasExtra("mobile")) {
                 mobile = intent.getStringExtra("mobile");
             }
@@ -224,11 +222,11 @@ public class LoginMainActivity extends BaseActivity {
             }
 
         } else if (v.getId() == R.id.ll_module_login_wx) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN, isFromComment);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.WEIXIN);
         } else if (v.getId() == R.id.ll_module_login_qq) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ, isFromComment);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.QQ);
         } else if (v.getId() == R.id.ll_module_login_wb) {
-            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA, isFromComment);
+            mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
         } else if (v.getId() == R.id.tv_sms_verification) { // 发送登录验证码
             if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) {
                 sendSmsCaptcha();
@@ -241,8 +239,10 @@ public class LoginMainActivity extends BaseActivity {
                 }
             }
         } else if (v.getId() == R.id.tv_password_login) { // 账号密码登录
-            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_PASSWORD_LOGIN);
+            // TODO: 2019/3/13 删除评论
+//            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
+//            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_PASSWORD_LOGIN);
+            Nav.with(this).toPath(RouteManager.ZB_PASSWORD_LOGIN);
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }
@@ -266,33 +266,6 @@ public class LoginMainActivity extends BaseActivity {
         super.finish();
         LoginHelper.get().finish(); // 登录结束
 
-    }
-
-    /**
-     * 获取用户协议地址
-     */
-    private String urlData = "";
-
-    private void getUserProject() {
-
-        new UserProtectTask(new APIExpandCallBack<UserProtectBean>() {
-            @Override
-            public void onError(String errMsg, int errCode) {
-                T.showShortNow(LoginMainActivity.this, errMsg);
-            }
-
-            @Override
-            public void onSuccess(UserProtectBean bean) {
-                if (bean != null) {
-                    urlData = bean.getUser_agreement();
-                }
-                if (bundle == null) {
-                    bundle = new Bundle();
-                }
-                bundle.putString("url", urlData);
-                Nav.with(LoginMainActivity.this).setExtras(bundle).toPath("/login/ZBUserProtectActivity");
-            }
-        }).setTag(this).exe();
     }
 
     /**
@@ -322,6 +295,60 @@ public class LoginMainActivity extends BaseActivity {
                         ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), "", new ZbResultListener() {
                             @Override
                             public void onSuccess() {
+                                // TODO: 2019/3/14 测试验证码,删除
+
+//                                final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(LoginMainActivity.this);
+//                                zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+//                                        .setMessage("请先验证图形验证码")
+//                                        .setOkText("确定")
+//                                        .setUrl(ZbPassport.getGraphicsCode())
+//                                        .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+//                                            @Override
+//                                            public void onLeftClick() {
+//                                                if (zbGraphicDialog.isShowing()) {
+//                                                    zbGraphicDialog.dismiss();
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void onRightClick() {
+//                                                if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+//                                                    T.showShort(LoginMainActivity.this, "请先输入图形验证码");
+//                                                } else {
+//                                                    ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+//                                                        @Override
+//                                                        public void onSuccess() {
+//                                                            T.showShort(LoginMainActivity.this, "验证通过");
+//                                                            if (zbGraphicDialog.isShowing()) {
+//                                                                zbGraphicDialog.dismiss();
+//                                                            }
+//                                                            startTimeCountDown(); // 开始倒计时
+//                                                        }
+//
+//                                                        @Override
+//                                                        public void onFailure(int errorCode, String errorMessage) {
+//                                                            TimerManager.cancel(timerTask);
+//                                                            T.showShort(LoginMainActivity.this, errorMessage);
+//                                                        }
+//                                                    });
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void onRefreshImage() {
+//                                                String url = ZbPassport.getGraphicsCode();
+//                                                RequestOptions options = new RequestOptions();
+//                                                // TODO: 2019/3/14
+//                                                options.placeholder(R.mipmap.default_user_icon);
+//                                                options.diskCacheStrategy(DiskCacheStrategy.NONE);
+//                                                options.skipMemoryCache(true);
+//                                                Glide.with(LoginMainActivity.this).load(url).apply(options).into(zbGraphicDialog.getIvGrahpic());                                            }
+//                                        }));
+//                                zbGraphicDialog.show();
+
+
+
+
                                 startTimeCountDown();
                                 //提示短信已发送成功
                                 T.showShortNow(LoginMainActivity.this, getString(R
@@ -334,8 +361,9 @@ public class LoginMainActivity extends BaseActivity {
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
                                     final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(LoginMainActivity.this);
                                     zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
-                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
-                                            .setOkText("知道了")
+                                            .setMessage("请先验证图形验证码")
+                                            .setOkText("确定")
+                                            .setUrl(ZbPassport.getGraphicsCode())
                                             .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
                                                 @Override
                                                 public void onLeftClick() {
@@ -371,7 +399,12 @@ public class LoginMainActivity extends BaseActivity {
                                                 @Override
                                                 public void onRefreshImage() {
                                                     String url = ZbPassport.getGraphicsCode();
-                                                    Glide.with(LoginMainActivity.this).load(url).into(zbGraphicDialog.getIvGrahpic());
+                                                    RequestOptions options = new RequestOptions();
+                                                    // TODO: 2019/3/14
+                                                    options.placeholder(R.mipmap.default_user_icon);
+                                                    options.diskCacheStrategy(DiskCacheStrategy.NONE);
+                                                    options.skipMemoryCache(true);
+                                                    Glide.with(LoginMainActivity.this).load(url).apply(options).into(zbGraphicDialog.getIvGrahpic());
                                                 }
                                             }));
                                     zbGraphicDialog.show();

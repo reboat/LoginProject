@@ -234,8 +234,9 @@ public class ZBResetPasswordActivity extends BaseActivity {
                                 if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
                                     final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBResetPasswordActivity.this);
                                     zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
-                                            .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
-                                            .setOkText("知道了")
+                                            .setMessage("请先验证图形验证码")
+                                            .setOkText("确定")
+                                            .setUrl(ZbPassport.getGraphicsCode())
                                             .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
                                                 @Override
                                                 public void onLeftClick() {
@@ -315,7 +316,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvTerification.setEnabled(true);
-                    //TODO  WLJ 夜间模式
                     tvTerification.setBackgroundResource(R.drawable
                             .module_login_bg_sms_verification);
                     tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
