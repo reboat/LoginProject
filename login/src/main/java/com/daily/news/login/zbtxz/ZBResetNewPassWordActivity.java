@@ -10,26 +10,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.task.ZBLoginValidateTask;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
 import com.zjrb.core.common.base.BaseActivity;
 import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
 import com.zjrb.core.common.global.IKey;
 import com.zjrb.core.common.global.RouteManager;
 import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.domain.ZBLoginBean;
 import com.zjrb.core.domain.base.SkipScoreInterface;
 import com.zjrb.core.nav.Nav;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbResultListener;
@@ -37,9 +29,6 @@ import com.zjrb.passport.listener.ZbResultListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.daily.news.analytics.Analytics;
-
-import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * Date: 2018/8/15
@@ -198,138 +187,10 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
         });
     }
 
-    private Bundle bundle;
-
-    /**
-     * 登录认证
-     */
-    private void loginValidate(final String phone, String authCode) {
-        new ZBLoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
-            @Override
-            public void onError(String errMsg, int errCode) {
-                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,getString(R.string.zb_login_error));
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
-                        .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                        .setPageType("主登录页")
-                        .setEventDetail("手机号/个性账号/邮箱")
-                        .setIscuccesee(false)
-                        .pageType("主登录页")
-                        .loginType("手机号;个性账号;邮箱")
-                        .build()
-                        .send();
-//                T.showShortNow(ZBLoginActivity.this, getString(R.string.zb_login_error));
-            }
-
-            @Override
-            public void onSuccess(ZBLoginBean bean) {
-                if (bean != null) {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
-                            .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                            .setPageType("主登录页")
-                            .setEventDetail("手机号/个性账号/邮箱")
-                            .setIscuccesee(true)
-                            .pageType("主登录页")
-                            .loginType("手机号;个性账号;邮箱")
-                            .userID(bean.getSession().getAccount_id())
-                            .mobilePhone(bean.getAccount().getMobile())
-                            .build()
-                            .send();
-                    UserBiz userBiz = UserBiz.get();
-                    userBiz.setZBLoginBean(bean);
-                    LoginHelper.get().setResult(true); // 设置登录成功
-//                    if (TextUtils.equals(type, "phone_number")) {
-                    SPHelper.get().put("isPhone", true).commit();
-                    SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
-                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "" : bean.getAccount().getImage_url()).commit();
-                    ZBUtils.showPointDialog(bean);
-                    finish();
-                    // 关闭 密码登录页面
-                    AppManager.get().finishActivity(ZBResetPasswordActivity.class);
-                    AppManager.get().finishActivity(ZBPasswordLoginActivity.class);
-                    // 关闭登录入口页
-                    AppManager.get().finishActivity(LoginMainActivity.class);
-//                    }
-/*                    else if (TextUtils.equals(type, "definition")) { // 个性化账号 需要判断是否需要进入绑定页面
-                        if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) { // 未绑定过,个性化账号进入绑定手机号界面
-                            if (bundle == null) {
-                                bundle = new Bundle();
-                            }
-                            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
-                            Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_BIND);
-                            // 关闭短信验证码页面（可能不存在）
-                            // AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                            // TODO: 2018/9/10 需要结束吗
-                            finish();
-                        }
-                    }*/
-                } else {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
-                }
-            }
-        }).setTag(this).exe(phone, phone, "phone_number", authCode);
-        /*new LoginValidateTask(new APIExpandCallBack<ZBLoginBean>() {
-            @Override
-            public void onError(String errMsg, int errCode) {
-                LoadingDialogUtils.newInstance().dismissLoadingDialog(false,errMsg);
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
-                        .setEvenName("浙报通行证，在设置新密码页面，重置密码")
-                        .setPageType("密码重置页")
-                        .setEventDetail("重置密码")
-                        .setIscuccesee(false)
-                        .pageType("密码重置页")
-                        .clickTabName("重置密码")
-                        .build()
-                        .send();
-//                T.showShortNow(ZBResetNewPassWord.this, errMsg);
-            }
-
-            @Override
-            public void onSuccess(ZBLoginBean bean) {
-                if (bean != null) {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600017", "AppTabClick", false)
-                            .setEvenName("浙报通行证，在设置新密码页面，重置密码")
-                            .setPageType("密码重置页")
-                            .setEventDetail("重置密码")
-                            .setIscuccesee(true)
-                            .pageType("密码重置页")
-                            .clickTabName("重置密码")
-                            .build()
-                            .send();
-                    UserBiz userBiz = UserBiz.get();
-                    userBiz.setZBLoginBean(bean);
-                    LoginHelper.get().setResult(true); // 设置登录成功
-                    ZBUtils.showPointDialog(bean);
-                    if (!userBiz.isCertification() && !LoginHelper.get().filterCommentLogin()) {// 进入实名制页面
-                        if (bundle == null) {
-                            bundle = new Bundle();
-                        }
-                        bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
-                        Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_VERIFICATION);
-                        // 关闭 验证码页面／短信验证码登录页
-                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                        // 关闭 密码登录页面
-                        AppManager.get().finishActivity(ZBLoginActivity.class);
-
-                        // 关闭本页面 （短信验证码登录页面）
-                        finish();
-                    } else {
-                        // 关闭 验证码页面／短信验证码登录页
-                        AppManager.get().finishActivity(ZBResetPWSmsLogin.class);
-                        // 关闭 密码登录页面
-                        AppManager.get().finishActivity(ZBLoginActivity.class);
-                        // 关闭本页面 （短信验证码登录页面）
-                        finish();
-                        // 关闭登录入口页
-                        AppManager.get().finishActivity(LoginMainActivity.class);
-                    }
-                } else {
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"密码重置失败");
-//                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
-                }
-            }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0);*/
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoadingDialogUtils.newInstance().dismissLoadingDialog(true); // 解决android.view.WindowLeaked: Activity com.daily.news.login.zbtxz.ZBResetNewPassWordActivity has leaked window DecorView@f9fced3[] that was originally added here
     }
+
 }
