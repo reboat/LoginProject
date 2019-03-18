@@ -98,7 +98,6 @@
         <activity
             android:name="com.daily.news.login.zbtxz.ZBResetNewPassWordActivity"
             android:configChanges="uiMode"
-            android:name="com.daily.news.login.zbtxz.ZBResetNewPassWordActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

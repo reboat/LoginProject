@@ -21,25 +21,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.baseview.TipPopup;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.TimerManager;
-import com.zjrb.core.common.permission.IPermissionCallBack;
-import com.zjrb.core.common.permission.Permission;
-import com.zjrb.core.common.permission.PermissionManager;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.domain.ZBLoginBean;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.UmengUtils.UmengAuthUtils;
-import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
+import com.zjrb.core.permission.IPermissionCallBack;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
@@ -53,6 +42,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.umeng.UmengAuthUtils;
+import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.RouteManager;
+import cn.daily.news.biz.core.utils.TimerManager;
+import cn.daily.news.biz.core.utils.ZBUtils;
 
 import static com.zjrb.core.utils.UIUtils.getContext;
 
@@ -435,7 +435,7 @@ public class LoginMainActivity extends BaseActivity {
             public void run(long count) {
                 long value = (60 - count);
                 mTvSmsVerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                mTvSmsVerification.setTextColor(getResources().getColor(R.color.tc_999999));
+                mTvSmsVerification.setTextColor(getResources().getColor(R.color._999999));
                 mTvSmsVerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
                 if (value == 0) {
@@ -443,7 +443,7 @@ public class LoginMainActivity extends BaseActivity {
                     mTvSmsVerification.setEnabled(true);
                     mTvSmsVerification.setBackgroundResource(R.drawable
                             .module_login_bg_sms_verification);
-                    mTvSmsVerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
+                    mTvSmsVerification.setTextColor(getResources().getColor(R.color._f44b50));
                     mTvSmsVerification.setText(getString(R.string
                             .zb_login_resend));
                 }

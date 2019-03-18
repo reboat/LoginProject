@@ -16,18 +16,12 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.TimerManager;
-import com.zjrb.core.common.permission.IPermissionCallBack;
-import com.zjrb.core.common.permission.Permission;
-import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.permission.IPermissionCallBack;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
@@ -39,6 +33,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.RouteManager;
+import cn.daily.news.biz.core.utils.TimerManager;
 
 /**
  * Date: 2018/8/15
@@ -281,7 +281,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
             public void run(long count) {
                 long value = (60 - count);
                 tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                tvTerification.setTextColor(getResources().getColor(R.color.tc_999999));
+                tvTerification.setTextColor(getResources().getColor(R.color._999999));
                 tvTerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
                 if (value == 0) {
@@ -289,7 +289,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
                     tvTerification.setEnabled(true);
                     tvTerification.setBackgroundResource(R.drawable
                             .module_login_bg_sms_verification);
-                    tvTerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
+                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
                     tvTerification.setText(getString(R.string
                             .zb_login_resend));
                 }

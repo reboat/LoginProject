@@ -19,24 +19,12 @@ import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.GetMuitiAccountTask;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.api.task.GetAccessTokenTask;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.base.toolbar.holder.DefaultTopBarHolder2;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.common.manager.TimerManager;
-import com.zjrb.core.common.permission.IPermissionCallBack;
-import com.zjrb.core.common.permission.Permission;
-import com.zjrb.core.common.permission.PermissionManager;
-import com.zjrb.core.domain.AccountBean;
-import com.zjrb.core.domain.MultiAccountBean;
-import com.zjrb.core.domain.base.AccessTokenBean;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.dialog.ZBBindDialog;
-import com.zjrb.core.ui.widget.dialog.ZbGraphicDialog;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.permission.IPermissionCallBack;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -49,6 +37,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.model.AccessTokenBean;
+import cn.daily.news.biz.core.model.AccountBean;
+import cn.daily.news.biz.core.model.MultiAccountBean;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.AbsCallback;
+import cn.daily.news.biz.core.network.task.GetAccessTokenTask;
+import cn.daily.news.biz.core.ui.dialog.ZBBindDialog;
+import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.utils.RouteManager;
+import cn.daily.news.biz.core.utils.TimerManager;
 
 /**
  * Date: 2018/8/30
@@ -101,14 +101,9 @@ public class ZBBindMobileActivity extends BaseActivity {
         TimerManager.cancel(timerTask);
     }
 
-    private DefaultTopBarHolder2 topBarHolder;
-
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        topBarHolder = TopBarFactory.createDefault2(view, this);
-        topBarHolder.setTopBarText(getString(R.string.zb_mobile_bind_title));
-        topBarHolder.setViewVisible(topBarHolder.getRightText(), View.GONE);
-        return topBarHolder.getView();
+        return TopBarFactory.createDefault(view, this, getString(R.string.zb_mobile_bind_title)).getView();
     }
 
     @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm, R2.id.iv_top_jump})
@@ -157,7 +152,7 @@ public class ZBBindMobileActivity extends BaseActivity {
      * @param smsCode
      */
     private void bindMobile(final String mobile, final String smsCode) {
-        new GetAccessTokenTask(new APIExpandCallBack<AccessTokenBean>() {
+        new GetAccessTokenTask(new AbsCallback<AccessTokenBean>() {
             @Override
             public void onSuccess(AccessTokenBean data) {
                 if (data != null) {
@@ -358,14 +353,14 @@ public class ZBBindMobileActivity extends BaseActivity {
             public void run(long count) {
                 long value = (120 - count);
                 tvVerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                tvVerification.setTextColor(getResources().getColor(R.color.tc_999999));
+                tvVerification.setTextColor(getResources().getColor(R.color._999999));
                 tvVerification.setText("(" + value + ")" + getString(R.string
                         .zb_login_get_validationcode_again));
                 if (value == 0) {
                     TimerManager.cancel(this);
                     tvVerification.setEnabled(true);
                     tvVerification.setBackgroundResource(R.drawable.module_login_bg_sms_verification);
-                    tvVerification.setTextColor(getResources().getColor(R.color.tc_f44b50));
+                    tvVerification.setTextColor(getResources().getColor(R.color._f44b50));
                     tvVerification.setText(getString(R.string
                             .zb_login_resend));
                 }

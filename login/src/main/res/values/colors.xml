@@ -5,9 +5,13 @@
     <color name="_ffffff_999999">#ffffff</color>
     <color name="_a9a9a9_7a7b7d">#a9a9a9</color>
     <color name="_4d95fa_5c5c5c">#4d95fa</color>
+    <color name="_cccccc_5c5c5c">#cccccc</color>
+    <color name="_f7f7f7_303030">#f7f7f7</color>
+    <color name="_000000_8e3636">#000000</color>
 
 
     <color name="_999999">#999999</color>
+    <color name="_a9a9a9">#a9a9a9</color>
     <color name="colorPrimary">#d12324</color>
     <color name="colorPrimary_night">#520d0d</color>
     <color name="colorPrimaryDark">#d12324</color>

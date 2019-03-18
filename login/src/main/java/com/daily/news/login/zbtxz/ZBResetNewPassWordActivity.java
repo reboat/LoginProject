@@ -12,14 +12,10 @@ import android.widget.TextView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.domain.base.SkipScoreInterface;
-import com.zjrb.core.nav.Nav;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
@@ -28,6 +24,10 @@ import com.zjrb.passport.listener.ZbResultListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.model.SkipScoreInterface;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.RouteManager;
 
 /**
  * Date: 2018/8/15

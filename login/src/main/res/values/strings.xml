@@ -39,7 +39,6 @@
     <string name="zb_mobile_jump">跳过</string>
     <string name="zb_mobile_valideta_tip">填写联系方式,兑换礼品更方便快捷</string>
     <string name="zb_mobile_update">升级</string>
-    <string name="zb_mobile_ok">确定</string>
     <string name="zb_mobile_bind_tip">绑定手机后,可通过手机号快速登录</string>
     <string name="zb_mobile_bind_title">手机号绑定</string>
     <string name="zb_mobile_bind_success_tip">绑定成功！下次可使用手机号直接登录该账号</string>

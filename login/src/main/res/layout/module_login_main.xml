@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     app:fitType="bottom"
-    android:background="?attr/bc_ffffff">
+    android:background="@color/_ffffff_202124">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -31,7 +31,7 @@
             android:id="@+id/et_account_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/border_edit_bg"
+            android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
             android:hint="手机号码"
@@ -41,8 +41,8 @@
             android:maxLines="1"
             android:paddingBottom="8dp"
             android:singleLine="true"
-            android:textColor="?attr/tc_484848"
-            android:textColorHint="?attr/tc_999999"
+            android:textColor="@color/_484848_7a7b7d"
+            android:textColorHint="@color/_999999_5c5c5c"
             android:textSize="@dimen/ts_11sp" />
 
 <!--        <ImageView
@@ -78,7 +78,7 @@
                 android:id="@+id/et_sms_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/border_edit_bg"
+                android:background="@drawable/border_edit_bg"
                 android:digits="1234567890"
                 android:gravity="left"
                 android:hint="验证码"
@@ -88,8 +88,8 @@
                 android:maxLines="1"
                 android:paddingBottom="8dp"
                 android:singleLine="true"
-                android:textColor="?attr/tc_484848"
-                android:textColorHint="?attr/tc_999999"
+                android:textColor="@color/_484848_7a7b7d"
+                android:textColorHint="@color/_999999_5c5c5c"
                 android:textSize="@dimen/ts_11sp" />
 
             <!--<ImageView-->
@@ -109,14 +109,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
-            android:background="?attr/module_login_bg_sms_verification"
+            android:background="@drawable/module_login_bg_sms_verification"
             android:gravity="center"
             android:paddingBottom="11dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="11dp"
             android:includeFontPadding="false"
-            android:textColor="?attr/sl_tc_sms_verification"
+            android:textColor="@color/sl_tc_sms_verification"
             android:textSize="@dimen/ts_11sp"
             tools:text="重新发送验证码" />
 
@@ -131,9 +131,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="34dp"
-        android:background="?attr/border_login_text_bg"
+        android:background="@drawable/border_login_text_bg"
         android:gravity="center"
-        android:textColor="?attr/tc_ffffff"
+        android:textColor="@color/_ffffff_999999"
         android:textSize="@dimen/ts_16sp"
         tools:text="登录" />
 
@@ -146,7 +146,7 @@
         android:layout_marginTop="15dp"
         android:includeFontPadding="false"
         android:gravity="center"
-        android:textColor="?attr/tc_f44b50"
+        android:textColor="@color/_f44b50_8e3636"
         android:textSize="@dimen/ts_11sp"
         tools:text="通过账号密码登录" />
 
@@ -168,12 +168,11 @@
             android:orientation="vertical">
 
             <ImageView
-                app:iv_maskColor="@android:color/transparent"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_wx" />
+                android:src="@mipmap/module_login_day_wx" />
 
             <TextView
                 android:id="@+id/tv_module_login_wx"
@@ -185,7 +184,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="微信" />
 
@@ -200,12 +199,11 @@
             android:orientation="vertical">
 
             <ImageView
-                app:iv_maskColor="@android:color/transparent"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_wb" />
+                android:src="@mipmap/module_login_day_wb" />
 
             <TextView
                 android:id="@+id/tv_module_login_wb"
@@ -217,7 +215,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="新浪微博" />
 
@@ -232,12 +230,11 @@
             android:orientation="vertical">
 
             <ImageView
-                app:iv_maskColor="@android:color/transparent"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitXY"
-                android:src="?attr/module_login_qq" />
+                android:src="@mipmap/module_login_day_qq" />
 
             <TextView
                 android:id="@+id/tv_module_login_qq"
@@ -249,7 +246,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="?attr/tc_999999"
+                android:textColor="@color/_999999_5c5c5c"
                 android:textSize="11sp"
                 tools:text="QQ" />
 
@@ -271,7 +268,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:textColor="?attr/tc_484848"
+            android:textColor="@color/_484848_7a7b7d"
             android:textSize="@dimen/ts_11sp"
             tools:text="登录注册表示同意" />
 
@@ -280,7 +277,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="?attr/tc_f44b50"
+            android:textColor="@color/_f44b50_8e3636"
             android:textSize="@dimen/ts_11sp"
             tools:text="用户服务协议" />
 

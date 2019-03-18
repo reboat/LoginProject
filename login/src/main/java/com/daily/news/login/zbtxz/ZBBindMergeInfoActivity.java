@@ -18,19 +18,19 @@ import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.UserAccountMergeTask;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.manager.AppManager;
-import com.zjrb.core.domain.MultiAccountBean;
-import com.zjrb.core.domain.ZBLoginBean;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.model.MultiAccountBean;
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 
 /**
  * Date: 2018/9/03

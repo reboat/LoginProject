@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?attr/module_bind_user_info_bg">
+    android:background="@drawable/module_bind_user_info_bg">
     
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:textSize="@dimen/ts_11sp"
             android:layout_marginLeft="25dp"
             android:layout_centerVertical="true"
-            android:textColor="?attr/tc_f44b50"
+            android:textColor="@color/_f44b50_8e3636"
             />
 
         <RelativeLayout
@@ -46,7 +46,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="我爱吃火锅"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 android:textSize="@dimen/ts_14sp"
                 />
             
@@ -65,7 +65,7 @@
                     android:id="@+id/iv_mobile"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="?attr/module_bind_mobile"
+                    android:src="@mipmap/module_login_phone"
                     android:visibility="gone"
                     />
 
@@ -74,7 +74,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
-                    android:src="?attr/module_bind_wx"
+                    android:src="@mipmap/module_login_weixin"
                     android:visibility="gone"
                     />
 
@@ -83,7 +83,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
-                    android:src="?attr/module_bind_wb"
+                    android:src="@mipmap/module_login_weibo"
                     android:visibility="gone"
                     />
 
@@ -92,7 +92,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_marginLeft="8dp"
-                    android:src="?attr/module_bind_qq"
+                    android:src="@mipmap/module_login_qq"
                     android:visibility="gone"
                     />
 
@@ -110,7 +110,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:button="?attr/module_login_userinfo_select"
+            android:button="@drawable/module_login_userinfo_select"
             />
 
 
@@ -120,7 +120,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bc_a9a9a9"
+        android:background="@color/_a9a9a9"
         android:layout_marginLeft="10.5dp"
         android:layout_marginRight="10.5dp"
         />
@@ -147,7 +147,7 @@
                 android:text="积分"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:text="888"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
         </LinearLayout>
@@ -179,7 +179,7 @@
                 android:text="文章收藏"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
             <TextView
@@ -191,7 +191,7 @@
                 android:text="888"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
 
@@ -212,7 +212,7 @@
                 android:text="发表评论"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
             <TextView
@@ -224,7 +224,7 @@
                 android:text="888"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
-                android:textColor="?attr/tc_808080"
+                android:textColor="@color/_808080_7a7b7d"
                 />
 
         </LinearLayout>

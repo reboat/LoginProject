@@ -11,7 +11,7 @@
         android:text="上次登录"
         android:gravity="center"
         android:background="@drawable/module_login_pop"
-        android:textColor="?attr/tc_cccbcb"
+        android:textColor="@color/_ffffff_cccbcb"
         android:textSize="@dimen/ts_11sp"
         android:paddingBottom="5dp"
         />

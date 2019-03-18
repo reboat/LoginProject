@@ -2,9 +2,11 @@ package com.daily.news.login.task;
 
 
 import com.daily.news.login.global.APIManager;
-import com.zjrb.core.api.base.APIPostTask;
-import com.zjrb.core.api.callback.LoadingCallBack;
-import com.zjrb.core.domain.ZBLoginBean;
+
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIPostTask;
+
 
 /**
  * 新版登录验证接口
@@ -12,12 +14,12 @@ import com.zjrb.core.domain.ZBLoginBean;
  */
 public class ZBLoginValidateTask extends APIPostTask<ZBLoginBean> {
 
-    public ZBLoginValidateTask(LoadingCallBack<ZBLoginBean> callBack) {
+    public ZBLoginValidateTask(APIExpandCallBack<ZBLoginBean> callBack) {
         super(callBack);
     }
 
     @Override
-    protected void onSetupParams(Object... params) {
+    public void onSetupParams(Object... params) {
         put("union_id", params[0]);
         put("auth_uid", params[1]);
         put("auth_type", params[2]);
@@ -25,7 +27,7 @@ public class ZBLoginValidateTask extends APIPostTask<ZBLoginBean> {
     }
 
     @Override
-    protected String getApi() {
+    public String getApi() {
         return APIManager.endpoint.LOGIN_VERIFICATION;
     }
 }

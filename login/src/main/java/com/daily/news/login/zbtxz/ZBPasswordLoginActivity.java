@@ -17,35 +17,45 @@ import com.daily.news.login.R2;
 import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBLoginValidateTask;
-import com.zjrb.core.api.LoginHelper;
-import com.zjrb.core.api.callback.APIExpandCallBack;
-import com.zjrb.core.common.base.BaseActivity;
-import com.zjrb.core.common.base.toolbar.TopBarFactory;
-import com.zjrb.core.common.biz.UserBiz;
-import com.zjrb.core.common.global.IKey;
-import com.zjrb.core.common.global.RouteManager;
-import com.zjrb.core.common.manager.AppManager;
+import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.zjrb.core.base.BaseActivity;
+import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.domain.ZBLoginBean;
-import com.zjrb.core.domain.base.SkipScoreInterface;
-import com.zjrb.core.nav.Nav;
-import com.zjrb.core.ui.widget.dialog.LoadingIndicatorDialog;
+import com.zjrb.core.load.LoadingIndicatorDialog;
+import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.LoadingDialogUtils;
 import com.zjrb.core.utils.T;
-import com.zjrb.core.utils.ZBUtils;
 import com.zjrb.core.utils.click.ClickTracker;
-import com.zjrb.core.utils.webjs.WebJsCallBack;
 import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.ZbAuthListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
+import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.constant.IKey;
+import cn.daily.news.biz.core.model.AccountBean;
+import cn.daily.news.biz.core.model.SkipScoreInterface;
+import cn.daily.news.biz.core.model.ZBLoginBean;
+import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.task.UploadCidTask;
+import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.RouteManager;
+import cn.daily.news.biz.core.utils.YiDunUtils;
+import cn.daily.news.biz.core.utils.ZBUtils;
+import cn.daily.news.biz.core.web.WebJsCallBack;
 
+import static cn.daily.news.biz.core.UserBiz.KEY_CID;
+import static cn.daily.news.biz.core.UserBiz.SP_NAME;
 import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
@@ -295,7 +305,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     //新华智云设置userID
                     AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
                     AccountBean account = bean.getAccount();
-                    boolean isCertificate = (account != null && !TextUtils.isEmpty(account.getMobile())); // 是否实名认证
                     SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login",false)
@@ -313,7 +322,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                         JSONObject properties = new JSONObject();
                         properties.put("userID", bean.getSession().getAccount_id());
                         properties.put("mobilePhone", bean.getAccount().getMobile());
-                        new Analytics.AnalyticsBuilder(ZBLoginActivity.this, null, null, null, false)
+                        new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, null, false)
                                 .setProfile(properties)
                                 .build()
                                 .send();
@@ -337,7 +346,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", authCode,YiDunUtils.getToken(Type.REG));
+        }).setTag(this).exe(phone, phone, "phone_number", authCode,YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
     }
 
 }
