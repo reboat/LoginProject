@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
@@ -275,7 +280,6 @@ public class ZBBindMobileActivity extends BaseActivity {
                                     zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
                                             .setMessage("请先验证图形验证码")
                                             .setOkText("确定")
-                                            .setUrl(ZbPassport.getGraphicsCode())
                                             .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
                                                 @Override
                                                 public void onLeftClick() {
@@ -309,8 +313,14 @@ public class ZBBindMobileActivity extends BaseActivity {
 
                                                 @Override
                                                 public void onRefreshImage() {
-                                                    String url = ZbPassport.getGraphicsCode();
-                                                    Glide.with(ZBBindMobileActivity.this).load(url).into(zbGraphicDialog.getIvGrahpic());
+                                                    String url = ZbPassport.getGraphicsCode() + "?time="+ SystemClock.elapsedRealtime();
+                                                    GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
+                                                    RequestOptions options = new RequestOptions();
+                                                    // TODO: 2019/3/14
+                                                    options.placeholder(R.mipmap.default_user_icon);
+                                                    options.diskCacheStrategy(DiskCacheStrategy.NONE);
+                                                    options.skipMemoryCache(true);
+                                                    Glide.with(ZBBindMobileActivity.this).load(glideUrl).apply(options).into(zbGraphicDialog.getIvGrahpic());
                                                 }
                                             }));
                                     zbGraphicDialog.show();
