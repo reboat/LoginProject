@@ -12,36 +12,6 @@ public final class Key {
      */
     public static final String LOGIN_TYPE = "login_type";
 
-    public static final int CODE_NOT_SUPPORT_SPECIAL_LOGIN = 50308;
-
-    /**
-     * 是否来自评论登录
-     */
-    public static final String IS_COMMENT_LOGIN = "is_comment_login";
-
-    /**
-     * 是否来自个性化账号的首次登录
-     */
-    public static final String IS_SPECIAL_LOGIN = "is_special_login";
-    /**
-     * 是否来自个性化账号的首次登录
-     */
-    public static final String SPECIAL_LOGIN_KEY = "special_login_key";
-
-    /**
-     * 浙报通行证UUID
-     */
-    public static final String UUID = "uuid";
-
-    /**
-     * 浙报通行证手机号码
-     */
-    public static final String ACCOUNTID = "accountid";
-
-    /**
-     * 浙报通行证密码
-     */
-    public static final String PASSWORD = "password";
 
     public static class Value {
         /**

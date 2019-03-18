@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bc_ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_bind_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/ts_11sp"
+        android:textColor="?attr/tc_484848"
+        />
+
+
+    <include
+        android:id="@+id/user_info_top"
+        layout="@layout/module_login_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"
+        android:layout_marginTop="35dp"
+        />
+
+    <include
+        android:id="@+id/user_info_bottom"
+        layout="@layout/module_login_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"
+        android:layout_marginTop="39dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="38.5dp"
+        android:paddingRight="38.5dp"
+        android:layout_marginTop="37dp"
+        >
+
+        <!--调整背景-->
+        <Button
+            android:id="@+id/tv_quit"
+            android:layout_width="124dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="放弃绑定"
+            android:textColor="?attr/tc_000000"
+            android:background="?attr/border_login_cancel_bind_btn_bg"
+            android:textSize="@dimen/ts_14sp"
+            style="?android:attr/borderlessButtonStyle"
+            tools:text="放弃绑定" />
+
+        <Button
+            android:id="@+id/tv_bind"
+            android:layout_width="124dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="确认绑定"
+            android:textColor="?attr/border_login_bind_text_color"
+            android:background="?attr/border_login_bind_btn_bg"
+            android:textSize="@dimen/ts_14sp"
+            style="?android:attr/borderlessButtonStyle"
+            tools:text="确定绑定" />
+    </RelativeLayout>
+
+
+</LinearLayout>

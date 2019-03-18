@@ -19,24 +19,21 @@ public class APIManager {
         public static final String LOGIN_VERIFICATION = "/api/account/auth_login";
 
         /**
-         * 填写个人资料验证验证码
-         */
-        public static final String ZB_MOBILE_VALIDATE = "/api/account/validate_code";
-
-        /**
          * 获取短信验证码
          */
         public static final String GET_SMS_CODE = "/api/account/send_validate_code";
 
         /**
-         * 用户协议
+         * 多账号详情接口  GET
          */
-        public static final String USER_PROTECT = "/api/account/agreement";
+        public static final String MULTI_ACCOUNT_DETAIL = "/api/account/multi_account_detail";
 
         /**
-         * 浙报通行证升级校验接口
+         * 账号合并接口  POST
          */
-        public static final String PASSPORT_VERSION_CHECK = "/api/account/passport_version_check";
+        public static final String ACCOUNT_MERGE = "/api/account/account_merge";
+
+
     }
 
 }

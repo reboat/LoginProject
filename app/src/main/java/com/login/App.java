@@ -7,6 +7,9 @@ import com.bianfeng.woa.WoaSdk;
 import com.netease.mobsec.rjsb.watchman;
 import com.squareup.leakcanary.LeakCanary;
 import com.zjrb.core.utils.UIUtils;
+import com.zjrb.passport.ZbConfig;
+import com.zjrb.passport.ZbPassport;
+import com.zjrb.passport.constant.ZbConstants;
 
 import cn.daily.news.biz.core.constant.Key;
 import cn.daily.news.biz.core.db.SettingManager;
@@ -23,6 +26,7 @@ public class App extends Application {
         ThemeMode.init(this);
         WoaSdk.init(this);
         Passport.init(this);
+        initPassport();
         watchman.init(this, Key.YiDun.PRODUCT_NUMBER);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -32,5 +36,20 @@ public class App extends Application {
         }
         LeakCanary.install(this);
         SettingManager.init(this);
+    }
+
+    private void initPassport() {
+//        ZbPassport.init(this,
+//                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+//                        .setDebug(true)
+//                        .setAppVersion("1.0")
+//                        .setAppUuid("uuid"));
+        ZbPassport.init(this,
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                        .setDebug(true)
+                        .setAppVersion("1.0")
+                        .setClientId(1)
+                        .setToken("J8BWUjBaYStIHqBu1g9pFjWv")
+                        .setAppUuid("uuid"));
     }
 }

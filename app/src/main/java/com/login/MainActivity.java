@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.daily.news.login.LoginActivity;
-import com.daily.news.login.zbtxz.ZBLoginActivity;
+import com.daily.news.login.LoginMainActivity;
 import com.login.tesk.TestAuthActivity;
 import com.zjrb.core.base.BaseActivity;
 
@@ -36,7 +35,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Nav.with(this).toPath("/login/ZBMobileValidateActivity");
                 break;
             case R.id.test_login:
-                startActivity(new Intent(this, ZBLoginActivity.class));
+//                new TipDialog(MainActivity.this).setTitle(getResources().getString(com.daily.news.login.R.string.zb_mobile_login_title_reset)).setOkText(getResources().getString(com.daily.news.login.R.string.zb_mobile_reset_password)).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+//                    @Override
+//                    public void onCancel() {
+//                    }
+//
+//                    @Override
+//                    public void onOK() {
+//                        // 跳转到设置密码页面
+//                        Nav.with(getActivity()).toPath(RouteManager.ZB_RESET_PASSWORD);
+//                    }
+//                }).show();
+                startActivity(new Intent(this, LoginMainActivity.class));
                 break;
             case R.id.test_auth:
                 startActivity(new Intent(this, TestAuthActivity.class));
