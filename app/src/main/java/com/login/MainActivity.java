@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.test_night:
                 ThemeMode.setUiMode(!ThemeMode.isNightMode());
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, LoginMainActivity.class));
                 break;
         }
     }

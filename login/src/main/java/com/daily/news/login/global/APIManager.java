@@ -33,6 +33,10 @@ public class APIManager {
          */
         public static final String ACCOUNT_MERGE = "/api/account/account_merge";
 
+        /**
+         * 浙报通行证升级校验接口
+         */
+        public static final String PASSPORT_VERSION_CHECK = "/api/account/passport_version_check";
 
     }
 
