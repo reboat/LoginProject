@@ -156,7 +156,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
         ZbPassport.checkCaptcha(phoneNum, sms, new ZbResultListener() {
             @Override
             public void onSuccess() {
-                LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                 if (bundle == null) {
                     bundle = new Bundle();
                 }
@@ -169,7 +168,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                LoadingDialogUtils.newInstance().dismissLoadingDialog(false, errorMessage);
+                T.showShort(ZBResetPasswordActivity.this, errorMessage);
             }
         });
 

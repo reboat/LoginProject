@@ -145,7 +145,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoadingDialogUtils.newInstance().dismissLoadingDialog(true); // 解决android.view.WindowLeaked: Activity com.daily.news.login.zbtxz.ZBResetNewPassWordActivity has leaked window DecorView@f9fced3[] that was originally added here
+//        LoadingDialogUtils.newInstance().dismissLoadingDialog(true); // 解决android.view.WindowLeaked: Activity com.daily.news.login.zbtxz.ZBResetNewPassWordActivity has leaked window DecorView@f9fced3[] that was originally added here
     }
 
 }

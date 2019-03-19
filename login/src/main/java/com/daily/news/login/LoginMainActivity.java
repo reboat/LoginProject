@@ -274,6 +274,7 @@ public class LoginMainActivity extends BaseActivity {
     @Override
     public void finish() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
+        TimerManager.cancel(timerTask);
         if (UserBiz.get().isLoginUser()) {
             setResult(Activity.RESULT_OK);
         }

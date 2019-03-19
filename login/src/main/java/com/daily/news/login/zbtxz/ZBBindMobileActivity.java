@@ -243,6 +243,7 @@ public class ZBBindMobileActivity extends BaseActivity {
             @Override
             public void onError(String errMsg, int errCode) {
                 super.onError(errMsg, errCode);
+                T.showShortNow(ZBBindMobileActivity.this, errMsg);
             }
         }).setTag(this).exe();
 

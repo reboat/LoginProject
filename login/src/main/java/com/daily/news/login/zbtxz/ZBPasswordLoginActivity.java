@@ -79,10 +79,6 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
     @BindView(R2.id.verification_code_see_btn)
     ImageView ivSee;
 
-
-    private WebJsCallBack callback;
-    private LoadingIndicatorDialog loginDialog;
-
     /**
      * 是否点击了可视密码
      */
