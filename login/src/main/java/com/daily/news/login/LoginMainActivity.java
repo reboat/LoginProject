@@ -105,6 +105,9 @@ public class LoginMainActivity extends BaseActivity {
      * 验证码定时器
      */
     private TimerManager.TimerTask timerTask;
+    boolean isPhone;
+    String lastLogin;
+    String lastLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +116,22 @@ public class LoginMainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initLoginRV();
         LoginHelper.get().setLogin(true); // 标记开启
+        // 获取上次登录数据
+        isPhone = SPHelper.get().get("isPhone", false);
+        lastLogin = SPHelper.get().get("last_login", "");
+        lastLogo = SPHelper.get().get("last_logo", "");
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.mipmap.default_user_icon);
+        options.centerCrop();
+        options.circleCrop();
+        Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
+        if (isPhone) { // 显示上次登录的手机号及头像
+            if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
+                mEtAccountText.setText(lastLogin);
+                mEtAccountText.setSelection(lastLogin.length());
+            }
+        }
     }
-
 
     @Override
     protected void onResume() {
@@ -146,30 +163,20 @@ public class LoginMainActivity extends BaseActivity {
         }).setTag(this).exe();
     }
 
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        handleLastLogin();
+        if (hasFocus) {
+            handleLastThirdLogin();
+        }
     }
 
     /**
-     * 处理上次登录的状态
+     * 处理上次三方登录的状态,popupwindow在onCreate里面show会出现badToken的问题
      */
-    private void handleLastLogin() {
-        boolean isPhone = SPHelper.get().get("isPhone", false);
-        String lastLogin = SPHelper.get().get("last_login", "");
-        String lastLogo = SPHelper.get().get("last_logo", "");
-        RequestOptions options = new RequestOptions();
-        options.placeholder(R.mipmap.default_user_icon);
-        options.centerCrop();
-        options.circleCrop();
-        Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
-        if (isPhone) { // 显示上次登录的手机号及头像
-            if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
-                mEtAccountText.setText(lastLogin);
-                mEtAccountText.setSelection(lastLogin.length());
-            }
-        } else { // 显示三方登录的气泡
+    private void handleLastThirdLogin() {
+        if (!isPhone){ // 显示三方登录的气泡
             if (TextUtils.equals(lastLogin, "wei_xin")) {
                 showPopup(mLlModuleLoginWx);
             } else if (TextUtils.equals(lastLogin, "wei_bo")) {
