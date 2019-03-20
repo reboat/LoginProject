@@ -195,7 +195,7 @@ public class ZBBindMobileActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(int errorCode, String errorMessage) {
-                            if (errorCode == ErrorCode.ERROR_PHONENUM_ALREADY_BIND) { // 该手机号已经被其他账号占用
+                            if (errorCode == ErrorCode.ERROR_AUTH_INFO_USED) { // 绑定时无法进行账号合并的code
                                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                         .setTitle("绑定失败")
