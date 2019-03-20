@@ -21,7 +21,6 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.load.LoadingIndicatorDialog;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
@@ -52,7 +51,6 @@ import cn.daily.news.biz.core.utils.LoginHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 import cn.daily.news.biz.core.utils.ZBUtils;
-import cn.daily.news.biz.core.web.WebJsCallBack;
 
 import static cn.daily.news.biz.core.UserBiz.KEY_CID;
 import static cn.daily.news.biz.core.UserBiz.SP_NAME;
@@ -342,8 +340,8 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(dtAccountText.getText(), dtAccountText.getText(),
-                "phone_number", "code", YiDunUtils.getToken(Type.REG));
+        }).setTag(this).exe(phone, phone,
+                "phone_number", "code", YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
     }
 
 }
