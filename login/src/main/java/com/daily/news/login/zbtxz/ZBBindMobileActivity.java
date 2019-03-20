@@ -195,7 +195,7 @@ public class ZBBindMobileActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(int errorCode, String errorMessage) {
-                            if (errorCode == ErrorCode.ERROR_AUTH_INFO_USED) { // 绑定时无法进行账号合并的code
+                            if (errorCode == ErrorCode.ERROR_PHONENUM_ALREADY_BIND) { // 该手机号已被其他账号占用（注册手机号、修改手机号、绑定手机号被占用）
                                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                         .setTitle("绑定失败")
@@ -212,7 +212,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                                             }
                                         }));
                                 zbBindDialog.show();
-                            } else if (errorCode == ErrorCode.ERROR_PHONENUM_CAN_MERGE || errorCode == ErrorCode.ERROR_THIRD_PARTY_CAN_MERGE) { // 进行账号合并的情况
+                            } else if (errorCode == ErrorCode.ERROR_CAN_MERGE) { // 进行账号合并的情况
                                 new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
 
                                     @Override
