@@ -342,7 +342,8 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false,"登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", authCode,YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
+        }).setTag(this).exe(dtAccountText.getText(), dtAccountText.getText(),
+                "phone_number", "code", YiDunUtils.getToken(Type.REG));
     }
 
 }

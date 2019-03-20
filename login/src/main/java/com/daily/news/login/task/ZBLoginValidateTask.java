@@ -23,7 +23,8 @@ public class ZBLoginValidateTask extends APIPostTask<ZBLoginBean> {
         put("union_id", params[0]);
         put("auth_uid", params[1]);
         put("auth_type", params[2]);
-        put("code", params[3]); // 浙报通行证返回的code
+        put("code",params[3]);
+        put("check_token",params[4]);
     }
 
     @Override
