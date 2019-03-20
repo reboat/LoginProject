@@ -385,7 +385,7 @@ public class ZBVerificationActivity extends BaseActivity {
 //                    T.showShortNow(getActivity(), getString(R.string.zb_reg_error));
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID,
-                mAccountID, 1,YiDunUtils.getToken(Type.REG));
+        }).setTag(this).exe( mAccountID, mAccountID,
+                "phone_number", "code", YiDunUtils.getToken(Type.REG));
     }
 }

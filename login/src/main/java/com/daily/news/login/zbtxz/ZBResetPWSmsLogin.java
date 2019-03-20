@@ -331,8 +331,8 @@ public class ZBResetPWSmsLogin extends BaseActivity {
 //                    T.showShortNow(ZBResetPWSmsLogin.this, getString(R.string.zb_login_error));
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", dtAccountText.getText().toString(),
-                null, dtAccountText.getText().toString(), 1,YiDunUtils.getToken(Type.REG));
+        }).setTag(this).exe( dtAccountText.getText().toString(),
+                dtAccountText.getText().toString(), "phone_number", "code", YiDunUtils.getToken(Type.REG));
     }
 
     /**

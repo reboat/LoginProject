@@ -258,7 +258,7 @@ public class ZBResetNewPassWord extends BaseActivity implements SkipScoreInterfa
 //                    T.showShortNow(ZBResetNewPassWord.this, "密码重置失败");
                 }
             }
-        }).setTag(this).exe(sessionId, "BIANFENG", mAccountID, mAccountID, mAccountID,0,YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
+        }).setTag(this).exe( mAccountID, mAccountID, "phone_number","code",YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
 
     }
 }
