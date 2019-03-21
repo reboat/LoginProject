@@ -136,31 +136,35 @@ public class LoginMainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new VersionCheckTask(new APIExpandCallBack<Void>() {
-            @Override
-            public void onSuccess(Void data) {
-            }
-
-            @Override
-            public void onError(String errMsg, int errCode) {
-                super.onError(errMsg, errCode);
-                if (errCode == 52005) {
-                    new TipDialog(LoginMainActivity.this).
-                            setOkText(getResources().getString(R.string.zb_mobile_update)).
-                            setTitle(errMsg).setOnConfirmListener(new TipDialog.OnConfirmListener() {
-                        @Override
-                        public void onCancel() {
-
-                        }
-
-                        @Override
-                        public void onOK() {
-                            CheckUpdateTask.checkUpdate(LoginMainActivity.this);
-                        }
-                    }).show();
+        try {
+            new VersionCheckTask(new APIExpandCallBack<Void>() {
+                @Override
+                public void onSuccess(Void data) {
                 }
-            }
-        }).setTag(this).exe();
+
+                @Override
+                public void onError(String errMsg, int errCode) {
+                    super.onError(errMsg, errCode);
+                    if (errCode == 52005) {
+                        new TipDialog(LoginMainActivity.this).
+                                setOkText(getResources().getString(R.string.zb_mobile_update)).
+                                setTitle(errMsg).setOnConfirmListener(new TipDialog.OnConfirmListener() {
+                            @Override
+                            public void onCancel() {
+
+                            }
+
+                            @Override
+                            public void onOK() {
+                                CheckUpdateTask.checkUpdate(LoginMainActivity.this);
+                            }
+                        }).show();
+                    }
+                }
+            }).setTag(this).exe();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -263,7 +267,7 @@ public class LoginMainActivity extends BaseActivity {
                 }
             }
         } else if (v.getId() == R.id.tv_password_login) { // 账号密码登录
-            Nav.with(this).toPath(RouteManager.ZB_PASSWORD_LOGIN);
+            Nav.with(LoginMainActivity.this).toPath(RouteManager.ZB_PASSWORD_LOGIN);
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }
