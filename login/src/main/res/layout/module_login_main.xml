@@ -27,7 +27,7 @@
         android:layout_marginTop="25dp"
         >
 
-        <com.zjrb.core.ui.widget.DeleteLoginEditText
+        <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
             android:id="@+id/et_account_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:layout_weight="3"
             >
 
-            <com.zjrb.core.ui.widget.DeleteLoginEditText
+            <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
                 android:id="@+id/et_sms_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
