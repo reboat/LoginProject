@@ -65,8 +65,8 @@ public class ZBBindMobileActivity extends BaseActivity {
     TextView tvVerification;
     @BindView(R2.id.bt_confirm)
     TextView btConfirm;
-    @BindView(R2.id.iv_top_jump)
-    TextView mTvJump;
+//    @BindView(R2.id.iv_top_jump)
+//    TextView mTvJump;
     @BindView(R2.id.tv_title)
     TextView mTvTitle;
 
@@ -87,7 +87,7 @@ public class ZBBindMobileActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-        mTvJump.setVisibility(View.GONE);
+//        mTvJump.setVisibility(View.GONE);
         //不允许输入空格
         AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
         mTvTitle.setText(getString(R.string.zb_mobile_bind_tip));

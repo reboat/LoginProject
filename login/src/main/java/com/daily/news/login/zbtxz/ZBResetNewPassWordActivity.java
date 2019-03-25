@@ -37,8 +37,8 @@ import cn.daily.news.biz.core.utils.RouteManager;
  */
 public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScoreInterface {
 
-    @BindView(R2.id.tv_tip)
-    TextView tvTip;
+//    @BindView(R2.id.tv_tip)
+//    TextView tvTip;
     @BindView(R2.id.et_password_text)
     EditText etPasswordText;
     @BindView(R2.id.iv_see)
@@ -77,7 +77,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
         AppUtils.setEditTextInhibitInputSpace(etPasswordText, true);
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         btConfirm.setText(getString(R.string.zb_confirm));
-        tvTip.setText(getString(R.string.zb_set_password_tip));
+//        tvTip.setText(getString(R.string.zb_set_password_tip));
     }
 
     @Override
