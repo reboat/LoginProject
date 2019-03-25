@@ -65,8 +65,6 @@ public class ZBBindMobileActivity extends BaseActivity {
     TextView tvVerification;
     @BindView(R2.id.bt_confirm)
     TextView btConfirm;
-//    @BindView(R2.id.iv_top_jump)
-//    TextView mTvJump;
     @BindView(R2.id.tv_title)
     TextView mTvTitle;
 
@@ -87,7 +85,6 @@ public class ZBBindMobileActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
-//        mTvJump.setVisibility(View.GONE);
         //不允许输入空格
         AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
         mTvTitle.setText(getString(R.string.zb_mobile_bind_tip));
@@ -106,7 +103,7 @@ public class ZBBindMobileActivity extends BaseActivity {
         return TopBarFactory.createDefault(view, this, getString(R.string.zb_mobile_bind_title)).getView();
     }
 
-    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm, R2.id.iv_top_jump})
+    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
