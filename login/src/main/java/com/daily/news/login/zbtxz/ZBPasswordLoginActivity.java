@@ -86,7 +86,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.module_login_zbtxz_login);
+        setContentView(R.layout.module_login_password_login);
         getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();

@@ -36,7 +36,6 @@ import butterknife.OnClick;
 import cn.daily.news.biz.core.constant.IKey;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
-import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.TimerManager;
 
@@ -83,7 +82,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.module_zbtxz_reset_password);
+        setContentView(R.layout.module_login_reset_password);
         ButterKnife.bind(this);
         getIntentData(getIntent());
         initView();

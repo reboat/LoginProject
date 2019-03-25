@@ -8,51 +8,57 @@
     app:fitType="bottom"
     android:background="@color/_ffffff_202124">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:src="@mipmap/module_login_day_zbtxz" />
+        android:includeFontPadding="false"
+        android:text="@string/zb_register_passport"
+        android:textColor="@color/_ff222222"
+        android:textSize="@dimen/ts_17sp"
+        android:layout_marginTop="38dp"
+        />
 
 
     <RelativeLayout
         android:id="@+id/ll_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_below="@+id/iv_logo"
-        android:layout_marginTop="25dp"
+        android:layout_marginLeft="@dimen/module_login_edit_margin"
+        android:layout_marginRight="@dimen/module_login_edit_margin"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="58dp"
         >
 
-        <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
+        <EditText
             android:id="@+id/et_account_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
-            android:hint="手机号码"
+            android:hint="输入手机号码"
             android:imeOptions="actionNext"
             android:inputType="phone"
             android:lines="1"
             android:maxLines="1"
-            android:paddingBottom="8dp"
+            android:paddingBottom="5dp"
             android:singleLine="true"
-            android:textColor="@color/_484848_7a7b7d"
-            android:textColorHint="@color/_999999_5c5c5c"
-            android:textSize="@dimen/ts_11sp" />
-
-<!--        <ImageView
-            android:id="@+id/iv_phone_close"
+            android:textColor="@color/_ff222222"
+            android:textColorHint="@color/_bfbfbf"
+            android:textSize="@dimen/ts_13sp" />
+        
+        <TextView
+            android:id="@+id/tv_sms_verification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/module_login_close"
+            android:text="获取验证码"
+            android:textColor="@color/_ffa4a5"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
-            />-->
+            android:textSize="@dimen/ts_12sp"
+            />
 
     </RelativeLayout>
 
@@ -62,17 +68,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_phone"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginLeft="@dimen/module_login_edit_margin"
+        android:layout_marginRight="@dimen/module_login_edit_margin"
+        android:layout_marginTop="52dp"
         android:gravity="bottom"
         android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            >
 
             <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
                 android:id="@+id/et_sms_text"
@@ -81,16 +81,16 @@
                 android:background="@drawable/border_edit_bg"
                 android:digits="1234567890"
                 android:gravity="left"
-                android:hint="验证码"
+                android:hint="输入验证码"
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:lines="1"
                 android:maxLines="1"
-                android:paddingBottom="8dp"
+                android:paddingBottom="5dp"
                 android:singleLine="true"
-                android:textColor="@color/_484848_7a7b7d"
-                android:textColorHint="@color/_999999_5c5c5c"
-                android:textSize="@dimen/ts_11sp" />
+                android:textColor="@color/_ff222222"
+                android:textColorHint="@color/_bfbfbf"
+                android:textSize="@dimen/ts_13sp" />
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_sms_close"-->
@@ -101,61 +101,42 @@
                 <!--android:layout_gravity="center_vertical"-->
                 <!--android:visibility="gone"-->
                 <!--/>-->
-        </RelativeLayout>
-
-        <!--@drawable/border_reset_password_timer_bg-->
-        <TextView
-            android:id="@+id/tv_sms_verification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13dp"
-            android:background="@drawable/module_login_bg_sms_verification"
-            android:gravity="center"
-            android:paddingBottom="11dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="11dp"
-            android:includeFontPadding="false"
-            android:textColor="@color/sl_tc_sms_verification"
-            android:textSize="@dimen/ts_11sp"
-            tools:text="重新发送验证码" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignStart="@+id/ly_login_button_bar"
+        android:layout_height="@dimen/module_login_btn_height"
         android:layout_below="@+id/ly_sms_code"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginLeft="@dimen/module_login_btn_margin"
+        android:layout_marginRight="@dimen/module_login_btn_margin"
+        android:layout_marginTop="36dp"
         android:background="@drawable/border_login_text_bg"
         android:gravity="center"
         android:textColor="@color/_ffffff_999999"
-        android:textSize="@dimen/ts_16sp"
+        android:textSize="@dimen/ts_15sp"
         tools:text="登录" />
 
     <TextView
         android:id="@+id/tv_password_login"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_login"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:includeFontPadding="false"
+        android:layout_marginLeft="@dimen/module_login_btn_margin"
         android:gravity="center"
-        android:textColor="@color/_f44b50_8e3636"
-        android:textSize="@dimen/ts_11sp"
+        android:includeFontPadding="false"
+        android:textColor="@color/_666666"
+        android:textSize="@dimen/ts_12sp"
         tools:text="通过账号密码登录" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="38.5dp"
+        android:layout_marginLeft="@dimen/module_login_btn_margin"
+        android:layout_marginRight="@dimen/module_login_btn_margin"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/tv_password_login"
         android:orientation="horizontal">
 
@@ -168,9 +149,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerHorizontal="true"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/module_login_day_wx" />
 
@@ -178,14 +158,11 @@
                 android:id="@+id/tv_module_login_wx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_login_image"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="@color/_999999_5c5c5c"
-                android:textSize="11sp"
+                android:textColor="@color/_666666"
+                android:textSize="12sp"
                 tools:text="微信" />
 
         </LinearLayout>
@@ -199,9 +176,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerHorizontal="true"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/module_login_day_wb" />
 
@@ -209,15 +185,12 @@
                 android:id="@+id/tv_module_login_wb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_login_image"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="@color/_999999_5c5c5c"
-                android:textSize="11sp"
-                tools:text="新浪微博" />
+                android:textColor="@color/_666666"
+                android:textSize="12sp"
+                tools:text="微博" />
 
         </LinearLayout>
 
@@ -230,9 +203,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerHorizontal="true"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/module_login_day_qq" />
 
@@ -240,14 +212,11 @@
                 android:id="@+id/tv_module_login_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_login_image"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:lineSpacingExtra="8sp"
                 android:maxLines="1"
-                android:textColor="@color/_999999_5c5c5c"
-                android:textSize="11sp"
+                android:textColor="@color/_666666"
+                android:textSize="12sp"
                 tools:text="QQ" />
 
         </LinearLayout>
@@ -260,7 +229,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
         <TextView

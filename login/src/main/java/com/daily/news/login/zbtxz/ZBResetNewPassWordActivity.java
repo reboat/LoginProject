@@ -53,7 +53,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.module_zbtxz_reset_password_confirm);
+        setContentView(R.layout.module_login_reset_password_comfirm);
         ButterKnife.bind(this);
         initView();
         getIntentData(getIntent());

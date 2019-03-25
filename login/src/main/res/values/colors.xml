@@ -12,9 +12,18 @@
 
     <color name="_999999">#999999</color>
     <color name="_a9a9a9">#a9a9a9</color>
+    <color name="_ff222222">#ff222222</color>
+    <color name="_bfbfbf">#bfbfbf</color>
+    <color name="_ffa4a5">#ffa4a5</color>
+    <color name="_666666">#666666</color>
+    <color name="_d12324">#d12324</color>
+
+
+
     <color name="colorPrimary">#d12324</color>
     <color name="colorPrimary_night">#520d0d</color>
     <color name="colorPrimaryDark">#d12324</color>
     <color name="colorPrimaryDark_night">#520d0d</color>
+
 
 </resources>

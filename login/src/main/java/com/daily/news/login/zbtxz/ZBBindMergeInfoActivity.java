@@ -83,8 +83,6 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     TextView mUserCommentBottom;
     TextView mUserCommentNumTop;
     TextView mUserCommentNumBottom;
-    TextView mCurrentAccountTop;
-    TextView mCurrentAccountBottom;
 
     CheckBox mCbTop;
     CheckBox mCbBottom;
@@ -204,7 +202,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserNameTop = (TextView) mInfoTop.findViewById(R.id.tv_name);
         mUserScoreTop = (TextView) mInfoTop.findViewById(R.id.tv_score);
         mUserFavTop = (TextView) mInfoTop.findViewById(R.id.tv_fav);
-        mCurrentAccountTop = (TextView) mInfoTop.findViewById(R.id.tv_current_account);
+//        mCurrentAccountTop = (TextView) mInfoTop.findViewById(R.id.tv_current_account);
         mUserCommentTop = (TextView) mInfoTop.findViewById(R.id.tv_comment);
         mUserScoreNumTop = (TextView) mInfoTop.findViewById(R.id.tv_score_num);
         mUserFavNumTop = (TextView) mInfoTop.findViewById(R.id.tv_fav_num);
@@ -220,7 +218,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mUserNameBottom = (TextView) mInfoBottom.findViewById(R.id.tv_name);
         mUserScoreBottom = (TextView) mInfoBottom.findViewById(R.id.tv_score);
         mUserFavBottom = (TextView) mInfoBottom.findViewById(R.id.tv_fav);
-        mCurrentAccountBottom = (TextView) mInfoBottom.findViewById(R.id.tv_current_account);
+//        mCurrentAccountBottom = (TextView) mInfoBottom.findViewById(R.id.tv_current_account);
         mUserCommentBottom = (TextView) mInfoBottom.findViewById(R.id.tv_comment);
         mUserScoreNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_score_num);
         mUserFavNumBottom = (TextView) mInfoBottom.findViewById(R.id.tv_fav_num);
@@ -231,8 +229,8 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
         mIvWeiboBottom = (ImageView) mInfoBottom.findViewById(R.id.iv_weibo);
         mCbBottom = (CheckBox) mInfoBottom.findViewById(R.id.cb_userinfo);
 
-        mCurrentAccountTop.setVisibility(View.GONE);
-        mCurrentAccountBottom.setVisibility(View.VISIBLE);
+//        mCurrentAccountTop.setVisibility(View.GONE);
+//        mCurrentAccountBottom.setVisibility(View.VISIBLE);
         mBtnQuit.setText(getResources().getString(R.string.zb_mobile_bind_quit));
         mBtnBind.setText(getResources().getString(R.string.zb_mobile_bind_confirm));
     }

@@ -8,25 +8,62 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_bind_desc"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="16dp"
-        android:textSize="@dimen/ts_11sp"
-        android:textColor="@color/_484848_7a7b7d"
+        android:includeFontPadding="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="38dp"
+        android:textColor="@color/_222222"
+        android:textSize="17sp"
+        tools:text="手机号绑定" />
+
+    <TextView
+        android:id="@+id/tv_bind_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/ts_13sp"
+        android:textColor="@color/_222222"
+        tools:text="绑定后,你只能保留所选帐号的信息"
         />
 
+    <TextView
+        android:id="@+id/tv_bind_second_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="63dp"
+        android:layout_marginRight="63dp"
+        android:includeFontPadding="false"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textSize="@dimen/ts_12sp"
+        android:textColor="@color/_666666"
+        tools:text="另一个帐号的所有信息将被清空，用手机号13678900765登录后将看到选中的帐号信息"
+        />
 
     <include
         android:id="@+id/user_info_top"
         layout="@layout/module_login_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="22.5dp"
-        android:layout_marginRight="22.5dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="19dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginLeft="14dp"
+        android:textSize="@dimen/ts_13sp"
+        android:textColor="@color/_d12324"
+        tools:text="当前登录帐号"
+        android:includeFontPadding="false"
         />
 
     <include
@@ -34,17 +71,17 @@
         layout="@layout/module_login_user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="22.5dp"
-        android:layout_marginRight="22.5dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="6dp"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="38.5dp"
-        android:paddingRight="38.5dp"
-        android:layout_marginTop="37dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:layout_marginTop="29dp"
         >
 
         <!--调整背景-->
@@ -71,7 +108,7 @@
             android:background="@drawable/border_login_bind_btn_selector"
             android:textSize="@dimen/ts_14sp"
             style="?android:attr/borderlessButtonStyle"
-            tools:text="确定绑定" />
+            tools:text="确认绑定" />
     </RelativeLayout>
 
 

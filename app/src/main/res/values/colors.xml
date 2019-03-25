@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">@color/_ffffff</color>
+    <color name="colorPrimaryDark">@color/_ffffff</color>
+    <color name="default_top_bar_title_color">@color/_222222</color>
+    <color name="default_top_bar_divider_color">@color/_dcdcdc</color>
 </resources>

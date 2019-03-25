@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,8 +65,6 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * Description: 注册登录界面
  */
 public class LoginMainActivity extends BaseActivity {
-    @BindView(R2.id.iv_logo)
-    ImageView mIvLogo;
     @BindView(R2.id.et_account_text)
     EditText mEtAccountText;
     @BindView(R2.id.et_sms_text)
@@ -107,7 +104,6 @@ public class LoginMainActivity extends BaseActivity {
     private TimerManager.TimerTask timerTask;
     boolean isPhone;
     String lastLogin;
-    String lastLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +115,6 @@ public class LoginMainActivity extends BaseActivity {
         // 获取上次登录数据
         isPhone = SPHelper.get().get("isPhone", false);
         lastLogin = SPHelper.get().get("last_login", "");
-        lastLogo = SPHelper.get().get("last_logo", "");
-        RequestOptions options = new RequestOptions();
-        options.placeholder(R.mipmap.default_user_icon);
-        options.centerCrop();
-        options.circleCrop();
-        Glide.with(this).load(lastLogo).apply(options).into(mIvLogo);
         if (isPhone) { // 显示上次登录的手机号及头像
             if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
                 mEtAccountText.setText(lastLogin);
