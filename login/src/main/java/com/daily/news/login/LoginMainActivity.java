@@ -54,6 +54,7 @@ import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.TimerManager;
+import cn.daily.news.biz.core.utils.YiDunUtils;
 import cn.daily.news.biz.core.utils.ZBUtils;
 
 import static com.zjrb.core.utils.UIUtils.getContext;
@@ -456,7 +457,7 @@ public class LoginMainActivity extends BaseActivity {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");
                 }
             }
-        }).setTag(this).exe(phone, phone, "phone_number", authCode);
+        }).setTag(this).exe(phone, phone, "phone_number", authCode, YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
     }
 
     /**
