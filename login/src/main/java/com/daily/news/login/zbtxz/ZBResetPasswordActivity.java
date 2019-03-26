@@ -48,7 +48,7 @@ import cn.daily.news.biz.core.utils.RouteManager;
  */
 public class ZBResetPasswordActivity extends BaseActivity {
 
-    @BindView(R2.id.dt_account_text)
+    @BindView(R2.id.et_account_text)
     EditText dtAccountText;
     @BindView(R2.id.et_sms_text)
     EditText etSmsText;
