@@ -3,6 +3,7 @@ package com.daily.news.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -21,9 +22,9 @@ import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.baseview.TipPopup;
 import com.daily.news.login.task.VersionCheckTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
+import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
@@ -48,12 +49,12 @@ import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.umeng.UmengAuthUtils;
 import cn.daily.news.biz.core.update.CheckUpdateTask;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
-import cn.daily.news.biz.core.utils.TimerManager;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 import cn.daily.news.biz.core.utils.ZBUtils;
 
@@ -102,7 +103,7 @@ public class LoginMainActivity extends BaseActivity {
     /**
      * 验证码定时器
      */
-    private TimerManager.TimerTask timerTask;
+    private CountDownTimer timer;
     boolean isPhone;
     String lastLogin;
 
@@ -188,7 +189,7 @@ public class LoginMainActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_login_register)).getView();
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
 
@@ -276,7 +277,9 @@ public class LoginMainActivity extends BaseActivity {
     @Override
     public void finish() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
-        TimerManager.cancel(timerTask);
+        if (timer != null) {
+            timer.cancel();
+        }
         if (UserBiz.get().isLoginUser()) {
             setResult(Activity.RESULT_OK);
         }
@@ -336,7 +339,9 @@ public class LoginMainActivity extends BaseActivity {
 
                                                             @Override
                                                             public void onFailure(int errorCode, String errorMessage) {
-                                                                TimerManager.cancel(timerTask);
+                                                                if (timer != null) {
+                                                                    timer.cancel();
+                                                                }
                                                                 T.showShort(LoginMainActivity.this, errorMessage);
                                                             }
                                                         });
@@ -357,7 +362,9 @@ public class LoginMainActivity extends BaseActivity {
                                             }));
                                     zbGraphicDialog.show();
                                 } else {
-                                    TimerManager.cancel(timerTask);
+                                    if (timer != null) {
+                                        timer.cancel();
+                                    }
                                     T.showShort(LoginMainActivity.this, errorMessage);
                                 }
                             }
@@ -465,28 +472,7 @@ public class LoginMainActivity extends BaseActivity {
      * 重复访问获取验证码的时间是多少  60s  3次  一天最多5次
      */
     private void startTimeCountDown() {
-        mTvSmsVerification.setEnabled(false);
-        //倒计时
-        timerTask = new TimerManager.TimerTask(1000, 1000) {
-            @Override
-            public void run(long count) {
-                long value = (60 - count);
-                mTvSmsVerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                mTvSmsVerification.setTextColor(getResources().getColor(R.color._999999));
-                mTvSmsVerification.setText("(" + value + ")" + getString(R.string
-                        .zb_login_get_validationcode_again));
-                if (value == 0) {
-                    TimerManager.cancel(this);
-                    mTvSmsVerification.setEnabled(true);
-                    mTvSmsVerification.setBackgroundResource(R.drawable
-                            .module_login_bg_sms_verification);
-                    mTvSmsVerification.setTextColor(getResources().getColor(R.color._f44b50));
-                    mTvSmsVerification.setText(getString(R.string
-                            .zb_login_resend));
-                }
-            }
-        };
-        TimerManager.schedule(timerTask);
+        timer = LoginUtil.startCountDownTimer(this, mTvSmsVerification, 60);
     }
 
 }

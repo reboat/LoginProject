@@ -2,6 +2,7 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,8 +17,8 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.util.LoginUtil;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
@@ -36,8 +37,8 @@ import butterknife.OnClick;
 import cn.daily.news.biz.core.constant.IKey;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.RouteManager;
-import cn.daily.news.biz.core.utils.TimerManager;
 
 /**
  * Date: 2018/8/15
@@ -64,7 +65,8 @@ public class ZBResetPasswordActivity extends BaseActivity {
     /**
      * 验证码定时器
      */
-    private TimerManager.TimerTask timerTask;
+    private CountDownTimer timer;
+
 
     private boolean isCommentActivity = false;
 
@@ -106,14 +108,15 @@ public class ZBResetPasswordActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TimerManager.cancel(timerTask);
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
-                .getView();
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
     @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm})
@@ -225,7 +228,9 @@ public class ZBResetPasswordActivity extends BaseActivity {
 
                                                             @Override
                                                             public void onFailure(int errorCode, String errorMessage) {
-                                                                TimerManager.cancel(timerTask);
+                                                                if (timer != null) {
+                                                                    timer.cancel();
+                                                                }
                                                                 T.showShort(ZBResetPasswordActivity.this, errorMessage);
                                                             }
                                                         });
@@ -246,7 +251,9 @@ public class ZBResetPasswordActivity extends BaseActivity {
                                             }));
                                     zbGraphicDialog.show();
                                 } else {
-                                    TimerManager.cancel(timerTask);
+                                    if (timer != null) {
+                                        timer.cancel();
+                                    }
                                     T.showShort(ZBResetPasswordActivity.this, errorMessage);
                                 }
                             }
@@ -272,28 +279,7 @@ public class ZBResetPasswordActivity extends BaseActivity {
      * 重复访问获取验证码的时间是多少  60s  3次  一天最多5次
      */
     private void startTimeCountDown() {
-        tvTerification.setEnabled(false);
-        //倒计时
-        timerTask = new TimerManager.TimerTask(1000, 1000) {
-            @Override
-            public void run(long count) {
-                long value = (60 - count);
-                tvTerification.setBackgroundResource(R.drawable.border_timer_text_bg);
-                tvTerification.setTextColor(getResources().getColor(R.color._999999));
-                tvTerification.setText("(" + value + ")" + getString(R.string
-                        .zb_login_get_validationcode_again));
-                if (value == 0) {
-                    TimerManager.cancel(this);
-                    tvTerification.setEnabled(true);
-                    tvTerification.setBackgroundResource(R.drawable
-                            .module_login_bg_sms_verification);
-                    tvTerification.setTextColor(getResources().getColor(R.color._f44b50));
-                    tvTerification.setText(getString(R.string
-                            .zb_login_resend));
-                }
-            }
-        };
-        TimerManager.schedule(timerTask);
+        timer = LoginUtil.startCountDownTimer(this, tvTerification, 60);
     }
 
 }

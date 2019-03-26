@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
@@ -26,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.biz.core.model.SkipScoreInterface;
 import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.RouteManager;
 
@@ -82,8 +82,7 @@ public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScor
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
-                .getView();
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
     @OnClick({R2.id.bt_confirm, R2.id.iv_see})

@@ -19,7 +19,6 @@ import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
@@ -46,6 +45,7 @@ import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.network.task.UploadCidTask;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
@@ -94,8 +94,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_toolbar_login))
-                .getView();
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
     private String mobile;
@@ -267,6 +266,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
                         T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
                     }
+                    // TODO: 2019/3/26 增加图形验证码登录的情况
                 }
             });
         }

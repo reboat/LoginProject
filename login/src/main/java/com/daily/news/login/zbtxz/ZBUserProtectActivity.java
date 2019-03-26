@@ -8,10 +8,10 @@ import android.webkit.WebView;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 
 /**
  * 用户协议页面
@@ -34,8 +34,6 @@ public class ZBUserProtectActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, "用户协议").getView();
-    }
-
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();    }
 
 }

@@ -19,7 +19,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.UserAccountMergeTask;
 import com.zjrb.core.base.BaseActivity;
-import com.zjrb.core.base.toolbar.TopBarFactory;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -31,6 +30,7 @@ import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.MultiAccountBean;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 
 /**
  * Date: 2018/9/03
@@ -242,8 +242,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return TopBarFactory.createDefault(view, this, getString(R.string.zb_mobile_bind_title))
-                .getView();
+        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
 
