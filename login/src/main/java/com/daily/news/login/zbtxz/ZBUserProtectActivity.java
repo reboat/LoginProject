@@ -34,6 +34,6 @@ public class ZBUserProtectActivity extends BaseActivity {
 
     @Override
     protected View onCreateTopBar(ViewGroup view) {
-        return BIZTopBarFactory.createDefaultForLogin(view, this).getView();    }
+        return BIZTopBarFactory.createDefault(view, this, "用户协议").getView();    }
 
 }

@@ -23,6 +23,7 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_centerVertical="true"
+                android:scaleType="fitXY"
                 android:src="@mipmap/default_user_icon"
                 />
 
@@ -70,7 +71,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@mipmap/module_login_phone"
-            android:visibility="gone"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
             />
 
         <ImageView
@@ -79,7 +81,7 @@
             android:layout_height="17dp"
             android:layout_marginLeft="12dp"
             android:src="@mipmap/module_login_weixin"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <ImageView
@@ -113,7 +115,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/_dcdcdc"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"

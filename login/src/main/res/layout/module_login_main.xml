@@ -9,19 +9,6 @@
     android:background="@color/_ffffff_202124">
 
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_title"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:includeFontPadding="false"-->
-        <!--android:text="@string/zb_register_passport"-->
-        <!--android:textColor="@color/_ff222222"-->
-        <!--android:textSize="@dimen/ts_17sp"-->
-        <!--android:layout_marginTop="38dp"-->
-        <!--/>-->
-    
-    <!---->
     <ImageView
         android:id="@+id/iv_title"
         android:layout_width="122dp"
@@ -74,52 +61,34 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/ly_sms_code"
+    <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
+        android:id="@+id/et_sms_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:layout_below="@+id/ll_phone"
         android:layout_marginLeft="@dimen/module_login_edit_margin"
         android:layout_marginRight="@dimen/module_login_edit_margin"
         android:layout_marginTop="52dp"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        android:background="@drawable/border_edit_bg"
+        android:digits="1234567890"
+        android:gravity="left"
+        android:hint="输入验证码"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingBottom="5dp"
+        android:singleLine="true"
+        android:textColor="@color/_ff222222"
+        android:textColorHint="@color/_bfbfbf"
+        android:textSize="@dimen/ts_13sp" />
 
-            <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
-                android:id="@+id/et_sms_text"
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:background="@drawable/border_edit_bg"
-                android:digits="1234567890"
-                android:gravity="left"
-                android:hint="输入验证码"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:paddingBottom="5dp"
-                android:singleLine="true"
-                android:textColor="@color/_ff222222"
-                android:textColorHint="@color/_bfbfbf"
-                android:textSize="@dimen/ts_13sp" />
-
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_sms_close"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@mipmap/module_login_close"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:visibility="gone"-->
-                <!--/>-->
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/module_login_btn_height"
-        android:layout_below="@+id/ly_sms_code"
+        android:layout_below="@+id/et_sms_text"
         android:paddingTop="4dp"
         android:gravity="center"
         android:layout_marginLeft="@dimen/module_login_btn_margin"
