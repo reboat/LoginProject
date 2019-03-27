@@ -38,7 +38,7 @@
         <EditText
             android:id="@+id/dt_account_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
@@ -68,7 +68,7 @@
     <EditText
         android:id="@+id/et_sms_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:layout_below="@id/ll_phone"
         android:layout_marginLeft="@dimen/module_login_edit_margin"
         android:layout_marginTop="52dp"
