@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center_horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="上次登录"
         android:gravity="center"
-        android:background="@drawable/module_login_pop"
-        android:textColor="@color/_ffffff_cccbcb"
-        android:textSize="@dimen/ts_11sp"
+        android:includeFontPadding="false"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:background="@drawable/border_login_tip_bg"
+        android:textColor="@color/_ffffff_cccbcb"
+        android:textSize="@dimen/ts_12sp"
+        />
+    
+    <View
+        android:layout_width="2dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/_666666"
         />
 
-</FrameLayout>
+</LinearLayout>
