@@ -54,6 +54,7 @@ import cn.daily.news.biz.core.umeng.UmengAuthUtils;
 import cn.daily.news.biz.core.update.CheckUpdateTask;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 import cn.daily.news.biz.core.utils.ZBUtils;
@@ -98,6 +99,7 @@ public class LoginMainActivity extends BaseActivity {
     private UmengAuthUtils mUmengUtils;
 
     private Bundle bundle;
+    private MultiInputHelper mInputHelper;
 
 
     /**
@@ -114,6 +116,10 @@ public class LoginMainActivity extends BaseActivity {
         ButterKnife.bind(this);
         initLoginRV();
         LoginHelper.get().setLogin(true); // 标记开启
+        //创建输入监听辅助类，传入提交按钮view
+        mInputHelper = new MultiInputHelper(mBtnLogin);
+        //添加需要监听的textview
+        mInputHelper.addViews(mEtAccountText, mEtSmsText);
         // 获取上次登录数据
         isPhone = SPHelper.get().get("isPhone", false);
         lastLogin = SPHelper.get().get("last_login", "");
@@ -280,6 +286,7 @@ public class LoginMainActivity extends BaseActivity {
         if (timer != null) {
             timer.cancel();
         }
+        mInputHelper.removeViews();
         if (UserBiz.get().isLoginUser()) {
             setResult(Activity.RESULT_OK);
         }
@@ -440,6 +447,7 @@ public class LoginMainActivity extends BaseActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    // TODO: 2019/3/27 没有phone_number,绑定手机号
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                     new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
                             .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")

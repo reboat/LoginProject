@@ -58,8 +58,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
     TextView tvChangeLoginType;
     @BindView(R2.id.bt_confirm)
     TextView btConfirm;
-    @BindView(R2.id.tv_title)
-    TextView mTvTitle;
 
 
     /**
@@ -98,9 +96,6 @@ public class ZBResetPasswordActivity extends BaseActivity {
         btConfirm.setText(getString(R.string.zb_confirm));
         tvTerification.setText(getString(R.string.zb_sms_verication));
 
-        if (mTvTitle.getVisibility() == View.GONE) {
-            mTvTitle.setVisibility(View.VISIBLE);
-        }
         tvChangeLoginType.setText(getString(R.string.zb_input_sms_tip));
         btConfirm.setText("确定");
     }

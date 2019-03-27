@@ -55,6 +55,7 @@ import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
+import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 import cn.daily.news.biz.core.utils.YiDunUtils;
 import cn.daily.news.biz.core.utils.ZBUtils;
@@ -72,7 +73,7 @@ import static com.zjrb.core.utils.UIUtils.getContext;
 
 public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreInterface {
     @BindView(R2.id.dt_account_text)
-    EditText dtAccountText;
+    EditText etAccountText;
     @BindView(R2.id.et_password_text)
     EditText etPasswordText;
     @BindView(R2.id.tv_login)
@@ -83,6 +84,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
     TextView tvForgetPassword;
     @BindView(R2.id.verification_code_see_btn)
     ImageView ivSee;
+    private MultiInputHelper mInputHelper;
 
     /**
      * 是否点击了可视密码
@@ -97,6 +99,10 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         getIntentData(getIntent());
         ButterKnife.bind(this);
         initView();
+        //创建输入监听辅助类，传入提交按钮view
+        mInputHelper = new MultiInputHelper(tvLogin);
+        //添加需要监听的textview
+        mInputHelper.addViews(etAccountText, etPasswordText);
     }
 
     @Override
@@ -122,9 +128,9 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
 
     private void initView() {
         AppUtils.setEditTextInhibitInputSpace(etPasswordText, true);
-        AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
+        AppUtils.setEditTextInhibitInputSpace(etAccountText, false);
         if (!TextUtils.isEmpty(mobile)) {
-            dtAccountText.setText(mobile);
+            etAccountText.setText(mobile);
         }
         ivSee.getDrawable().setLevel(getResources().getInteger(R.integer.level_password_unsee));
         tvLogin.setText(getString(R.string.zb_login));
@@ -139,20 +145,20 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
         if (ClickTracker.isDoubleClick()) return;
 
         if (view.getId() == R.id.dt_account_text) {
-            dtAccountText.setCursorVisible(true);
+            etAccountText.setCursorVisible(true);
             //登录 需要判定手机/邮箱/个性账号
         } else if (view.getId() == R.id.tv_login) {
-            if (dtAccountText.getText().toString().isEmpty()) {
+            if (etAccountText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_num_empty));
                 //纯数字
             } else if (etPasswordText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_password_empty));
-            } else if (AppUtils.isNumeric(dtAccountText.getText().toString())) {
-                if (AppUtils.isMobileNum(dtAccountText.getText().toString())) { // 手机号登录
+            } else if (AppUtils.isNumeric(etAccountText.getText().toString())) {
+                if (AppUtils.isMobileNum(etAccountText.getText().toString())) { // 手机号登录
                     LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                     // 不需要进行绑定校验
-                    doLogin(dtAccountText.getText().toString(), etPasswordText.getText().toString());
-//                    checkBind(dtAccountText.getText().toString(), etPasswordText.getText().toString());
+                    doLogin(etAccountText.getText().toString(), etPasswordText.getText().toString());
+//                    checkBind(etAccountText.getText().toString(), etPasswordText.getText().toString());
                 } else {
                     T.showShort(this, getString(R.string.zb_phone_num_error));
                 }
@@ -340,6 +346,7 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
+                    // TODO: 2019/3/27 没有phone_number,绑定手机号
                     //新华智云设置userID
                     AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
                     AccountBean account = bean.getAccount();
@@ -388,4 +395,9 @@ public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreIn
                 "phone_number", authCode, YiDunUtils.getToken(cn.daily.news.biz.core.constant.Key.YiDun.Type.REG));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mInputHelper.removeViews();
+    }
 }

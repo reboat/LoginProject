@@ -49,6 +49,7 @@ import cn.daily.news.biz.core.network.task.GetAccessTokenTask;
 import cn.daily.news.biz.core.ui.dialog.ZBBindDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
+import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 
 /**
@@ -59,19 +60,20 @@ import cn.daily.news.biz.core.utils.RouteManager;
  */
 public class ZBBindMobileActivity extends BaseActivity {
     @BindView(R2.id.dt_account_text)
-    EditText dtAccountText;
+    EditText etAccountText;
     @BindView(R2.id.et_sms_text)
     EditText etSmsText;
     @BindView(R2.id.tv_sms_verification)
     TextView tvVerification;
     @BindView(R2.id.bt_confirm)
     TextView btConfirm;
-    @BindView(R2.id.tv_title)
-    TextView mTvTitle;
+    @BindView(R2.id.tv_bind_desc)
+    TextView mTvBindDesc;
 
     private boolean isAuthSuccess;
 
     private CountDownTimer timer;
+    private MultiInputHelper mInputHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,10 @@ public class ZBBindMobileActivity extends BaseActivity {
         setContentView(R.layout.module_login_mobile_bind);
         ButterKnife.bind(this);
         initView();
+        //创建输入监听辅助类，传入提交按钮view
+        mInputHelper = new MultiInputHelper(btConfirm);
+        //添加需要监听的textview
+        mInputHelper.addViews(etAccountText, etSmsText);
     }
 
     /**
@@ -86,8 +92,8 @@ public class ZBBindMobileActivity extends BaseActivity {
      */
     private void initView() {
         //不允许输入空格
-        AppUtils.setEditTextInhibitInputSpace(dtAccountText, false);
-        mTvTitle.setText(getString(R.string.zb_mobile_bind_tip));
+        AppUtils.setEditTextInhibitInputSpace(etAccountText, false);
+        mTvBindDesc.setText(getString(R.string.zb_mobile_bind_tip));
         btConfirm.setText(getString(R.string.zb_mobile_ok));
         tvVerification.setText(getString(R.string.zb_sms_verication));
     }
@@ -98,6 +104,7 @@ public class ZBBindMobileActivity extends BaseActivity {
         if (timer != null) {
             timer.cancel();
         }
+        mInputHelper.removeViews();
     }
 
     @Override
@@ -111,10 +118,10 @@ public class ZBBindMobileActivity extends BaseActivity {
 
         //获取验证码需要先输入手机号
         if (view.getId() == R.id.tv_sms_verification) {
-            if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
-                getValidateCode(dtAccountText.getText().toString());
+            if (AppUtils.isMobileNum(etAccountText.getText().toString())) {
+                getValidateCode(etAccountText.getText().toString());
             } else {
-                if (dtAccountText.getText().toString().equals("")) {
+                if (etAccountText.getText().toString().equals("")) {
                     T.showShort(ZBBindMobileActivity.this, getString(R.string
                             .zb_phone_num_empty));
                 } else {
@@ -126,9 +133,9 @@ public class ZBBindMobileActivity extends BaseActivity {
         } else if (view.getId() == R.id.bt_confirm) {
             //验证码
             if (etSmsText.getText() != null && !TextUtils.isEmpty(etSmsText.getText().toString())) {
-                if (dtAccountText.getText() != null && !TextUtils.isEmpty(dtAccountText.getText()
+                if (etAccountText.getText() != null && !TextUtils.isEmpty(etAccountText.getText()
                         .toString())) {
-                    bindMobile(dtAccountText.getText().toString(), etSmsText.getText()
+                    bindMobile(etAccountText.getText().toString(), etSmsText.getText()
                             .toString());
                 } else {
                     T.showShort(ZBBindMobileActivity.this, getString(R.string

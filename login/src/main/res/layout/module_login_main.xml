@@ -23,7 +23,7 @@
     
     <!---->
     <ImageView
-        android:id="@+id/tv_title"
+        android:id="@+id/iv_title"
         android:layout_width="122dp"
         android:layout_height="26dp"
         android:layout_centerHorizontal="true"
@@ -37,14 +37,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/module_login_edit_margin"
         android:layout_marginRight="@dimen/module_login_edit_margin"
-        android:layout_below="@+id/tv_title"
+        android:layout_below="@+id/iv_title"
         android:layout_marginTop="58dp"
         >
 
         <EditText
             android:id="@+id/et_account_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:background="@drawable/border_edit_bg"
             android:cursorVisible="true"
             android:gravity="left"
@@ -86,7 +86,7 @@
             <cn.daily.news.biz.core.ui.widget.DeleteLoginEditText
                 android:id="@+id/et_sms_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:background="@drawable/border_edit_bg"
                 android:digits="1234567890"
                 android:gravity="left"
