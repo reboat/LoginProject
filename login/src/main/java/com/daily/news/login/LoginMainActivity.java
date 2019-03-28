@@ -449,27 +449,31 @@ public class LoginMainActivity extends DailyActivity {
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    // TODO: 2019/3/27 没有phone_number,绑定手机号
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                            .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                            .setPageType("主登录页")
-                            .setEventDetail("手机号/个性账号/邮箱")
-                            .setIscuccesee(true)
-                            .pageType("主登录页")
-                            .loginType("手机号;个性账号;邮箱")
-                            .userID(bean.getSession().getAccount_id())
-                            .mobilePhone(bean.getAccount().getMobile())
-                            .build()
-                            .send();
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
-                    LoginHelper.get().setResult(true); // 设置登录成功
-                    ZBUtils.showPointDialog(bean);
-                    SPHelper.get().put("isPhone", true).commit();
-                    SPHelper.get().put("last_login", phone).commit();
-                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "": bean.getAccount().getImage_url()).commit();
-                    finish();
+                    if (userBiz.isCertification()) { // 手机号验证码登录,若结果未返回phoneNum,也跳绑定界面
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
+                                .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
+                                .setPageType("主登录页")
+                                .setEventDetail("手机号/个性账号/邮箱")
+                                .setIscuccesee(true)
+                                .pageType("主登录页")
+                                .loginType("手机号;个性账号;邮箱")
+                                .userID(bean.getSession().getAccount_id())
+                                .mobilePhone(bean.getAccount().getMobile())
+                                .build()
+                                .send();
+
+                        LoginHelper.get().setResult(true); // 设置登录成功
+                        ZBUtils.showPointDialog(bean);
+                        SPHelper.get().put("isPhone", true).commit();
+                        SPHelper.get().put("last_login", phone).commit();
+                        finish();
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                        Nav.with(LoginMainActivity.this).toPath(RouteManager.ZB_MOBILE_BIND);
+                    }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");
                 }

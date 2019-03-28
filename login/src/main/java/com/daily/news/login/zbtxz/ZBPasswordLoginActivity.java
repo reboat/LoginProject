@@ -339,47 +339,50 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             @Override
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
-                    // TODO: 2019/3/27 没有phone_number,绑定手机号
-                    //新华智云设置userID
-                    AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
-                    AccountBean account = bean.getAccount();
-                    SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
-                    LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                    new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                            .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                            .setPageType("主登录页")
-                            .setEventDetail("手机号/个性账号/邮箱")
-                            .setIscuccesee(true)
-                            .pageType("主登录页")
-                            .loginType("手机号;个性账号;邮箱")
-                            .userID(bean.getSession().getAccount_id())
-                            .mobilePhone(bean.getAccount().getMobile())
-                            .build()
-                            .send();
-                    try {
-                        JSONObject properties = new JSONObject();
-                        properties.put("userID", bean.getSession().getAccount_id());
-                        properties.put("mobilePhone", bean.getAccount().getMobile());
-                        new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, null, false)
-                                .setProfile(properties)
-                                .build()
-                                .send();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     UserBiz userBiz = UserBiz.get();
                     userBiz.setZBLoginBean(bean);
-                    LoginHelper.get().setResult(true); // 设置登录成功
-                    SPHelper.get().put("isPhone", true).commit();
-                    SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
-                    SPHelper.get().put("last_logo", bean.getAccount() == null ? "" : bean.getAccount().getImage_url()).commit();
-                    ZBUtils.showPointDialog(bean);
-                    String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
-                    if (!TextUtils.isEmpty(clientId)) {
-                        new UploadCidTask(null).exe(clientId);
+                    if (userBiz.isCertification()) {
+                        //新华智云设置userID
+                        AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
+                        AccountBean account = bean.getAccount();
+                        SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
+                        LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
+                                .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
+                                .setPageType("主登录页")
+                                .setEventDetail("手机号/个性账号/邮箱")
+                                .setIscuccesee(true)
+                                .pageType("主登录页")
+                                .loginType("手机号;个性账号;邮箱")
+                                .userID(bean.getSession().getAccount_id())
+                                .mobilePhone(bean.getAccount().getMobile())
+                                .build()
+                                .send();
+                        try {
+                            JSONObject properties = new JSONObject();
+                            properties.put("userID", bean.getSession().getAccount_id());
+                            properties.put("mobilePhone", bean.getAccount().getMobile());
+                            new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, null, false)
+                                    .setProfile(properties)
+                                    .build()
+                                    .send();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        LoginHelper.get().setResult(true); // 设置登录成功
+                        SPHelper.get().put("isPhone", true).commit();
+                        SPHelper.get().put("last_login", phone).commit();  // wei_xin, wei_bo, qq
+                        ZBUtils.showPointDialog(bean);
+                        String clientId = SPHelper.get(SP_NAME).get(KEY_CID, "");
+                        if (!TextUtils.isEmpty(clientId)) {
+                            new UploadCidTask(null).exe(clientId);
+                        }
+                        finish();
+                        AppManager.get().finishActivity(LoginMainActivity.class);
+                    } else {
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
+                        Nav.with(ZBPasswordLoginActivity.this).toPath(RouteManager.ZB_MOBILE_BIND);
                     }
-                    finish();
-                    AppManager.get().finishActivity(LoginMainActivity.class);
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");
                 }
