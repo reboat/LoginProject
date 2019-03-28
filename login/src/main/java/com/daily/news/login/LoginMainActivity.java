@@ -104,6 +104,7 @@ public class LoginMainActivity extends DailyActivity {
     private CountDownTimer timer;
     boolean isPhone;
     String lastLogin;
+    private TipPopup mPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +187,8 @@ public class LoginMainActivity extends DailyActivity {
     }
 
     private void showPopup(View view) {
-        new TipPopup(getActivity()).showAboveView(view);
+        mPopup = new TipPopup(getActivity());
+        mPopup.showAboveView(view);
     }
 
     @Override
@@ -278,6 +280,9 @@ public class LoginMainActivity extends DailyActivity {
 
     @Override
     public void finish() {
+        if (mPopup != null && mPopup.isShowing()) {
+            mPopup.dismiss();
+        }
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
         if (timer != null) {
             timer.cancel();

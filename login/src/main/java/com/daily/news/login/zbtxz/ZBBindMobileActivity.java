@@ -166,8 +166,8 @@ public class ZBBindMobileActivity extends DailyActivity {
                         public void onSuccess() {
                             final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                             zbBindDialog.setBuilder(new ZBBindDialog.Builder()
-                                    .setTitle("绑定成功")
-                                    .setMessage("现在可以发表评论啦! 如手机号有变动,可在个人中心-账号设置页面进行更改")
+                                    .setTitle("绑定成功!")
+                                    .setMessage("如果手机号有变动，可在个人中心账号管理页面进行更改")
                                     .setOkText("知道了")
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -196,7 +196,8 @@ public class ZBBindMobileActivity extends DailyActivity {
                                 final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                                 zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                         .setTitle("绑定失败")
-                                        .setMessage("该手机号已被注册,且绑定有同种类型的第三方账号")
+                                        .setMessage("该手机号已注册，且绑定有同种类型的第三方帐号")
+                                        .setDesc("建议登录原帐号，在个人中心帐号管理页面进行解绑后，再重新进行绑定")
                                         .setOkText("知道了")
                                         .setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -349,7 +350,6 @@ public class ZBBindMobileActivity extends DailyActivity {
         UserBiz.get().logout();
         super.finish();
 //        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
-//        AppManager.get().finishActivity(LoginMainActivity.class);
     }
 
 }
