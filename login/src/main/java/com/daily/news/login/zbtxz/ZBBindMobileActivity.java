@@ -218,6 +218,9 @@ public class ZBBindMobileActivity extends DailyActivity {
                                     @Override
                                     public void onSuccess(MultiAccountBean data) {
                                         if (data != null) {
+                                            if (timer != null) {
+                                                timer.cancel();
+                                            }
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("merge_data", data);
                                             bundle.putString("merge_phone", mobile);
