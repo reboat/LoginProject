@@ -12,10 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
@@ -311,11 +309,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                                 public void onRefreshImage() {
                                                     String url = ZbPassport.getGraphicsCode() + "?time="+ SystemClock.elapsedRealtime();
                                                     GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
-                                                    RequestOptions options = new RequestOptions();
-                                                    options.placeholder(R.mipmap.module_core_graphic_default);
-                                                    options.diskCacheStrategy(DiskCacheStrategy.NONE);
-                                                    options.skipMemoryCache(true);
-                                                    Glide.with(ZBBindMobileActivity.this).load(glideUrl).apply(options).into(zbGraphicDialog.getIvGrahpic());
+                                                    Glide.with(ZBBindMobileActivity.this).load(glideUrl).into(zbGraphicDialog.getIvGrahpic());
                                                 }
                                             }));
                                     zbGraphicDialog.show();

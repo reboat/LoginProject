@@ -61,7 +61,7 @@
         android:id="@+id/ll_user_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="12dp"
         android:orientation="horizontal"
         >
@@ -70,9 +70,10 @@
             android:id="@+id/iv_mobile"
             android:layout_width="17dp"
             android:layout_height="17dp"
+            android:layout_marginLeft="12dp"
             android:src="@mipmap/module_login_phone"
             android:scaleType="fitCenter"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -81,7 +82,7 @@
             android:layout_height="17dp"
             android:layout_marginLeft="12dp"
             android:src="@mipmap/module_login_weixin"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
         <ImageView
