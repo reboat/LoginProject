@@ -151,16 +151,14 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                 //纯数字
             } else if (etPasswordText.getText().toString().isEmpty()) {
                 T.showShort(this, getString(R.string.zb_phone_password_empty));
-            } else if (AppUtils.isNumeric(etAccountText.getText().toString())) {
+            } else if (AppUtils.isNumeric(etAccountText.getText().toString())) {  // 新版本只能输入数字
                 if (AppUtils.isMobileNum(etAccountText.getText().toString())) { // 手机号登录
-                    LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                     // 不需要进行绑定校验
                     doLogin(etAccountText.getText().toString(), etPasswordText.getText().toString());
 //                    checkBind(etAccountText.getText().toString(), etPasswordText.getText().toString());
                 } else {
                     T.showShort(this, getString(R.string.zb_phone_num_error));
                 }
-                //非纯数字
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
@@ -234,6 +232,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
         } else if (password.length() < 6) {
             T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
+            LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
             ZbPassport.loginCustom(text, password, "", new ZbAuthListener() {
                 @Override
                 public void onSuccess(AuthInfo info) {
