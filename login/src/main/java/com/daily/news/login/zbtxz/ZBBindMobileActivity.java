@@ -48,6 +48,7 @@ import cn.daily.news.biz.core.ui.dialog.ZBBindDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.MultiInputHelper;
+import cn.daily.news.biz.core.utils.RealNameAuthHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 
 /**
@@ -164,6 +165,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                     ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
+                            isAuthSuccess = true;
                             final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                             zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                     .setTitle("绑定成功!")
@@ -346,10 +348,12 @@ public class ZBBindMobileActivity extends DailyActivity {
 
     @Override
     public void finish() {
-        // 绑定页面点击返回按钮,手动清空session
-        UserBiz.get().logout();
+        // 若手机号未绑定成功,点击返回按钮,手动清空session
+        if (!isAuthSuccess) {
+            UserBiz.get().logout();
+        }
         super.finish();
-//        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
+        RealNameAuthHelper.get().finishAuth(isAuthSuccess);
     }
 
 }

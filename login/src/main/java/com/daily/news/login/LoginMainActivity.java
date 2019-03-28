@@ -280,9 +280,6 @@ public class LoginMainActivity extends DailyActivity {
 
     @Override
     public void finish() {
-        if (mPopup != null && mPopup.isShowing()) {
-            mPopup.dismiss();
-        }
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
         if (timer != null) {
             timer.cancel();
@@ -294,6 +291,15 @@ public class LoginMainActivity extends DailyActivity {
         super.finish();
         LoginHelper.get().finish(); // 登录结束
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mPopup != null && mPopup.isShowing()) {
+            mPopup.dismiss();
+            mPopup = null;
+        }
     }
 
     /**
