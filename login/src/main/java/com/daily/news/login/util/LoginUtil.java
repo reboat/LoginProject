@@ -10,7 +10,7 @@ import com.daily.news.login.R;
  * Date: 2019/3/26 11:17 AM
  * Email: sisq@8531.cn
  * Author: sishuqun
- * Description: TODO
+ * Description: 登录帮助类
  */
 public class LoginUtil {
 

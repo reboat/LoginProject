@@ -166,13 +166,6 @@ public class ZBBindMobileActivity extends DailyActivity {
                     ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
                         @Override
                         public void onSuccess() {
-                            // TODO: 去掉积分处理
-//                if (passData != null) {
-//                    ZbBindEntity zbBindEntity = JsonUtils.parseObject(passData, ZbBindEntity.class);
-//                    if (zbBindEntity != null) {
-//                        ZBUtils.showPointDialog(zbBindEntity.data);
-//                    }
-//                }
                             final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                             zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                     .setTitle("绑定成功")
@@ -319,8 +312,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                                     String url = ZbPassport.getGraphicsCode() + "?time="+ SystemClock.elapsedRealtime();
                                                     GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
                                                     RequestOptions options = new RequestOptions();
-                                                    // TODO: 2019/3/14
-                                                    options.placeholder(R.mipmap.default_user_icon);
+                                                    options.placeholder(R.mipmap.module_core_graphic_default);
                                                     options.diskCacheStrategy(DiskCacheStrategy.NONE);
                                                     options.skipMemoryCache(true);
                                                     Glide.with(ZBBindMobileActivity.this).load(glideUrl).apply(options).into(zbGraphicDialog.getIvGrahpic());

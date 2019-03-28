@@ -304,8 +304,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                                         String url = ZbPassport.getGraphicsCode() + "?time=" + SystemClock.elapsedRealtime();
                                         GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
                                         RequestOptions options = new RequestOptions();
-                                        // TODO: 2019/3/14
-                                        options.placeholder(R.mipmap.default_user_icon);
+                                        options.placeholder(R.mipmap.module_core_graphic_default);
                                         options.diskCacheStrategy(DiskCacheStrategy.NONE);
                                         options.skipMemoryCache(true);
                                         Glide.with(ZBPasswordLoginActivity.this).load(glideUrl).apply(options).into(zbGraphicDialog.getIvGrahpic());
