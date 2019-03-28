@@ -41,6 +41,8 @@
     <string name="zb_mobile_update">升级</string>
     <string name="zb_mobile_bind_tip">绑定手机后,可通过手机号快速登录</string>
     <string name="zb_mobile_bind_title">手机号绑定</string>
+    <string name="zb_mobile_bind_desc">绑定后,你只能保留所选帐号的信息</string>
+    <string name="zb_mobile_bind_desc_second">另一个帐号的所有信息将被清空，用手机号%1$s登录后将看到选中的帐号信息</string>
     <string name="zb_mobile_bind_success_tip">绑定成功！下次可使用手机号直接登录该帐号</string>
     <string name="zb_mobile_bind_quit">放弃绑定</string>
     <string name="zb_mobile_bind_confirm">确认绑定</string>

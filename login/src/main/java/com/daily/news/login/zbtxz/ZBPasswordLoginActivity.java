@@ -24,7 +24,6 @@ import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
@@ -43,6 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.AnalyticsManager;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.constant.IKey;
 import cn.daily.news.biz.core.model.AccountBean;
@@ -71,7 +71,7 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * Description: 账号密码登录页面(手机号密码登录,6.0版本不再支持个性化账号登录)
  */
 
-public class ZBPasswordLoginActivity extends BaseActivity implements SkipScoreInterface {
+public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreInterface {
     @BindView(R2.id.dt_account_text)
     EditText etAccountText;
     @BindView(R2.id.et_password_text)

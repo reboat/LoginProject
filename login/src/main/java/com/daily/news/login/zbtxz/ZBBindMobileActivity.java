@@ -21,7 +21,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.GetMuitiAccountTask;
 import com.daily.news.login.util.LoginUtil;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
@@ -38,6 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.AccessTokenBean;
 import cn.daily.news.biz.core.model.AccountBean;
@@ -58,7 +58,7 @@ import cn.daily.news.biz.core.utils.RouteManager;
  * Author: sishuqun
  * Description: 绑定手机号界面
  */
-public class ZBBindMobileActivity extends BaseActivity {
+public class ZBBindMobileActivity extends DailyActivity {
     @BindView(R2.id.dt_account_text)
     EditText etAccountText;
     @BindView(R2.id.et_sms_text)
@@ -226,6 +226,7 @@ public class ZBBindMobileActivity extends BaseActivity {
                                         if (data != null) {
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("merge_data", data);
+                                            bundle.putString("merge_phone", mobile);
                                             Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
                                         } else {
                                             T.showShortNow(ZBBindMobileActivity.this, "绑定失败");

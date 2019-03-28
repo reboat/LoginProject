@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
@@ -23,6 +22,7 @@ import com.zjrb.passport.listener.ZbResultListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.model.SkipScoreInterface;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
@@ -35,7 +35,7 @@ import cn.daily.news.biz.core.utils.RouteManager;
  * Author: sishuqun
  * Description: 重置密码输入新密码界面
  */
-public class ZBResetNewPassWordActivity extends BaseActivity implements SkipScoreInterface {
+public class ZBResetNewPassWordActivity extends DailyActivity implements SkipScoreInterface {
 
 //    @BindView(R2.id.tv_tip)
 //    TextView tvTip;

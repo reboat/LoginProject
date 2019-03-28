@@ -17,8 +17,7 @@
         <activity
             android:name="com.daily.news.login.LoginMainActivity"
             android:launchMode="singleTop"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -58,7 +57,6 @@
         <activity
             android:name="com.daily.news.login.zbtxz.ZBPasswordLoginActivity"
             android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -94,8 +92,7 @@
         <!--</activity>-->
         <activity
             android:name="com.daily.news.login.zbtxz.ZBResetNewPassWordActivity"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -112,8 +109,7 @@
         </activity>
         <activity
             android:name="com.daily.news.login.zbtxz.ZBResetPasswordActivity"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -148,8 +144,7 @@
 
         <activity
             android:name="com.daily.news.login.zbtxz.ZBBindMobileActivity"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -168,8 +163,7 @@
         <!--新增 path配置-->
         <activity
             android:name="com.daily.news.login.zbtxz.ZBBindMergeInfoActivity"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -206,8 +200,7 @@
         <!--用户协议-->
         <activity
             android:name=".zbtxz.ZBUserProtectActivity"
-            android:configChanges="uiMode"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

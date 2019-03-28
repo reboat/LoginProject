@@ -7,10 +7,9 @@ import android.webkit.WebView;
 
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.zjrb.core.base.BaseActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 
 /**
@@ -19,7 +18,7 @@ import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
  * create time:2017/10/26  下午7:50
  */
 
-public class ZBUserProtectActivity extends BaseActivity {
+public class ZBUserProtectActivity extends DailyActivity {
 
     @BindView(R2.id.v_web)
     WebView mWeb;

@@ -21,7 +21,7 @@
             android:layout_marginTop="38dp"
             android:textColor="@color/_222222"
             android:textSize="17sp"
-            tools:text="手机号绑定" />
+            android:text="@string/zb_mobile_bind_title" />
 
         <TextView
             android:id="@+id/tv_bind_desc"
@@ -32,7 +32,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/ts_13sp"
             android:textColor="@color/_222222"
-            tools:text="绑定后,你只能保留所选帐号的信息"
+            android:text="@string/zb_mobile_bind_desc"
             />
 
         <TextView
@@ -46,8 +46,9 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:textSize="@dimen/ts_12sp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/_666666"
-            tools:text="另一个帐号的所有信息将被清空，用手机号13678900765登录后将看到选中的帐号信息"
             />
 
         <include
@@ -87,6 +88,7 @@
             android:paddingLeft="14dp"
             android:paddingRight="14dp"
             android:layout_marginTop="29dp"
+            android:layout_marginBottom="56dp"
             >
 
             <!--调整背景-->

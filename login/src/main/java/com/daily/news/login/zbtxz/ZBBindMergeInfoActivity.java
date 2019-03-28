@@ -18,7 +18,6 @@ import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.UserAccountMergeTask;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
@@ -26,6 +25,7 @@ import com.zjrb.core.utils.click.ClickTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.MultiAccountBean;
 import cn.daily.news.biz.core.model.ZBLoginBean;
@@ -38,12 +38,10 @@ import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
  * Author: sishuqun
  * Description: 绑定账号信息合并界面
  */
-public class ZBBindMergeInfoActivity extends BaseActivity {
+public class ZBBindMergeInfoActivity extends DailyActivity {
 
-    @BindView(R2.id.tv_bind_desc)
-    TextView mTvBindDesc;
-    @BindView(R2.id.iv_logo)
-    ImageView mIvLogo;
+    @BindView(R2.id.tv_bind_second_desc)
+    TextView mTvBindDescSecond;
     @BindView(R2.id.user_info_top)
     LinearLayout mInfoTop;
     @BindView(R2.id.user_info_bottom)
@@ -91,6 +89,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     private MultiAccountBean.AccountBean mSelectBean;
     private String mSelectId;
     private String mUnSelectedId;
+    private String mobile;
 
     /**
      * @param intent 获取intent数据
@@ -98,6 +97,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
     private void getIntentData(Intent intent) {
         if (intent != null) {
             multiAccountBean = (MultiAccountBean) intent.getSerializableExtra("merge_data");
+            mobile = intent.getStringExtra("merge_phone");
         }
     }
 
@@ -198,6 +198,7 @@ public class ZBBindMergeInfoActivity extends BaseActivity {
      * 初始化标题
      */
     private void initView() {
+        mTvBindDescSecond.setText(String.format(getResources().getString(R.string.zb_mobile_bind_desc_second), mobile));
         mUserLogoTop = (ImageView) mInfoTop.findViewById(R.id.iv_logo);
         mUserNameTop = (TextView) mInfoTop.findViewById(R.id.tv_name);
         mUserScoreTop = (TextView) mInfoTop.findViewById(R.id.tv_score);

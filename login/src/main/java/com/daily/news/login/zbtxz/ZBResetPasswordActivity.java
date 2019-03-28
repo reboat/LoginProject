@@ -18,7 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.util.LoginUtil;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
@@ -34,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.constant.IKey;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
@@ -46,7 +46,7 @@ import cn.daily.news.biz.core.utils.RouteManager;
  * Author: sishuqun
  * Description: 忘记密码界面
  */
-public class ZBResetPasswordActivity extends BaseActivity {
+public class ZBResetPasswordActivity extends DailyActivity {
 
     @BindView(R2.id.et_account_text)
     EditText dtAccountText;

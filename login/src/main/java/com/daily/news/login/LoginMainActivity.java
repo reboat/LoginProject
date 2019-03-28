@@ -24,7 +24,6 @@ import com.daily.news.login.task.VersionCheckTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
@@ -44,6 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
@@ -67,15 +67,13 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * Author: sishuqun
  * Description: 注册登录界面
  */
-public class LoginMainActivity extends BaseActivity {
+public class LoginMainActivity extends DailyActivity {
     @BindView(R2.id.et_account_text)
     EditText mEtAccountText;
     @BindView(R2.id.et_sms_text)
     EditText mEtSmsText;
     @BindView(R2.id.tv_sms_verification)
     TextView mTvSmsVerification;
-    @BindView(R2.id.ly_sms_code)
-    LinearLayout mLySmsCode;
     @BindView(R2.id.btn_login)
     TextView mBtnLogin;
     @BindView(R2.id.tv_password_login)
