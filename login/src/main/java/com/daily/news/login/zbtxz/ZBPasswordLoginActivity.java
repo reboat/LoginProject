@@ -19,7 +19,6 @@ import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.baseview.TipDialog;
-import com.daily.news.login.global.Key;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.db.SPHelper;
@@ -42,8 +41,6 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
-import cn.daily.news.biz.core.constant.IKey;
-import cn.daily.news.biz.core.model.AccountBean;
 import cn.daily.news.biz.core.model.SkipScoreInterface;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
@@ -88,7 +85,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
      * 是否点击了可视密码
      */
     private boolean isClick = false;
-    private boolean isFromComment = false;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +112,6 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
      */
     private void getIntentData(Intent intent) {
         if (intent != null) {
-            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
-                isFromComment = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
-            }
             if (intent.hasExtra("mobile")) {
                 mobile = intent.getStringExtra("mobile");
             }
@@ -165,8 +159,6 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             if (bundle == null) {
                 bundle = new Bundle();
             }
-            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
-            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
@@ -174,8 +166,6 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             if (bundle == null) {
                 bundle = new Bundle();
             }
-            bundle.putString(Key.LOGIN_TYPE, Key.Value.LOGIN_RESET_TYPE);
-            bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isFromComment);
             Nav.with(this).setExtras(bundle).toPath(RouteManager.LOGIN_ACTIVITY);
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
@@ -216,9 +206,6 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             }
         });
     }*/
-
-
-    private Bundle bundle;
 
     /**
      * 登录
@@ -339,11 +326,10 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     UserBiz userBiz = UserBiz.get();
-                    userBiz.setZBLoginBean(bean);
-                    if (userBiz.isCertification()) {
+                    if (bean.getAccount() != null && !TextUtils.isEmpty(bean.getAccount().getPhone_number())) {
+                        userBiz.setZBLoginBean(bean);
                         //新华智云设置userID
                         AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
-                        AccountBean account = bean.getAccount();
                         SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
@@ -380,7 +366,11 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         AppManager.get().finishActivity(LoginMainActivity.class);
                     } else {
                         LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-                        Nav.with(ZBPasswordLoginActivity.this).toPath(RouteManager.ZB_MOBILE_BIND);
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putString("LoginSessionId", bean.getSession().getId());
+                        Nav.with(ZBPasswordLoginActivity.this).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_BIND);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");

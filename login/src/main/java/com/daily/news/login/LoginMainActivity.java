@@ -450,8 +450,8 @@ public class LoginMainActivity extends DailyActivity {
             public void onSuccess(ZBLoginBean bean) {
                 if (bean != null) {
                     UserBiz userBiz = UserBiz.get();
-                    userBiz.setZBLoginBean(bean);
-                    if (userBiz.isCertification()) { // 手机号验证码登录,若结果未返回phoneNum,也跳绑定界面
+                    if (bean.getAccount() != null && !TextUtils.isEmpty(bean.getAccount().getPhone_number())) { // 手机号验证码登录,若结果未返回phoneNum,也跳绑定界面
+                        userBiz.setZBLoginBean(bean);
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
                                 .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
@@ -472,7 +472,11 @@ public class LoginMainActivity extends DailyActivity {
                         finish();
                     } else {
                         LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-                        Nav.with(LoginMainActivity.this).toPath(RouteManager.ZB_MOBILE_BIND);
+                        if (bundle == null) {
+                            bundle = new Bundle();
+                        }
+                        bundle.putString("LoginSessionId", bean.getSession().getId());
+                        Nav.with(LoginMainActivity.this).setExtras(bundle).toPath(RouteManager.ZB_MOBILE_BIND);
                     }
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, "登录失败");

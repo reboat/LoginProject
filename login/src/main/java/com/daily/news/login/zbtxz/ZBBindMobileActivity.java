@@ -73,12 +73,16 @@ public class ZBBindMobileActivity extends DailyActivity {
 
     private CountDownTimer timer;
     private MultiInputHelper mInputHelper;
+    private String sessionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_mobile_bind);
         ButterKnife.bind(this);
+        if (getIntent() != null) {
+            sessionId = getIntent().getStringExtra("LoginSessionId");
+        }
         initView();
         //创建输入监听辅助类，传入提交按钮view
         mInputHelper = new MultiInputHelper(btConfirm);
@@ -219,6 +223,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                     public void onSuccess(MultiAccountBean data) {
                                         if (data != null) {
                                             if (timer != null) {
+                                                timer.onFinish();
                                                 timer.cancel();
                                             }
                                             Bundle bundle = new Bundle();
@@ -249,7 +254,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                 super.onError(errMsg, errCode);
                 T.showShortNow(ZBBindMobileActivity.this, errMsg);
             }
-        }).setTag(this).exe();
+        }).setTag(this).exe(sessionId);
 
     }
 
@@ -352,9 +357,9 @@ public class ZBBindMobileActivity extends DailyActivity {
     @Override
     public void finish() {
         // 若手机号未绑定成功,点击返回按钮,手动清空session
-        if (!isAuthSuccess) {
-            UserBiz.get().logout();
-        }
+//        if (!isAuthSuccess) {
+//            UserBiz.get().logout();
+//        }
         super.finish();
         RealNameAuthHelper.get().finishAuth(isAuthSuccess);
     }
