@@ -1,6 +1,5 @@
 package com.daily.news.login.zbtxz;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -32,7 +31,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.biz.core.DailyActivity;
-import cn.daily.news.biz.core.constant.IKey;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
@@ -64,25 +62,25 @@ public class ZBResetPasswordActivity extends DailyActivity {
     private CountDownTimer timer;
 
 
-    private boolean isCommentActivity = false;
+//    private boolean isCommentActivity = false;
 
-    /**
-     * @param intent 获取intent数据
-     */
-    private void getIntentData(Intent intent) {
-        if (intent != null) {
-            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
-                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
-            }
-        }
-    }
+//    /**
+//     * @param intent 获取intent数据
+//     */
+//    private void getIntentData(Intent intent) {
+//        if (intent != null) {
+//            if (intent.hasExtra(IKey.IS_COMMENT_ACTIVITY)) {
+//                isCommentActivity = intent.getBooleanExtra(IKey.IS_COMMENT_ACTIVITY, false);
+//            }
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_reset_password);
         ButterKnife.bind(this);
-        getIntentData(getIntent());
+//        getIntentData(getIntent());
         initView();
     }
 
@@ -154,7 +152,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
                 if (bundle == null) {
                     bundle = new Bundle();
                 }
-                bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
+//                bundle.putBoolean(IKey.IS_COMMENT_ACTIVITY, isCommentActivity);
                 bundle.putString("phoneNum", phoneNum);
                 bundle.putString("sms", sms);
                 Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager

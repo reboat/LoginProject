@@ -86,10 +86,10 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
     CheckBox mCbBottom;
 
     private MultiAccountBean multiAccountBean;
-    private MultiAccountBean.AccountBean mSelectBean;
     private String mSelectId;
     private String mUnSelectedId;
     private String mobile;
+    private String sessionId;
 
     /**
      * @param intent 获取intent数据
@@ -98,6 +98,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
         if (intent != null) {
             multiAccountBean = (MultiAccountBean) intent.getSerializableExtra("merge_data");
             mobile = intent.getStringExtra("merge_phone");
+            sessionId = intent.getStringExtra("merge_sessionId");
         }
     }
 
@@ -161,7 +162,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mCbBottom.setChecked(false);
-                    mSelectBean = candidateAccount;
+//                    mSelectBean = candidateAccount;
                     mSelectId = candidateAccount.getPassport_id();
                     mUnSelectedId = currentAccount.getPassport_id();
                 }
@@ -174,7 +175,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mCbTop.setChecked(false);
-                    mSelectBean = currentAccount;
+//                    mSelectBean = currentAccount;
                     mSelectId = currentAccount.getPassport_id();
                     mUnSelectedId = candidateAccount.getPassport_id();
                 }
@@ -285,7 +286,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
                 super.onError(errMsg, errCode);
                 T.showShort(ZBBindMergeInfoActivity.this, errMsg);
             }
-        }).setTag(this).exe(mUnSelectedId + "", mSelectId + "");
+        }).setTag(this).exe(mUnSelectedId + "", mSelectId + "", sessionId);
 
     }
 }

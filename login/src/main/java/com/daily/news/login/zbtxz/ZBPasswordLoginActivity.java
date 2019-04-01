@@ -156,17 +156,11 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
-            if (bundle == null) {
-                bundle = new Bundle();
-            }
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.ZB_RESET_PASSWORD);
+            Nav.with(this).toPath(RouteManager.ZB_RESET_PASSWORD);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
             finish();
-            if (bundle == null) {
-                bundle = new Bundle();
-            }
-            Nav.with(this).setExtras(bundle).toPath(RouteManager.LOGIN_ACTIVITY);
+            Nav.with(this).toPath(RouteManager.LOGIN_ACTIVITY);
             //密码可视
         } else if (view.getId() == R.id.verification_code_see_btn) {
             int length = etPasswordText.getText().toString().length();

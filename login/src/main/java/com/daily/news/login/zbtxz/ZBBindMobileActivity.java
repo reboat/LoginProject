@@ -229,6 +229,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("merge_data", data);
                                             bundle.putString("merge_phone", mobile);
+                                            bundle.putString("merge_sessionId", sessionId);
                                             Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
                                         } else {
                                             T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
@@ -240,7 +241,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                         super.onError(errMsg, errCode);
                                         T.showShortNow(ZBBindMobileActivity.this, errMsg);
                                     }
-                                }).setTag(this).exe("phone_number", mobile, smsCode);
+                                }).setTag(this).exe("phone_number", mobile, smsCode, sessionId);
                             } else {
                                 T.showShortNow(ZBBindMobileActivity.this, errorMessage);
                             }

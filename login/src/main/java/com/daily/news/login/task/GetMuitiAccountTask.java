@@ -24,6 +24,7 @@ public class GetMuitiAccountTask extends APIGetTask<MultiAccountBean> {
         put("auth_type", params[0]); //  认证类型 phone_number qq wei_xin wei_bo
         put("auth_uid", params[1]); // (绑定账号的信息）社交账号的union_id或者手机号码
         put("auth_token", params[2]); // 第三方平台的access_token或者手机短信验证码
+        put("session_id", params[3]); // 用户登录后对应的sessionId
     }
 
     @Override
