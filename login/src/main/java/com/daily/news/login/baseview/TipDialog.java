@@ -15,7 +15,7 @@ import com.daily.news.login.R;
 import com.zjrb.core.utils.UIUtils;
 
 /**
- * 提示重置密码及手机号登录对话框
+ * 提示重置密码及手机号登录对话框,标题若为多行文字每行居中显示
  *
  * @author sishuqun
  */
