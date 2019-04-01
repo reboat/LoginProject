@@ -163,6 +163,7 @@ public class ZBBindMobileActivity extends DailyActivity {
     private void bindMobile(final String mobile, final String smsCode) {
         if (smsCode.length() != 6) {
             T.showShort(ZBBindMobileActivity.this, "验证码错误");
+            return;
         }
         new GetAccessTokenTask(new AbsCallback<AccessTokenBean>() {
             @Override

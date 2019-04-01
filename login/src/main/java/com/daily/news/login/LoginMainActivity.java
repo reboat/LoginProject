@@ -406,6 +406,7 @@ public class LoginMainActivity extends DailyActivity {
         // 客户端判断验证码为6位数字
         if (captcha.length() != 6) {
             T.showShort(LoginMainActivity.this, "验证码错误");
+            return;
         }
         ZbPassport.loginCaptcha(phone, captcha, new ZbAuthListener() {
 
