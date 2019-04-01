@@ -146,6 +146,9 @@ public class ZBResetPasswordActivity extends DailyActivity {
     }
 
     public void doNext(final String phoneNum, final String sms) {
+        if (sms.length() != 6) {
+            T.showShort(ZBResetPasswordActivity.this, "验证码错误");
+        }
         ZbPassport.checkCaptcha(phoneNum, sms, new ZbResultListener() {
             @Override
             public void onSuccess() {
