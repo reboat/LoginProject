@@ -54,7 +54,7 @@ public class TipPopup extends PopupWindow {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         if (!isShowing()) {
-            showAtLocation(view, Gravity.NO_GRAVITY, location[0] + view.getWidth() / 2 - popupWidth / 2, location[1] - popupHeight - UIUtils.dip2px(4.0f));
+            showAtLocation(view, Gravity.NO_GRAVITY, location[0] + view.getWidth() / 2 - popupWidth / 2, location[1] - popupHeight - UIUtils.dip2px(1.0f));
         }
     }
 }
