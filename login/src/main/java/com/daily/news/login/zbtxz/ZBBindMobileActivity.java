@@ -347,12 +347,12 @@ public class ZBBindMobileActivity extends DailyActivity {
     }
 
     /**
-     * 实名制设置为120s一次
+     * 实名制设置为60s一次
      * 开始倒计时
      * 重复访问获取验证码的时间是多少  60s  3次  一天最多5次
      */
     private void startTimeCountDown() {
-        timer = LoginUtil.startCountDownTimer(this, tvVerification, 120);
+        timer = LoginUtil.startCountDownTimer(this, tvVerification, 60);
     }
 
     @Override
