@@ -10,9 +10,9 @@ import cn.daily.news.biz.core.network.compatible.APIGetTask;
 /**
  * 多账号详情接口
  */
-public class GetMuitiAccountTask extends APIGetTask<MultiAccountBean> {
+public class GetMultiAccountTask extends APIGetTask<MultiAccountBean> {
 
-    public GetMuitiAccountTask(APIExpandCallBack<MultiAccountBean> callBack) {
+    public GetMultiAccountTask(APIExpandCallBack<MultiAccountBean> callBack) {
         super(callBack);
     }
 

@@ -17,7 +17,7 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
-import com.daily.news.login.task.GetMuitiAccountTask;
+import com.daily.news.login.task.GetMultiAccountTask;
 import com.daily.news.login.util.LoginUtil;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
@@ -217,7 +217,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                         }));
                                 zbBindDialog.show();
                             } else if (errorCode == ErrorCode.ERROR_CAN_MERGE) { // 进行账号合并的情况
-                                new GetMuitiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
+                                new GetMultiAccountTask(new APIExpandCallBack<MultiAccountBean>() {
 
                                     @Override
                                     public void onSuccess(MultiAccountBean data) {
