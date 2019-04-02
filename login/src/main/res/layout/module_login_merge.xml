@@ -21,7 +21,7 @@
             android:layout_marginTop="38dp"
             android:textColor="@color/_222222"
             android:textSize="17sp"
-            android:text="@string/zb_mobile_bind_title" />
+            android:text="@string/zb_register_merge_title" />
 
         <TextView
             android:id="@+id/tv_bind_desc"
@@ -35,21 +35,21 @@
             android:text="@string/zb_mobile_bind_desc"
             />
 
-        <TextView
-            android:id="@+id/tv_bind_second_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="63dp"
-            android:layout_marginRight="63dp"
-            android:includeFontPadding="false"
-            android:layout_marginTop="6dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:textSize="@dimen/ts_12sp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textColor="@color/_666666"
-            />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_bind_second_desc"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="63dp"-->
+            <!--android:layout_marginRight="63dp"-->
+            <!--android:includeFontPadding="false"-->
+            <!--android:layout_marginTop="6dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="@dimen/ts_12sp"-->
+            <!--android:maxLines="2"-->
+            <!--android:ellipsize="end"-->
+            <!--android:textColor="@color/_666666"-->
+            <!--/>-->
 
         <include
             android:id="@+id/user_info_top"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="29dp"
             />
 
         <TextView

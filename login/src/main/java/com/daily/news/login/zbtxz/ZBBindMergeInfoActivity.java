@@ -40,8 +40,8 @@ import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
  */
 public class ZBBindMergeInfoActivity extends DailyActivity {
 
-    @BindView(R2.id.tv_bind_second_desc)
-    TextView mTvBindDescSecond;
+//    @BindView(R2.id.tv_bind_second_desc)
+//    TextView mTvBindDescSecond;
     @BindView(R2.id.user_info_top)
     LinearLayout mInfoTop;
     @BindView(R2.id.user_info_bottom)
@@ -88,7 +88,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
     private MultiAccountBean multiAccountBean;
     private String mSelectId;
     private String mUnSelectedId;
-    private String mobile;
+//    private String mobile;
     private String sessionId;
 
     /**
@@ -97,7 +97,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
     private void getIntentData(Intent intent) {
         if (intent != null) {
             multiAccountBean = (MultiAccountBean) intent.getSerializableExtra("merge_data");
-            mobile = intent.getStringExtra("merge_phone");
+//            mobile = intent.getStringExtra("merge_phone");
             sessionId = intent.getStringExtra("merge_sessionId");
         }
     }
@@ -199,7 +199,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
      * 初始化标题
      */
     private void initView() {
-        mTvBindDescSecond.setText(String.format(getResources().getString(R.string.zb_mobile_bind_desc_second), mobile));
+//        mTvBindDescSecond.setText(String.format(getResources().getString(R.string.zb_mobile_bind_desc_second), mobile));
         mUserLogoTop = (ImageView) mInfoTop.findViewById(R.id.iv_logo);
         mUserNameTop = (TextView) mInfoTop.findViewById(R.id.tv_name);
         mUserScoreTop = (TextView) mInfoTop.findViewById(R.id.tv_score);

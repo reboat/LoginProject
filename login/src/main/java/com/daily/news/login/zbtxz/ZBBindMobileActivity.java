@@ -232,7 +232,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                             }
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("merge_data", data);
-                                            bundle.putString("merge_phone", mobile);
+//                                            bundle.putString("merge_phone", mobile);
                                             bundle.putString("merge_sessionId", sessionId);
                                             Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
                                         } else {
