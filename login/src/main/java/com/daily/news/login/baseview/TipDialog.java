@@ -112,7 +112,7 @@ public class TipDialog extends Dialog {
         //设置对话框居中
         window.setGravity(Gravity.CENTER);
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = UIUtils.getScreenW() * 4 / 6;
+        params.width = UIUtils.getScreenW() * 5 / 6;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(params);
         //因为某些机型是虚拟按键的,所以要加上以下设置防止挡住按键.

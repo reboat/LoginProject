@@ -15,6 +15,7 @@
         android:layout_marginTop="38dp"
         android:textColor="@color/_222222"
         android:textSize="17sp"
+        android:textStyle="bold"
         android:text="手机号绑定" />
 
     <TextView

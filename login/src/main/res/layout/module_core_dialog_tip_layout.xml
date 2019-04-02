@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/biz_zb_dialog_bg"
     android:orientation="vertical">
 
 
@@ -10,26 +11,26 @@
         android:id="@+id/tv_confirm_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:includeFontPadding="false"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
         android:layout_marginTop="20dp"
         android:text=""
-        android:textColor="@color/_484848_7a7b7d"
-        android:textSize="18sp" />
+        android:textColor="@color/_222222"
+        android:textSize="@dimen/ts_15sp" />
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.2dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="20dp"
-        android:background="@color/_dddddd_343434"
+        android:background="@color/_dcdcdc"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/module_login_btn_height"
+        android:layout_height="45dp"
         android:orientation="horizontal">
 
         <TextView
@@ -39,13 +40,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/module_core_tip_cancel"
-            android:textColor="@color/_484848_7a7b7d"
+            android:textColor="@color/_666666"
             android:textSize="15sp" />
 
         <View
-            android:layout_width="0.2dp"
+            android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/_dddddd_343434"
+            android:background="@color/_dcdcdc"
             />
 
         <TextView
@@ -55,7 +56,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/module_core_tip_ok"
-            android:textColor="@color/_f44b50_8e3636"
+            android:textColor="@color/_d12324_520d0d"
             android:textSize="15sp" />
     </LinearLayout>
 
