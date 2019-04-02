@@ -405,6 +405,7 @@ public class LoginMainActivity extends DailyActivity {
     private void doLogin(final String phone, String captcha) {
         // 客户端判断验证码为6位数字
         if (captcha.length() != 6) {
+            LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
             T.showShort(LoginMainActivity.this, "验证码错误");
             return;
         }
