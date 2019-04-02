@@ -99,10 +99,9 @@
                 android:layout_height="42dp"
                 android:gravity="center"
                 android:text="放弃绑定"
-                android:textColor="@color/_ffffff"
+                android:textColor="@color/_222222"
                 android:background="@drawable/border_login_bind_cancle_btn_bg"
                 android:textSize="@dimen/ts_15sp"
-                style="?android:attr/borderlessButtonStyle"
                 tools:text="放弃绑定" />
 
             <Button
