@@ -183,24 +183,6 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
         }
     }
 
-   /* private void checkBind(final String phone, final String password) {
-        ZbPassport.checkBindState(phone, new ZbCheckPhoneListener() {
-            @Override
-            public void onSuccess(boolean isBind) {
-                if (isBind) {
-                    doLogin(phone, password);
-                } else {
-                    // 提示注册?
-                    LoadingDialogUtils.newInstance().NoText();
-                    T.showShort(ZBPasswordLoginActivity.this, "账号不存在或者密码错误，请您重新输入");                }
-            }
-
-            @Override
-            public void onFailure(int errorCode, String errorMessage) {
-            }
-        });
-    }*/
-
     /**
      * 登录
      *

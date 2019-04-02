@@ -64,7 +64,7 @@
     <string name="zb_register_link_title">用户协议</string>
     <string name="zb_register_passport">浙报通行证登录</string>
     <string name="zb_register_input_new_password">输入新密码</string>
-    <string name="zb_register_merge_title">合并账号</string>
+    <string name="zb_register_merge_title">合并帐号</string>
 
     <string name="data_scheme">http</string>
     <string name="data_host">www.8531.cn</string>

@@ -110,7 +110,7 @@
         android:includeFontPadding="false"
         android:textColor="@color/_666666"
         android:textSize="@dimen/ts_12sp"
-        tools:text="通过账号密码登录" />
+        tools:text="通过帐号密码登录" />
 
     <LinearLayout
         android:layout_width="match_parent"

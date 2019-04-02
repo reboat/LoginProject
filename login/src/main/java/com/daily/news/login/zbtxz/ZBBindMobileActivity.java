@@ -177,7 +177,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                             final ZBBindDialog zbBindDialog = new ZBBindDialog(ZBBindMobileActivity.this);
                             zbBindDialog.setBuilder(new ZBBindDialog.Builder()
                                     .setTitle("绑定成功!")
-                                    .setMessage("如果手机号有变动，可在个人中心账号管理页面进行更改")
+                                    .setMessage("如果手机号有变动，可在个人中心帐号管理页面进行更改")
                                     .setOkText("知道了")
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
