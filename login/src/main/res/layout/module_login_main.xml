@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="获取验证码"
-            android:textColor="@color/_ffa4a5"
+            android:textColor="@color/_d12324"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/ts_12sp"
             />
@@ -112,13 +112,46 @@
         android:textSize="@dimen/ts_12sp"
         android:text="通过帐号密码登录" />
 
+
+    <LinearLayout
+        android:id="@+id/ll_protect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_link_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/_484848_7a7b7d"
+            android:textSize="@dimen/ts_11sp"
+            android:text="登录注册表示同意" />
+
+        <TextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:textColor="@color/_f44b50_8e3636"
+            android:textSize="@dimen/ts_11sp"
+            android:text="用户服务协议" />
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/module_login_margin"
         android:layout_marginRight="@dimen/module_login_margin"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/tv_password_login"
+        android:layout_above="@+id/ll_protect"
+        android:layout_marginBottom="60dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -203,35 +236,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_marginBottom="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_link_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:textColor="@color/_484848_7a7b7d"
-            android:textSize="@dimen/ts_11sp"
-            android:text="登录注册表示同意" />
-
-        <TextView
-            android:id="@+id/tv_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/_f44b50_8e3636"
-            android:textSize="@dimen/ts_11sp"
-            android:text="用户服务协议" />
-
-    </LinearLayout>
-
 
 </com.aliya.view.fitsys.FitWindowsRelativeLayout>
