@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.baseview.TipPopup;
-import com.daily.news.login.task.VersionCheckTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -49,7 +47,6 @@ import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.umeng.UmengAuthUtils;
-import cn.daily.news.biz.core.update.CheckUpdateTask;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
 import cn.daily.news.biz.core.utils.MultiInputHelper;
@@ -125,40 +122,6 @@ public class LoginMainActivity extends DailyActivity {
                 mEtAccountText.setText(lastLogin);
                 mEtAccountText.setSelection(lastLogin.length());
             }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        try {
-            new VersionCheckTask(new APIExpandCallBack<Void>() {
-                @Override
-                public void onSuccess(Void data) {
-                }
-
-                @Override
-                public void onError(String errMsg, int errCode) {
-                    super.onError(errMsg, errCode);
-                    if (errCode == 52005) {
-                        new TipDialog(LoginMainActivity.this).
-                                setOkText(getResources().getString(R.string.zb_mobile_update)).
-                                setTitle(errMsg).setOnConfirmListener(new TipDialog.OnConfirmListener() {
-                            @Override
-                            public void onCancel() {
-
-                            }
-
-                            @Override
-                            public void onOK() {
-                                CheckUpdateTask.checkUpdate(LoginMainActivity.this);
-                            }
-                        }).show();
-                    }
-                }
-            }).setTag(this).exe();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
