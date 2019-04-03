@@ -97,7 +97,7 @@
         android:background="@drawable/module_login_button_select"
         android:textColor="@color/_ffffff_999999"
         android:textSize="@dimen/ts_15sp"
-        tools:text="登录" />
+        android:text="登录" />
 
     <TextView
         android:id="@+id/tv_password_login"
@@ -110,7 +110,7 @@
         android:includeFontPadding="false"
         android:textColor="@color/_666666"
         android:textSize="@dimen/ts_12sp"
-        tools:text="通过帐号密码登录" />
+        android:text="通过帐号密码登录" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                 android:maxLines="1"
                 android:textColor="@color/_666666"
                 android:textSize="12sp"
-                tools:text="微信" />
+                android:text="微信" />
 
         </LinearLayout>
 
@@ -171,7 +171,7 @@
                 android:maxLines="1"
                 android:textColor="@color/_666666"
                 android:textSize="12sp"
-                tools:text="微博" />
+                android:text="微博" />
 
         </LinearLayout>
 
@@ -198,7 +198,7 @@
                 android:maxLines="1"
                 android:textColor="@color/_666666"
                 android:textSize="12sp"
-                tools:text="QQ" />
+                android:text="QQ" />
 
         </LinearLayout>
 
@@ -220,7 +220,7 @@
             android:layout_marginLeft="6dp"
             android:textColor="@color/_484848_7a7b7d"
             android:textSize="@dimen/ts_11sp"
-            tools:text="登录注册表示同意" />
+            android:text="登录注册表示同意" />
 
         <TextView
             android:id="@+id/tv_link"
@@ -229,7 +229,7 @@
             android:gravity="center"
             android:textColor="@color/_f44b50_8e3636"
             android:textSize="@dimen/ts_11sp"
-            tools:text="用户服务协议" />
+            android:text="用户服务协议" />
 
     </LinearLayout>
 

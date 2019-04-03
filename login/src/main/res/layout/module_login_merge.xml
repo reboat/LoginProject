@@ -69,7 +69,7 @@
             android:layout_marginLeft="14dp"
             android:textSize="@dimen/ts_13sp"
             android:textColor="@color/_d12324"
-            tools:text="当前登录帐号"
+            android:text="当前登录帐号"
             android:includeFontPadding="false"
             />
 
@@ -101,8 +101,7 @@
                 android:text="放弃绑定"
                 android:textColor="@color/_222222"
                 android:background="@drawable/border_login_bind_cancle_btn_bg"
-                android:textSize="@dimen/ts_15sp"
-                tools:text="放弃绑定" />
+                android:textSize="@dimen/ts_15sp" />
 
             <Button
                 android:id="@+id/tv_bind"
@@ -114,8 +113,7 @@
                 android:textColor="@color/_ffffff"
                 android:background="@drawable/border_login_bind_btn_bg"
                 android:textSize="@dimen/ts_15sp"
-                style="?android:attr/borderlessButtonStyle"
-                tools:text="确认绑定" />
+                style="?android:attr/borderlessButtonStyle" />
         </RelativeLayout>
 
     </LinearLayout>

@@ -27,9 +27,9 @@
     <string name="zb_login_error">登录失败</string>
     <string name="zb_login_sms">通过短信验证码登录</string>
     <string name="zb_forget_password">忘记密码</string>
-    <string name="zb_sms_verication">短信验证码</string>
+    <string name="zb_sms_verication">获取验证码</string>
     <string name="zb_input_sms_verication">请先输入验证码</string>
-    <string name="zb_input_sms_tip">验证码短信可能有一定延迟，请耐心稍微等待</string>
+    <string name="zb_input_sms_tip">短信验证码可能有一定延迟，请耐心等候</string>
     <string name="zb_sms_send">短信已发送成功</string>
     <string name="zb_reg_tip">已阅读并同意</string>
     <string name="zb_login_tip">登录注册表示同意</string>

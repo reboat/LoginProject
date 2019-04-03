@@ -103,7 +103,7 @@
         android:gravity="center"
         android:textColor="@color/_ffffff_999999"
         android:textSize="@dimen/ts_15sp"
-        tools:text="确定" />
+        android:text="确定" />
 
 
 </com.aliya.view.fitsys.FitWindowsRelativeLayout>
