@@ -27,6 +27,7 @@ import cn.daily.news.biz.core.model.SkipScoreInterface;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
+import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 
 /**
@@ -49,6 +50,8 @@ public class ZBResetNewPassWordActivity extends DailyActivity implements SkipSco
     private boolean isClick = false;
     String phoneNum;
     String sms;
+    private MultiInputHelper mInputHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,10 @@ public class ZBResetNewPassWordActivity extends DailyActivity implements SkipSco
         ButterKnife.bind(this);
         initView();
         getIntentData(getIntent());
+        //创建输入监听辅助类，传入提交按钮view
+        mInputHelper = new MultiInputHelper(btConfirm);
+        //添加需要监听的textview
+        mInputHelper.addViews(etPasswordText);
     }
 
     /**
@@ -144,6 +151,7 @@ public class ZBResetNewPassWordActivity extends DailyActivity implements SkipSco
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mInputHelper.removeViews();
 //        LoadingDialogUtils.newInstance().dismissLoadingDialog(true); // 解决android.view.WindowLeaked: Activity com.daily.news.login.zbtxz.ZBResetNewPassWordActivity has leaked window DecorView@f9fced3[] that was originally added here
     }
 

@@ -34,6 +34,7 @@ import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
+import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
 
 /**
@@ -60,6 +61,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
      * 验证码定时器
      */
     private CountDownTimer timer;
+    private MultiInputHelper mInputHelper;
 
 
 //    private boolean isCommentActivity = false;
@@ -82,6 +84,10 @@ public class ZBResetPasswordActivity extends DailyActivity {
         ButterKnife.bind(this);
 //        getIntentData(getIntent());
         initView();
+        //创建输入监听辅助类，传入提交按钮view
+        mInputHelper = new MultiInputHelper(btConfirm);
+        //添加需要监听的textview
+        mInputHelper.addViews(dtAccountText, etSmsText);
     }
 
     /**
@@ -102,6 +108,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
         if (timer != null) {
             timer.cancel();
         }
+        mInputHelper.removeViews();
     }
 
 
