@@ -27,6 +27,7 @@
                 <data android:scheme="@string/data_scheme" />
 
                 <data android:path="/login/LoginActivity" />
+                <data android:path="/native/login/pass" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
@@ -118,6 +119,7 @@
 
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBResetPasswordActivity" />
+                <data android:path="/native/login/resetpassword" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
@@ -153,6 +155,7 @@
 
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBBindMobileActivity" />
+                <data android:path="/native/login/pass/realname" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
@@ -209,6 +212,7 @@
 
                 <data android:scheme="@string/data_scheme" />
                 <data android:path="/login/ZBUserProtectActivity" />
+                <data android:path="/native/login/userprotocol" />
 
                 <!--以下测试 host -->
                 <data android:host="@string/data_host" />
