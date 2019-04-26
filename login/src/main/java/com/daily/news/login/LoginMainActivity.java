@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,13 +12,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daily.news.login.baseview.TipPopup;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
@@ -28,9 +26,12 @@ import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.Entity.AuthInfo;
+import com.zjrb.passport.Entity.ClientInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.ZbAuthListener;
+import com.zjrb.passport.listener.ZbGraphicListener;
+import com.zjrb.passport.listener.ZbInitListener;
 import com.zjrb.passport.listener.ZbResultListener;
 
 import java.util.List;
@@ -125,6 +126,25 @@ public class LoginMainActivity extends DailyActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 容错,如果cookie为空的时候,重新调用一次init接口
+        if (TextUtils.isEmpty(ZbPassport.getZbConfig().getCookie())) {
+            ZbPassport.initApp(new ZbInitListener() {
+                @Override
+                public void onSuccess(ClientInfo info) {
+                    if (info != null) {
+                        ZbPassport.getZbConfig().setSignatureKey(info.getSignature_key()); // 设置签名密钥,30分钟有效期
+                    }
+                }
+
+                @Override
+                public void onFailure(int errorCode, String errorMessage) {
+                }
+            });
+        }
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -138,7 +158,7 @@ public class LoginMainActivity extends DailyActivity {
      * 处理上次三方登录的状态,popupwindow在onCreate里面show会出现badToken的问题
      */
     private void handleLastThirdLogin() {
-        if (!isPhone){ // 显示三方登录的气泡
+        if (!isPhone) { // 显示三方登录的气泡
             if (TextUtils.equals(lastLogin, "wei_xin")) {
                 showPopup(mLlModuleLoginWx);
             } else if (TextUtils.equals(lastLogin, "wei_bo")) {
@@ -327,9 +347,19 @@ public class LoginMainActivity extends DailyActivity {
 
                                                 @Override
                                                 public void onRefreshImage() {
-                                                    String url = ZbPassport.getGraphicsCode() + "?time="+ SystemClock.elapsedRealtime();
-                                                    GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
-                                                    Glide.with(LoginMainActivity.this).load(glideUrl).into(zbGraphicDialog.getIvGrahpic());
+                                                    ZbPassport.getGraphics(new ZbGraphicListener() {
+                                                        @Override
+                                                        public void onSuccess(byte[] bytes) {
+                                                            if (bytes != null) {
+                                                                GlideApp.with(LoginMainActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(int errorCode, String errorMessage) {
+                                                            T.showShort(LoginMainActivity.this, errorMessage);
+                                                        }
+                                                    });
                                                 }
                                             }));
                                     zbGraphicDialog.show();

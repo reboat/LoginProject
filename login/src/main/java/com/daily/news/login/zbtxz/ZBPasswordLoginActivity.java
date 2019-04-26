@@ -2,7 +2,6 @@ package com.daily.news.login.zbtxz;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -12,15 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
+import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
@@ -30,6 +28,7 @@ import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
 import com.zjrb.passport.listener.ZbAuthListener;
+import com.zjrb.passport.listener.ZbGraphicListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -261,9 +260,19 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
 
                                     @Override
                                     public void onRefreshImage() {
-                                        String url = ZbPassport.getGraphicsCode() + "?time=" + SystemClock.elapsedRealtime();
-                                        GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder().addHeader("Cookie", ZbPassport.getZbConfig().getCookie()).build());
-                                        Glide.with(ZBPasswordLoginActivity.this).load(glideUrl).into(zbGraphicDialog.getIvGrahpic());
+                                        ZbPassport.getGraphics(new ZbGraphicListener() {
+                                            @Override
+                                            public void onSuccess(byte[] bytes) {
+                                                if (bytes != null) {
+                                                    GlideApp.with(ZBPasswordLoginActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(int errorCode, String errorMessage) {
+                                                T.showShort(ZBPasswordLoginActivity.this, errorMessage);
+                                            }
+                                        });
                                     }
                                 }));
                         zbGraphicDialog.show();

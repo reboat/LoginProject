@@ -2,8 +2,6 @@ package com.login;
 
 import android.app.Application;
 
-import com.bianfeng.passport.Passport;
-import com.bianfeng.woa.WoaSdk;
 import com.netease.mobsec.rjsb.watchman;
 import com.squareup.leakcanary.LeakCanary;
 import com.zjrb.core.utils.UIUtils;
@@ -24,8 +22,6 @@ public class App extends Application {
         UIUtils.init(this);
         BaseInit.init(UIUtils.getApp(), "bianfeng");
         ThemeMode.init(this);
-        WoaSdk.init(this);
-        Passport.init(this);
         initPassport();
         watchman.init(this, Key.YiDun.PRODUCT_NUMBER);
 
@@ -45,7 +41,7 @@ public class App extends Application {
 //                        .setAppVersion("1.0")
 //                        .setAppUuid("uuid"));
         ZbPassport.init(this,
-                new ZbConfig.Builder().setEnvType(ZbConstants.Env.DEV)
+                new ZbConfig.Builder().setEnvType(ZbConstants.Env.TEST)
                         .setDebug(true)
                         .setAppVersion("1.0")
                         .setClientId(1)
