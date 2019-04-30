@@ -14,7 +14,6 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.listener.ZbResultListener;
@@ -22,9 +21,11 @@ import com.zjrb.passport.listener.ZbResultListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.model.SkipScoreInterface;
 import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.MultiInputHelper;
@@ -123,13 +124,19 @@ public class ZBResetNewPassWordActivity extends DailyActivity implements SkipSco
      */
     private void findPassword() {
         if (etPasswordText.getText().length() < 6) {
-            T.showShortNow(ZBResetNewPassWordActivity.this, "密码长度不可小于6位");
+            ZBToast.showShort(ZBResetNewPassWordActivity.this, "密码长度不可小于6位");
             return;
         }
         LoadingDialogUtils.newInstance().getLoginingDialog("正在重置");
         ZbPassport.resetPassword(phoneNum, sms, etPasswordText.getText().toString(), new ZbResultListener() {
             @Override
             public void onSuccess() {
+                new Analytics.AnalyticsBuilder(ZBResetNewPassWordActivity.this, "700057", "AppTabClick", false)
+                        .name("重置密码成功")
+                        .pageType("重置密码页")
+                        .clickTabName("确认重置密码")
+                        .build()
+                        .send();
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                 // 跳转到账号密码登录页面,手机号自动填充,密码清空
                 finish();

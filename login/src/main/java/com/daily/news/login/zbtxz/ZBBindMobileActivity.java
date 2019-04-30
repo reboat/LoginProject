@@ -23,7 +23,6 @@ import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
@@ -35,6 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.AccessTokenBean;
@@ -45,10 +45,13 @@ import cn.daily.news.biz.core.network.compatible.AbsCallback;
 import cn.daily.news.biz.core.network.task.GetAccessTokenTask;
 import cn.daily.news.biz.core.ui.dialog.ZBBindDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RealNameAuthHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * Date: 2018/8/30
@@ -121,13 +124,19 @@ public class ZBBindMobileActivity extends DailyActivity {
         //获取验证码需要先输入手机号
         if (view.getId() == R.id.tv_sms_verification) {
             if (AppUtils.isMobileNum(etAccountText.getText().toString())) {
+                new Analytics.AnalyticsBuilder(ZBBindMobileActivity.this, "700052", "AppTabClick", false)
+                        .name("点击获取短信验证码")
+                        .pageType("手机号绑定页")
+                        .clickTabName("短信验证码")
+                        .build()
+                        .send();
                 getValidateCode(etAccountText.getText().toString());
             } else {
                 if (etAccountText.getText().toString().equals("")) {
-                    T.showShort(ZBBindMobileActivity.this, getString(R.string
+                    ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
                             .zb_phone_num_empty));
                 } else {
-                    T.showShort(ZBBindMobileActivity.this, getString(R.string
+                    ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
                             .zb_phone_num_error));
                 }
             }
@@ -140,11 +149,11 @@ public class ZBBindMobileActivity extends DailyActivity {
                     bindMobile(etAccountText.getText().toString(), etSmsText.getText()
                             .toString());
                 } else {
-                    T.showShort(ZBBindMobileActivity.this, getString(R.string
+                    ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
                             .zb_phone_num_empty));
                 }
             } else {
-                T.showShortNow(this, getString(R.string.zb_input_sms_verication));
+                ZBToast.showShort(this, getString(R.string.zb_input_sms_verication));
             }
         } else {
             finish();
@@ -161,12 +170,12 @@ public class ZBBindMobileActivity extends DailyActivity {
      */
     private void bindMobile(final String mobile, final String smsCode) {
         if (smsCode.length() != 6) {
-            T.showShort(ZBBindMobileActivity.this, "验证码错误");
+            ZBToast.showShort(ZBBindMobileActivity.this, "验证码错误");
             return;
         }
         new GetAccessTokenTask(new AbsCallback<AccessTokenBean>() {
             @Override
-            public void onSuccess(AccessTokenBean data) {
+            public void onSuccess(final AccessTokenBean data) {
                 if (data != null) {
                     String token = data.getAccess_token();
                     ZbPassport.changePhoneNum(mobile, smsCode, token, new ZbResultListener() {
@@ -195,6 +204,14 @@ public class ZBBindMobileActivity extends DailyActivity {
                             AccountBean account = UserBiz.get().getAccount();
                             account.setPhone_number(mobile); // 实名认证账号
                             UserBiz.get().setAccount(account);
+                            new Analytics.AnalyticsBuilder(ZBBindMobileActivity.this, "700058", "AccountBind", false)
+                                    .name("手机号绑定成功")
+                                    .pageType("手机号绑定页")
+                                    .mobilePhone(mobile)
+                                    .bindType("手机号")
+                                    .userID(UserBiz.get().getAccountID())
+                                    .build()
+                                    .send();
                             Intent intent = new Intent("bind_mobile_successful");
                             LocalBroadcastManager.getInstance(ZBBindMobileActivity.this).sendBroadcast(intent);
                         }
@@ -235,18 +252,18 @@ public class ZBBindMobileActivity extends DailyActivity {
                                             bundle.putString("merge_sessionId", sessionId);
                                             Nav.with(getActivity()).setExtras(bundle).toPath(RouteManager.ZB_ACCOUNT_MERGE);
                                         } else {
-                                            T.showShortNow(ZBBindMobileActivity.this, "绑定失败");
+                                            ZBToast.showShort(ZBBindMobileActivity.this, "绑定失败");
                                         }
                                     }
 
                                     @Override
                                     public void onError(String errMsg, int errCode) {
                                         super.onError(errMsg, errCode);
-                                        T.showShortNow(ZBBindMobileActivity.this, errMsg);
+                                        ZBToast.showShort(ZBBindMobileActivity.this, errMsg);
                                     }
                                 }).setTag(this).exe("phone_number", mobile, smsCode, sessionId);
                             } else {
-                                T.showShortNow(ZBBindMobileActivity.this, errorMessage);
+                                ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
                             }
                         }
                     });
@@ -256,7 +273,7 @@ public class ZBBindMobileActivity extends DailyActivity {
             @Override
             public void onError(String errMsg, int errCode) {
                 super.onError(errMsg, errCode);
-                T.showShortNow(ZBBindMobileActivity.this, errMsg);
+                ZBToast.showShort(ZBBindMobileActivity.this, errMsg);
             }
         }).setTag(this).exe(sessionId);
 
@@ -277,7 +294,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                             @Override
                             public void onSuccess() {
                                 startTimeCountDown();
-                                T.showShortNow(getActivity(), getString(R.string
+                                ZBToast.showShort(getActivity(), getString(R.string
                                         .zb_sms_send));
                             }
 
@@ -294,18 +311,24 @@ public class ZBBindMobileActivity extends DailyActivity {
                                                 public void onLeftClick() {
                                                     if (zbGraphicDialog.isShowing()) {
                                                         zbGraphicDialog.dismiss();
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                                .name("取消输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("取消")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
                                                 @Override
                                                 public void onRightClick() {
                                                     if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                                        T.showShort(ZBBindMobileActivity.this, "请先输入图形验证码");
+                                                        ZBToast.showShort(ZBBindMobileActivity.this, "请先输入图形验证码");
                                                     } else {
                                                         ZbPassport.sendCaptcha(mobile, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
                                                             @Override
                                                             public void onSuccess() {
-                                                                T.showShort(ZBBindMobileActivity.this, "验证通过");
+                                                                ZBToast.showShort(ZBBindMobileActivity.this, "验证通过");
                                                                 if (zbGraphicDialog.isShowing()) {
                                                                     zbGraphicDialog.dismiss();
                                                                 }
@@ -314,9 +337,15 @@ public class ZBBindMobileActivity extends DailyActivity {
 
                                                             @Override
                                                             public void onFailure(int errorCode, String errorMessage) {
-                                                                T.showShort(ZBBindMobileActivity.this, errorMessage);
+                                                                ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
                                                             }
                                                         });
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                                .name("确认输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("确认")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
@@ -332,14 +361,14 @@ public class ZBBindMobileActivity extends DailyActivity {
 
                                                         @Override
                                                         public void onFailure(int errorCode, String errorMessage) {
-                                                            T.showShort(ZBBindMobileActivity.this, errorMessage);
+                                                            ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
                                                         }
                                                     });
                                                 }
                                             }));
                                     zbGraphicDialog.show();
                                 } else {
-                                    T.showShortNow(ZBBindMobileActivity.this, errorMessage);
+                                    ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
                                 }
                             }
                         });
@@ -347,7 +376,7 @@ public class ZBBindMobileActivity extends DailyActivity {
 
                     @Override
                     public void onDenied(List<String> neverAskPerms) {
-                        T.showShort(ZBBindMobileActivity.this, getString(R.string
+                        ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
                                 .tip_permission_denied));
 
                     }

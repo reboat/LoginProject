@@ -23,7 +23,6 @@ import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.Entity.ClientInfo;
@@ -46,6 +45,7 @@ import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.umeng.UmengAuthUtils;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
@@ -213,7 +213,7 @@ public class LoginMainActivity extends DailyActivity {
             // 若当前输入的手机号为未注册的手机号，输入短信验证码验证成功之后，则将自动注册并登录成功，跳转回登录前对应的页面。
             // 若当前输入的手机号为已注册的手机号，输入短信验证码验证成功之后，则登录成功，跳转回登录前对应的页面。
             if (TextUtils.isEmpty(mEtAccountText.getText().toString())) {
-                T.showShort(LoginMainActivity.this, getString(R.string
+                ZBToast.showShort(LoginMainActivity.this, getString(R.string
                         .zb_phone_num_empty));
             } else {
                 if (!TextUtils.isEmpty(mEtSmsText.getText().toString())) {
@@ -221,10 +221,10 @@ public class LoginMainActivity extends DailyActivity {
                         LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
                         doLogin(mEtAccountText.getText().toString(), mEtSmsText.getText().toString());
                     } else {
-                        T.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
+                        ZBToast.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
                     }
                 } else {
-                    T.showShortNow(this, getString(R.string.zb_input_sms_verication));
+                    ZBToast.showShort(this, getString(R.string.zb_input_sms_verication));
                 }
             }
 
@@ -237,16 +237,28 @@ public class LoginMainActivity extends DailyActivity {
         } else if (v.getId() == R.id.tv_sms_verification) { // 发送登录验证码
             if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) {
                 sendSmsCaptcha();
+                new Analytics.AnalyticsBuilder(getContext(), "700052", "AppTabClick", false)
+                        .name("点击获取短信验证码")
+                        .pageType("登录注册页")
+                        .clickTabName("短信验证码")
+                        .build()
+                        .send();
             } else {
                 if (TextUtils.isEmpty(mEtAccountText.getText().toString())) {
-                    T.showShort(LoginMainActivity.this, getString(R.string
+                    ZBToast.showShort(LoginMainActivity.this, getString(R.string
                             .zb_phone_num_empty));
                 } else {
-                    T.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
+                    ZBToast.showShort(LoginMainActivity.this, getString(R.string.zb_phone_num_error));
                 }
             }
         } else if (v.getId() == R.id.tv_password_login) { // 账号密码登录
             Nav.with(LoginMainActivity.this).toPath(RouteManager.ZB_PASSWORD_LOGIN);
+            new Analytics.AnalyticsBuilder(getContext(), "700053", "AppTabClick", false)
+                    .name("点击通过账号密码登录")
+                    .pageType("登录注册页")
+                    .clickTabName("通过账号密码登录")
+                    .build()
+                    .send();
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }
@@ -299,7 +311,7 @@ public class LoginMainActivity extends DailyActivity {
                             public void onSuccess() {
                                 startTimeCountDown();
                                 //提示短信已发送成功
-                                T.showShortNow(LoginMainActivity.this, getString(R
+                                ZBToast.showShort(LoginMainActivity.this, getString(R
                                         .string.zb_sms_send));
                             }
 
@@ -316,18 +328,24 @@ public class LoginMainActivity extends DailyActivity {
                                                 public void onLeftClick() {
                                                     if (zbGraphicDialog.isShowing()) {
                                                         zbGraphicDialog.dismiss();
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                                .name("取消输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("取消")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
                                                 @Override
                                                 public void onRightClick() {
                                                     if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                                        T.showShort(LoginMainActivity.this, "请先输入图形验证码");
+                                                        ZBToast.showShort(LoginMainActivity.this, "请先输入图形验证码");
                                                     } else {
                                                         ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
                                                             @Override
                                                             public void onSuccess() {
-                                                                T.showShort(LoginMainActivity.this, "验证通过");
+                                                                ZBToast.showShort(LoginMainActivity.this, "验证通过");
                                                                 if (zbGraphicDialog.isShowing()) {
                                                                     zbGraphicDialog.dismiss();
                                                                 }
@@ -339,9 +357,15 @@ public class LoginMainActivity extends DailyActivity {
                                                                 if (timer != null) {
                                                                     timer.cancel();
                                                                 }
-                                                                T.showShort(LoginMainActivity.this, errorMessage);
+                                                                ZBToast.showShort(LoginMainActivity.this, errorMessage);
                                                             }
                                                         });
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                                .name("确认输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("确认")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
@@ -357,7 +381,7 @@ public class LoginMainActivity extends DailyActivity {
 
                                                         @Override
                                                         public void onFailure(int errorCode, String errorMessage) {
-                                                            T.showShort(LoginMainActivity.this, errorMessage);
+                                                            ZBToast.showShort(LoginMainActivity.this, errorMessage);
                                                         }
                                                     });
                                                 }
@@ -367,7 +391,7 @@ public class LoginMainActivity extends DailyActivity {
                                     if (timer != null) {
                                         timer.cancel();
                                     }
-                                    T.showShort(LoginMainActivity.this, errorMessage);
+                                    ZBToast.showShort(LoginMainActivity.this, errorMessage);
                                 }
                             }
                         });
@@ -376,7 +400,7 @@ public class LoginMainActivity extends DailyActivity {
 
                     @Override
                     public void onDenied(List<String> neverAskPerms) {
-                        T.showShort(LoginMainActivity.this, getString(R.string
+                        ZBToast.showShort(LoginMainActivity.this, getString(R.string
                                 .tip_permission_denied));
 
                     }
@@ -399,7 +423,7 @@ public class LoginMainActivity extends DailyActivity {
         // 客户端判断验证码为6位数字
         if (captcha.length() != 6) {
             LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-            T.showShort(LoginMainActivity.this, "验证码错误");
+            ZBToast.showShort(LoginMainActivity.this, "验证码错误");
             return;
         }
         ZbPassport.loginCaptcha(phone, captcha, new ZbAuthListener() {
@@ -411,14 +435,14 @@ public class LoginMainActivity extends DailyActivity {
                     loginValidate(phone, loginInfo.getCode());
                 } else {
                     LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                    T.showShortNow(LoginMainActivity.this, getString(R.string.zb_login_error)); // 登录失败
+                    ZBToast.showShort(LoginMainActivity.this, getString(R.string.zb_login_error)); // 登录失败
                 }
             }
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
-                T.showShort(LoginMainActivity.this, errorMessage);
+                ZBToast.showShort(LoginMainActivity.this, errorMessage);
             }
         });
     }
@@ -434,13 +458,12 @@ public class LoginMainActivity extends DailyActivity {
             @Override
             public void onError(String errMsg, int errCode) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                        .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                        .setPageType("主登录页")
-                        .setEventDetail("手机号/个性账号/邮箱")
-                        .setIscuccesee(false)
-                        .pageType("主登录页")
-                        .loginType("手机号;个性账号;邮箱")
+                // 只需要埋点击登录按钮，不用区分最后是否成功
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
+                        .name("手机号登录注册成功")
+                        .pageType("登录注册页")
+                        .action("手机号")
+                        .loginType("手机号")
                         .build()
                         .send();
             }
@@ -452,18 +475,15 @@ public class LoginMainActivity extends DailyActivity {
                     if (bean.getAccount() != null && !TextUtils.isEmpty(bean.getAccount().getPhone_number())) { // 手机号验证码登录,若结果未返回phoneNum,也跳绑定界面
                         userBiz.setZBLoginBean(bean);
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                                .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                                .setPageType("主登录页")
-                                .setEventDetail("手机号/个性账号/邮箱")
-                                .setIscuccesee(true)
-                                .pageType("主登录页")
-                                .loginType("手机号;个性账号;邮箱")
-                                .userID(bean.getSession().getAccount_id())
+                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
+                                .name("手机号登录注册成功")
+                                .pageType("登录注册页")
+                                .action("手机号")
                                 .mobilePhone(bean.getAccount().getMobile())
+                                .loginType("手机号")
+                                .userID(bean.getSession().getAccount_id())
                                 .build()
                                 .send();
-
                         LoginHelper.get().setResult(true); // 设置登录成功
                         ZBUtils.showPointDialog(bean);
                         SPHelper.get().put("isPhone", true).commit();

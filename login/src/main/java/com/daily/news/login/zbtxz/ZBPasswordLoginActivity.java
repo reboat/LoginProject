@@ -17,12 +17,10 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.baseview.TipDialog;
 import com.daily.news.login.task.ZBLoginValidateTask;
-import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.db.SPHelper;
 import com.zjrb.core.utils.AppManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.Entity.AuthInfo;
 import com.zjrb.passport.ZbPassport;
@@ -46,6 +44,7 @@ import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.network.task.UploadCidTask;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.LoadingDialogUtils;
 import cn.daily.news.biz.core.utils.LoginHelper;
@@ -140,24 +139,36 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             //登录 需要判定手机/邮箱/个性账号
         } else if (view.getId() == R.id.tv_login) {
             if (etAccountText.getText().toString().isEmpty()) {
-                T.showShort(this, getString(R.string.zb_phone_num_empty));
+                ZBToast.showShort(this, getString(R.string.zb_phone_num_empty));
                 //纯数字
             } else if (etPasswordText.getText().toString().isEmpty()) {
-                T.showShort(this, getString(R.string.zb_phone_password_empty));
+                ZBToast.showShort(this, getString(R.string.zb_phone_password_empty));
             } else if (AppUtils.isNumeric(etAccountText.getText().toString())) {  // 新版本只能输入数字
                 if (AppUtils.isMobileNum(etAccountText.getText().toString())) { // 手机号登录
                     // 不需要进行绑定校验
                     doLogin(etAccountText.getText().toString(), etPasswordText.getText().toString());
 //                    checkBind(etAccountText.getText().toString(), etPasswordText.getText().toString());
                 } else {
-                    T.showShort(this, getString(R.string.zb_phone_num_error));
+                    ZBToast.showShort(this, getString(R.string.zb_phone_num_error));
                 }
             }
             //重置密码
         } else if (view.getId() == R.id.tv_forget_password_btn) {
+            new Analytics.AnalyticsBuilder(getContext(), "700055", "AppTabClick", false)
+                    .name("点击忘记密码")
+                    .pageType("登录注册页")
+                    .clickTabName("忘记密码")
+                    .build()
+                    .send();
             Nav.with(this).toPath(RouteManager.ZB_RESET_PASSWORD);
             //短信验证码登录
         } else if (view.getId() == R.id.tv_verification_btn) {
+            new Analytics.AnalyticsBuilder(getContext(), "700054", "AppTabClick", false)
+                    .name("点击通过短信验证码登录")
+                    .pageType("登录注册页")
+                    .clickTabName("通过短信验证码登录")
+                    .build()
+                    .send();
             finish();
             Nav.with(this).toPath(RouteManager.LOGIN_ACTIVITY);
             //密码可视
@@ -190,9 +201,9 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
      */
     private void doLogin(final String text, final String password) {
         if (password == null) {
-            T.showShort(ZBPasswordLoginActivity.this, "密码不能为空");
+            ZBToast.showShort(ZBPasswordLoginActivity.this, "密码不能为空");
         } else if (password.length() < 6) {
-            T.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
+            ZBToast.showShort(ZBPasswordLoginActivity.this, "密码长度小于6位");
         } else {
             LoadingDialogUtils.newInstance().getLoginingDialog("正在登录");
             ZbPassport.loginCustom(text, password, "", new ZbAuthListener() {
@@ -202,7 +213,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         loginValidate(text, info.getCode());
                     } else {
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
+                        ZBToast.showShort(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
                     }
                 }
 
@@ -218,6 +229,12 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                             @Override
                             public void onOK() {
                                 // 跳转到设置密码页面
+                                new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, "700056", "AppTabClick", false)
+                                        .name("点击重置密码")
+                                        .pageType("登录注册页")
+                                        .clickTabName("重置密码")
+                                        .build()
+                                        .send();
                                 Nav.with(getActivity()).toPath(RouteManager.ZB_RESET_PASSWORD);
                             }
                         }).show();
@@ -231,13 +248,19 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                                     public void onLeftClick() {
                                         if (zbGraphicDialog.isShowing()) {
                                             zbGraphicDialog.dismiss();
+                                            new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                    .name("取消输入图形验证码")
+                                                    .pageType("登录注册页")
+                                                    .clickTabName("取消")
+                                                    .build()
+                                                    .send();
                                         }
                                     }
 
                                     @Override
                                     public void onRightClick() {
                                         if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                            T.showShort(ZBPasswordLoginActivity.this, "请先输入图形验证码");
+                                            ZBToast.showShort(ZBPasswordLoginActivity.this, "请先输入图形验证码");
                                         } else {
                                             ZbPassport.loginCustom(text, password, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbAuthListener() {
                                                 @Override
@@ -246,15 +269,21 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                                                         loginValidate(text, info.getCode());
                                                     } else {
                                                         LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                                                        T.showShortNow(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
+                                                        ZBToast.showShort(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
                                                     }
                                                 }
 
                                                 @Override
                                                 public void onFailure(int errorCode, String errorMessage) {
-                                                    T.showShort(ZBPasswordLoginActivity.this, errorMessage);
+                                                    ZBToast.showShort(ZBPasswordLoginActivity.this, errorMessage);
                                                 }
                                             });
+                                            new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                    .name("确认输入图形验证码")
+                                                    .pageType("登录注册页")
+                                                    .clickTabName("确认")
+                                                    .build()
+                                                    .send();
                                         }
                                     }
 
@@ -270,7 +299,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
 
                                             @Override
                                             public void onFailure(int errorCode, String errorMessage) {
-                                                T.showShort(ZBPasswordLoginActivity.this, errorMessage);
+                                                ZBToast.showShort(ZBPasswordLoginActivity.this, errorMessage);
                                             }
                                         });
                                     }
@@ -278,7 +307,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         zbGraphicDialog.show();
                     } else {
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                        T.showShortNow(ZBPasswordLoginActivity.this, errorMessage);
+                        ZBToast.showShort(ZBPasswordLoginActivity.this, errorMessage);
                     }
                 }
             });
@@ -296,13 +325,12 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
             @Override
             public void onError(String errMsg, int errCode) {
                 LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
-                new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                        .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                        .setPageType("主登录页")
-                        .setEventDetail("手机号/个性账号/邮箱")
-                        .setIscuccesee(false)
-                        .pageType("主登录页")
-                        .loginType("手机号;个性账号;邮箱")
+                // 只需要埋点击登录按钮，不用区分最后是否成功
+                new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
+                        .name("账号密码登录成功")
+                        .pageType("登录注册页")
+                        .action("个性账号")
+                        .loginType("个性账号")
                         .build()
                         .send();
             }
@@ -315,24 +343,20 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         userBiz.setZBLoginBean(bean);
                         //新华智云设置userID
                         AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
-                        SensorsDataAPI.sharedInstance().login(bean.getSession().getAccount_id());
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
-                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "600016", "Login", false)
-                                .setEvenName("浙报通行证，手机号/个性账号/邮箱登录成功")
-                                .setPageType("主登录页")
-                                .setEventDetail("手机号/个性账号/邮箱")
-                                .setIscuccesee(true)
-                                .pageType("主登录页")
-                                .loginType("手机号;个性账号;邮箱")
+                        new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
+                                .name("账号密码登录成功")
+                                .pageType("登录注册页")
+                                .action("个性账号")
+                                .loginType("个性账号")
                                 .userID(bean.getSession().getAccount_id())
-                                .mobilePhone(bean.getAccount().getMobile())
                                 .build()
                                 .send();
                         try {
                             JSONObject properties = new JSONObject();
                             properties.put("userID", bean.getSession().getAccount_id());
                             properties.put("mobilePhone", bean.getAccount().getMobile());
-                            new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, null, false)
+                            new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, false)
                                     .setProfile(properties)
                                     .build()
                                     .send();

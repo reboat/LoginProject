@@ -17,7 +17,6 @@ import com.zjrb.core.permission.IPermissionCallBack;
 import com.zjrb.core.permission.Permission;
 import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.ZbPassport;
 import com.zjrb.passport.constant.ErrorCode;
@@ -29,12 +28,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 import cn.daily.news.biz.core.utils.MultiInputHelper;
 import cn.daily.news.biz.core.utils.RouteManager;
+
+import static com.zjrb.core.utils.UIUtils.getContext;
 
 /**
  * Date: 2018/8/15
@@ -126,10 +129,10 @@ public class ZBResetPasswordActivity extends DailyActivity {
                 getverificationPermission(dtAccountText.getText().toString());
             } else {
                 if (TextUtils.isEmpty(dtAccountText.getText().toString())) {
-                    T.showShort(ZBResetPasswordActivity.this, getString(R.string
+                    ZBToast.showShort(ZBResetPasswordActivity.this, getString(R.string
                             .zb_phone_num_empty));
                 } else {
-                    T.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
+                    ZBToast.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
                 }
             }
         } else if (view.getId() == R.id.bt_confirm) {
@@ -138,14 +141,14 @@ public class ZBResetPasswordActivity extends DailyActivity {
                     doNext(dtAccountText.getText().toString(), etSmsText.getText().toString());
                 } else {
                     if (TextUtils.isEmpty(dtAccountText.getText().toString())) {
-                        T.showShort(ZBResetPasswordActivity.this, getString(R.string
+                        ZBToast.showShort(ZBResetPasswordActivity.this, getString(R.string
                                 .zb_phone_num_empty));
                     } else {
-                        T.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
+                        ZBToast.showShort(ZBResetPasswordActivity.this, getString(R.string.zb_phone_num_error));
                     }
                 }
             } else {
-                T.showShortNow(this, getString(R.string.zb_input_sms_verication));
+                ZBToast.showShort(this, getString(R.string.zb_input_sms_verication));
             }
         }
 
@@ -153,7 +156,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
 
     public void doNext(final String phoneNum, final String sms) {
         if (sms.length() != 6) {
-            T.showShort(ZBResetPasswordActivity.this, "验证码错误");
+            ZBToast.showShort(ZBResetPasswordActivity.this, "验证码错误");
             return;
         }
         ZbPassport.checkCaptcha(phoneNum, sms, new ZbResultListener() {
@@ -171,7 +174,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
 
             @Override
             public void onFailure(int errorCode, String errorMessage) {
-                T.showShort(ZBResetPasswordActivity.this, errorMessage);
+                ZBToast.showShort(ZBResetPasswordActivity.this, errorMessage);
             }
         });
 
@@ -193,7 +196,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
                             public void onSuccess() {
                                 startTimeCountDown();
                                 //提示短信已发送成功
-                                T.showShortNow(ZBResetPasswordActivity.this, getString(R
+                                ZBToast.showShort(ZBResetPasswordActivity.this, getString(R
                                         .string.zb_sms_send));
                             }
 
@@ -209,18 +212,24 @@ public class ZBResetPasswordActivity extends DailyActivity {
                                                 public void onLeftClick() {
                                                     if (zbGraphicDialog.isShowing()) {
                                                         zbGraphicDialog.dismiss();
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                                .name("取消输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("取消")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
                                                 @Override
                                                 public void onRightClick() {
                                                     if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                                        T.showShort(ZBResetPasswordActivity.this, "请先输入图形验证码");
+                                                        ZBToast.showShort(ZBResetPasswordActivity.this, "请先输入图形验证码");
                                                     } else {
                                                         ZbPassport.sendCaptcha(phoneNum, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
                                                             @Override
                                                             public void onSuccess() {
-                                                                T.showShort(ZBResetPasswordActivity.this, "验证通过");
+                                                                ZBToast.showShort(ZBResetPasswordActivity.this, "验证通过");
                                                                 if (zbGraphicDialog.isShowing()) {
                                                                     zbGraphicDialog.dismiss();
                                                                 }
@@ -232,9 +241,15 @@ public class ZBResetPasswordActivity extends DailyActivity {
                                                                 if (timer != null) {
                                                                     timer.cancel();
                                                                 }
-                                                                T.showShort(ZBResetPasswordActivity.this, errorMessage);
+                                                                ZBToast.showShort(ZBResetPasswordActivity.this, errorMessage);
                                                             }
                                                         });
+                                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                                .name("确认输入图形验证码")
+                                                                .pageType("登录注册页")
+                                                                .clickTabName("确认")
+                                                                .build()
+                                                                .send();
                                                     }
                                                 }
 
@@ -250,7 +265,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
 
                                                         @Override
                                                         public void onFailure(int errorCode, String errorMessage) {
-                                                            T.showShort(ZBResetPasswordActivity.this, errorMessage);
+                                                            ZBToast.showShort(ZBResetPasswordActivity.this, errorMessage);
                                                         }
                                                     });
                                                 }
@@ -260,7 +275,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
                                     if (timer != null) {
                                         timer.cancel();
                                     }
-                                    T.showShort(ZBResetPasswordActivity.this, errorMessage);
+                                    ZBToast.showShort(ZBResetPasswordActivity.this, errorMessage);
                                 }
                             }
                         });
@@ -268,7 +283,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
 
                     @Override
                     public void onDenied(List<String> neverAskPerms) {
-                        T.showShort(ZBResetPasswordActivity.this, getString(R.string
+                        ZBToast.showShort(ZBResetPasswordActivity.this, getString(R.string
                                 .tip_permission_denied));
 
                     }

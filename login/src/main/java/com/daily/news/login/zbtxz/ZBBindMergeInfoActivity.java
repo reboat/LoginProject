@@ -19,17 +19,18 @@ import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.task.UserAccountMergeTask;
 import com.zjrb.core.utils.AppManager;
-import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.daily.news.analytics.Analytics;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.MultiAccountBean;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
 
 /**
@@ -270,13 +271,21 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
         new UserAccountMergeTask(new APIExpandCallBack<ZBLoginBean>() {
             @Override
             public void onSuccess(ZBLoginBean data) {
-                T.showShort(ZBBindMergeInfoActivity.this, getResources().getString(R.string.zb_mobile_bind_success_tip));
+                ZBToast.showShort(ZBBindMergeInfoActivity.this, getResources().getString(R.string.zb_mobile_bind_success_tip));
                 Intent intent = new Intent("bind_mobile_successful");
                 LocalBroadcastManager.getInstance(ZBBindMergeInfoActivity.this).sendBroadcast(intent);
                 finish();
                 AppManager.get().finishActivity(ZBBindMobileActivity.class); // 注意: 这里因为在bind界面的返回做了logout的操作,所以重设数据要在这个步骤之后
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(data);
+                new Analytics.AnalyticsBuilder(ZBBindMergeInfoActivity.this, "700058", "AccountBind", false)
+                        .name("手机号绑定成功")
+                        .pageType("手机号绑定页")
+                        .mobilePhone(data.getAccount().getPhone_number())
+                        .bindType("手机号")
+                        .userID(UserBiz.get().getAccountID())
+                        .build()
+                        .send();
                 AppManager.get().finishActivity(LoginMainActivity.class);
 
             }
@@ -284,7 +293,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
             @Override
             public void onError(String errMsg, int errCode) {
                 super.onError(errMsg, errCode);
-                T.showShort(ZBBindMergeInfoActivity.this, errMsg);
+                ZBToast.showShort(ZBBindMergeInfoActivity.this, errMsg);
             }
         }).setTag(this).exe(mUnSelectedId + "", mSelectId + "", sessionId);
 
