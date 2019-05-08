@@ -1,17 +1,12 @@
 package com.login.tesk;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.login.R;
 import com.zjrb.core.base.BaseActivity;
 import com.zjrb.core.base.toolbar.TopBarFactory;
-
-import cn.daily.news.biz.core.model.BaseData;
-import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
-import cn.daily.news.biz.core.network.task.CommentSubmitTask;
 
 /**
  * 测试评论实名认证
@@ -46,17 +41,17 @@ public class TestAuthActivity extends BaseActivity implements View.OnClickListen
         int articleId = 1;
         int parentId = 1;
         String content = "我是评论内容";
-        new CommentSubmitTask(new APIExpandCallBack<BaseData>() {
-            @Override
-            public void onSuccess(BaseData data) {
-                Log.e("TAG", "data " + data);
-            }
-
-            @Override
-            public void onError(String errMsg, int errCode) {
-                Log.e("TAG", "errMsg " + errMsg);
-            }
-        }).exe(articleId, content, parentId);
+//        new CommentSubmitTask(new APIExpandCallBack<BaseData>() {
+//            @Override
+//            public void onSuccess(BaseData data) {
+//                Log.e("TAG", "data " + data);
+//            }
+//
+//            @Override
+//            public void onError(String errMsg, int errCode) {
+//                Log.e("TAG", "errMsg " + errMsg);
+//            }
+//        }).exe(articleId, content, parentId);
 
     }
 

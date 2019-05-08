@@ -126,6 +126,7 @@ public class ZBResetPasswordActivity extends DailyActivity {
         //获取验证码需要先输入手机号
         if (view.getId() == R.id.tv_sms_verification) {
             if (AppUtils.isMobileNum(dtAccountText.getText().toString())) {
+                etSmsText.requestFocus();
                 getverificationPermission(dtAccountText.getText().toString());
             } else {
                 if (TextUtils.isEmpty(dtAccountText.getText().toString())) {

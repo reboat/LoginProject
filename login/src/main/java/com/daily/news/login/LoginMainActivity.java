@@ -237,6 +237,7 @@ public class LoginMainActivity extends DailyActivity {
         } else if (v.getId() == R.id.tv_sms_verification) { // 发送登录验证码
             if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) {
                 sendSmsCaptcha();
+                mEtSmsText.requestFocus();
                 new Analytics.AnalyticsBuilder(getContext(), "700052", "AppTabClick", false)
                         .name("点击获取短信验证码")
                         .pageType("登录注册页")

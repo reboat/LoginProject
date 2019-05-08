@@ -130,6 +130,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                         .clickTabName("短信验证码")
                         .build()
                         .send();
+                etSmsText.requestFocus();
                 getValidateCode(etAccountText.getText().toString());
             } else {
                 if (etAccountText.getText().toString().equals("")) {
