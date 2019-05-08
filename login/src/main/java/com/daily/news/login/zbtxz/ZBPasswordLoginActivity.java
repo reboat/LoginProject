@@ -329,7 +329,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                         .name("账号密码登录成功")
                         .pageType("登录注册页")
-                        .action("个性账号")
+                        .action(phone)
                         .loginType("个性账号")
                         .build()
                         .send();
@@ -347,7 +347,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                                 .name("账号密码登录成功")
                                 .pageType("登录注册页")
-                                .action("个性账号")
+                                .action(phone)
                                 .loginType("个性账号")
                                 .userID(bean.getSession().getAccount_id())
                                 .build()

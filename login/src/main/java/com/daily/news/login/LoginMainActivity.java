@@ -462,7 +462,7 @@ public class LoginMainActivity extends DailyActivity {
                 new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                         .name("手机号登录注册成功")
                         .pageType("登录注册页")
-                        .action("手机号")
+                        .action(phone)
                         .loginType("手机号")
                         .build()
                         .send();
@@ -478,7 +478,7 @@ public class LoginMainActivity extends DailyActivity {
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                                 .name("手机号登录注册成功")
                                 .pageType("登录注册页")
-                                .action("手机号")
+                                .action(bean.getAccount().getMobile())
                                 .mobilePhone(bean.getAccount().getMobile())
                                 .loginType("手机号")
                                 .userID(bean.getSession().getAccount_id())
