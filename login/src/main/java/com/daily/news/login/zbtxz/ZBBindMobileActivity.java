@@ -191,7 +191,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                            if (v.getId() == cn.daily.news.biz.core.R.id.btn_ok) {
                                                 if (zbBindDialog.isShowing()) {
                                                     zbBindDialog.dismiss();
                                                 }
@@ -229,7 +229,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                         .setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                if (v.getId() == com.zjrb.core.R.id.btn_ok) {
+                                                if (v.getId() == cn.daily.news.biz.core.R.id.btn_ok) {
                                                     if (zbBindDialog.isShowing()) {
                                                         zbBindDialog.dismiss();
                                                     }
