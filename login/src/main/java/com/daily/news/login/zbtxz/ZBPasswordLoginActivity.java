@@ -212,7 +212,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                     if (info != null) {
                         loginValidate(text, info.getCode());
                     } else {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         ZBToast.showShort(ZBPasswordLoginActivity.this, getString(R.string.zb_login_error)); // 登录失败
                     }
                 }
@@ -306,7 +306,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                                 }));
                         zbGraphicDialog.show();
                     } else {
-                        LoadingDialogUtils.newInstance().dismissLoadingDialog(false, getString(R.string.zb_login_error));
+                        LoadingDialogUtils.newInstance().dismissLoadingDialogNoText();
                         ZBToast.showShort(ZBPasswordLoginActivity.this, errorMessage);
                     }
                 }
