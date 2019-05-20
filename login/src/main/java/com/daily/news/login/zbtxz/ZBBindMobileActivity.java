@@ -39,6 +39,7 @@ import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.AccessTokenBean;
 import cn.daily.news.biz.core.model.MultiAccountBean;
+import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.network.compatible.AbsCallback;
@@ -76,6 +77,7 @@ public class ZBBindMobileActivity extends DailyActivity {
     private CountDownTimer timer;
     private MultiInputHelper mInputHelper;
     private String sessionId;
+    private ZBLoginBean mZbloginBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class ZBBindMobileActivity extends DailyActivity {
         ButterKnife.bind(this);
         if (getIntent() != null) {
             sessionId = getIntent().getStringExtra("LoginSessionId");
+            mZbloginBean = (ZBLoginBean) getIntent().getSerializableExtra("ZBAuthLoginBean");
         }
         initView();
         //创建输入监听辅助类，传入提交按钮view
@@ -201,6 +204,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                                         }
                                     }));
                             zbBindDialog.show();
+                            UserBiz.get().setZBLoginBean(mZbloginBean); // 设置三方登录保存的zbloginBean信息
                             // 更新手机号信息
                             AccountBean account = UserBiz.get().getAccount();
                             account.setPhone_number(mobile); // 实名认证账号
