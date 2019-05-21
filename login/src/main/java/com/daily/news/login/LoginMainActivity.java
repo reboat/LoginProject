@@ -94,6 +94,7 @@ public class LoginMainActivity extends DailyActivity {
 
     private Bundle bundle;
     private MultiInputHelper mInputHelper;
+    private Intent intent;
 
 
     /**
@@ -118,6 +119,7 @@ public class LoginMainActivity extends DailyActivity {
         // 获取上次登录数据
         isPhone = SPHelper.get().get("isPhone", false);
         lastLogin = SPHelper.get().get("last_login", "");
+        intent = getIntent();
         if (isPhone) { // 显示上次登录的手机号及头像
             if (!TextUtils.isEmpty(lastLogin) && AppUtils.isMobileNum(lastLogin)) {
                 mEtAccountText.setText(lastLogin);
@@ -284,6 +286,7 @@ public class LoginMainActivity extends DailyActivity {
         if (UserBiz.get().isLoginUser()) {
             setResult(Activity.RESULT_OK);
         }
+        setResult(Activity.RESULT_OK, intent);
         super.finish();
         LoginHelper.get().finish(); // 登录结束
 
@@ -479,8 +482,8 @@ public class LoginMainActivity extends DailyActivity {
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                                 .name("手机号登录注册成功")
                                 .pageType("登录注册页")
-                                .action(bean.getAccount().getMobile())
-                                .mobilePhone(bean.getAccount().getMobile())
+                                .action(phone)
+                                .mobilePhone(phone)
                                 .loginType("手机号")
                                 .userID(bean.getSession().getAccount_id())
                                 .build()

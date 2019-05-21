@@ -1,5 +1,6 @@
 package com.daily.news.login.zbtxz;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -78,12 +79,14 @@ public class ZBBindMobileActivity extends DailyActivity {
     private MultiInputHelper mInputHelper;
     private String sessionId;
     private ZBLoginBean mZbloginBean;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_login_mobile_bind);
         ButterKnife.bind(this);
+        intent = getIntent();
         if (getIntent() != null) {
             sessionId = getIntent().getStringExtra("LoginSessionId");
             mZbloginBean = (ZBLoginBean) getIntent().getSerializableExtra("ZBAuthLoginBean");
@@ -409,6 +412,7 @@ public class ZBBindMobileActivity extends DailyActivity {
 //            UserBiz.get().logout();
 //        }
         super.finish();
+        setResult(Activity.RESULT_OK, intent);
         RealNameAuthHelper.get().finishAuth(isAuthSuccess);
     }
 

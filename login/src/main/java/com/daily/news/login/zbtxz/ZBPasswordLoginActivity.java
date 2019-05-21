@@ -355,7 +355,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         try {
                             JSONObject properties = new JSONObject();
                             properties.put("userID", bean.getSession().getAccount_id());
-                            properties.put("mobilePhone", bean.getAccount().getMobile());
+                            properties.put("mobilePhone", phone);
                             new Analytics.AnalyticsBuilder(ZBPasswordLoginActivity.this, null, null, false)
                                     .setProfile(properties)
                                     .build()
