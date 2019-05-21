@@ -413,8 +413,8 @@ public class ZBBindMobileActivity extends DailyActivity {
 //        if (!isAuthSuccess) {
 //            UserBiz.get().logout();
 //        }
-        super.finish();
         setResult(Activity.RESULT_OK, intent);
+        super.finish();
         RealNameAuthHelper.get().finishAuth(isAuthSuccess);
     }
 
