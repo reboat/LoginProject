@@ -39,6 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.ZBLoginBean;
@@ -479,6 +480,7 @@ public class LoginMainActivity extends DailyActivity {
                     if (bean.getAccount() != null && !TextUtils.isEmpty(bean.getAccount().getPhone_number())) { // 手机号验证码登录,若结果未返回phoneNum,也跳绑定界面
                         userBiz.setZBLoginBean(bean);
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
+                        AnalyticsManager.login(bean.getSession().getAccount_id());
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                                 .name("手机号登录注册成功")
                                 .pageType("登录注册页")

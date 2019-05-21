@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.MultiAccountBean;
@@ -278,6 +279,7 @@ public class ZBBindMergeInfoActivity extends DailyActivity {
                 AppManager.get().finishActivity(ZBBindMobileActivity.class); // 注意: 这里因为在bind界面的返回做了logout的操作,所以重设数据要在这个步骤之后
                 UserBiz userBiz = UserBiz.get();
                 userBiz.setZBLoginBean(data);
+                AnalyticsManager.login(data.getSession().getAccount_id());
                 new Analytics.AnalyticsBuilder(ZBBindMergeInfoActivity.this, "700058", "AccountBind", false)
                         .name("手机号绑定成功")
                         .pageType("手机号绑定页")

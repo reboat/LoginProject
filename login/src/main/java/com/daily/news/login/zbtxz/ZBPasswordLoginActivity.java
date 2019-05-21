@@ -343,6 +343,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         userBiz.setZBLoginBean(bean);
                         //新华智云设置userID
                         AnalyticsManager.setAccountId(UserBiz.get().getAccountID());
+                        AnalyticsManager.login(bean.getSession().getAccount_id());
                         LoadingDialogUtils.newInstance().dismissLoadingDialog(true);
                         new Analytics.AnalyticsBuilder(getContext(), "A0001", "Login", false)
                                 .name("账号密码登录成功")

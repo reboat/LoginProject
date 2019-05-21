@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.daily.news.analytics.Analytics;
+import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
 import cn.daily.news.biz.core.model.AccessTokenBean;
@@ -212,6 +213,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                             AccountBean account = UserBiz.get().getAccount();
                             account.setPhone_number(mobile); // 实名认证账号
                             UserBiz.get().setAccount(account);
+                            AnalyticsManager.login(mZbloginBean.getSession().getAccount_id());
                             new Analytics.AnalyticsBuilder(ZBBindMobileActivity.this, "700058", "AccountBind", false)
                                     .name("手机号绑定成功")
                                     .pageType("手机号绑定页")
