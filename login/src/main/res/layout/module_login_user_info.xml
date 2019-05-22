@@ -33,10 +33,11 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/iv_logo"
                 android:layout_marginLeft="6dp"
+                android:layout_marginRight="35dp"
                 android:layout_alignTop="@+id/iv_logo"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="我爱吃火锅"
+                android:text=""
                 android:textColor="@color/_222222"
                 android:textSize="@dimen/ts_13sp"
                 />

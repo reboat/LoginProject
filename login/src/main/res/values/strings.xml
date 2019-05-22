@@ -41,7 +41,7 @@
     <string name="zb_mobile_update">升级</string>
     <string name="zb_mobile_bind_tip">绑定手机后,可通过手机号快速登录</string>
     <string name="zb_mobile_bind_title">手机号绑定</string>
-    <string name="zb_mobile_bind_desc">选择后，你只能保留所选帐号的信息</string>
+    <string name="zb_mobile_bind_desc">未选中的帐号，将无法再次登录</string>
     <string name="zb_mobile_bind_desc_second">另一个帐号的所有信息将被清空，用手机号%1$s登录后将看到选中的帐号信息</string>
     <string name="zb_mobile_bind_success_tip">绑定成功！下次可使用手机号直接登录该帐号</string>
     <string name="zb_mobile_bind_quit">放弃绑定</string>
@@ -64,7 +64,7 @@
     <string name="zb_register_link_title">用户协议</string>
     <string name="zb_register_passport">浙报通行证登录</string>
     <string name="zb_register_input_new_password">输入新密码</string>
-    <string name="zb_register_merge_title">合并帐号</string>
+    <string name="zb_register_merge_title">请选择您经常登录的帐号</string>
 
     <string name="data_scheme">http</string>
     <string name="data_host">www.8531.cn</string>
