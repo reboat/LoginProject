@@ -284,10 +284,6 @@ public class LoginMainActivity extends DailyActivity {
             timer.cancel();
         }
         mInputHelper.removeViews();
-        if (UserBiz.get().isLoginUser()) {
-            setResult(Activity.RESULT_OK);
-        }
-        setResult(Activity.RESULT_OK, intent);
         super.finish();
         LoginHelper.get().finish(); // 登录结束
 
@@ -518,5 +514,14 @@ public class LoginMainActivity extends DailyActivity {
         timer = LoginUtil.startCountDownTimer(this, mTvSmsVerification, 60);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (intent == null) {
+            intent = new Intent();
+        }
+        intent.putExtra("LoginMainIsLoginUser", UserBiz.get().isLoginUser());
+        setResult(Activity.RESULT_OK, intent);
+        super.onBackPressed();
+    }
 }
 
