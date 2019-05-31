@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -125,7 +124,7 @@ public class ZBBindMobileActivity extends DailyActivity {
         return BIZTopBarFactory.createDefaultForLogin(view, this).getView();
     }
 
-    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm, R2.id.iv_top_bar_back})
+    @OnClick({R2.id.tv_sms_verification, R2.id.bt_confirm})
     public void onClick(View view) {
         if (ClickTracker.isDoubleClick()) return;
 
@@ -164,10 +163,6 @@ public class ZBBindMobileActivity extends DailyActivity {
             } else {
                 ZBToast.showShort(this, getString(R.string.zb_input_sms_verication));
             }
-        } else if (view.getId() == R.id.iv_top_bar_back) {
-            if (intent == null) intent = new Intent();
-            setResult(Activity.RESULT_OK, intent);
-            finish();
         } else {
             finish();
         }
@@ -418,18 +413,10 @@ public class ZBBindMobileActivity extends DailyActivity {
 //        if (!isAuthSuccess) {
 //            UserBiz.get().logout();
 //        }
-
+        if (intent == null) intent = new Intent();
+        setResult(Activity.RESULT_OK, intent);
         super.finish();
         RealNameAuthHelper.get().finishAuth(isAuthSuccess);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if (intent == null) intent = new Intent();
-            setResult(Activity.RESULT_OK,intent);
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
 }
