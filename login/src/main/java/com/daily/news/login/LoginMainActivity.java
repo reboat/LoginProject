@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -203,7 +204,7 @@ public class LoginMainActivity extends DailyActivity {
      * @param v 点击注册
      */
     @OnClick({R2.id.btn_login, R2.id.ll_module_login_wx, R2.id.ll_module_login_qq,
-            R2.id.ll_module_login_wb, R2.id.tv_sms_verification, R2.id.tv_password_login, R2.id.tv_link})
+            R2.id.ll_module_login_wb, R2.id.tv_sms_verification, R2.id.tv_password_login, R2.id.tv_link, R2.id.iv_top_bar_back})
     public void onClick(View v) {
         if (ClickTracker.isDoubleClick()) return;
         if (bundle == null) {
@@ -265,6 +266,13 @@ public class LoginMainActivity extends DailyActivity {
                     .send();
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
+        } else if (v.getId() == R.id.iv_top_bar_back) {
+            if (intent == null) {
+                intent = new Intent();
+            }
+            intent.putExtra("LoginMainIsLoginUser", UserBiz.get().isLoginUser());
+            setResult(Activity.RESULT_OK, intent);
+            finish();
         }
     }
 
@@ -279,6 +287,11 @@ public class LoginMainActivity extends DailyActivity {
 
     @Override
     public void finish() {
+        if (intent == null) {
+            intent = new Intent();
+        }
+        intent.putExtra("LoginMainIsLoginUser", UserBiz.get().isLoginUser());
+        setResult(Activity.RESULT_OK, intent);
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("login_successful"));
         if (timer != null) {
             timer.cancel();
@@ -514,14 +527,18 @@ public class LoginMainActivity extends DailyActivity {
         timer = LoginUtil.startCountDownTimer(this, mTvSmsVerification, 60);
     }
 
+
     @Override
-    public void onBackPressed() {
-        if (intent == null) {
-            intent = new Intent();
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if (intent == null) {
+                intent = new Intent();
+            }
+            intent.putExtra("LoginMainIsLoginUser", UserBiz.get().isLoginUser());
+            setResult(Activity.RESULT_OK, intent);
         }
-        intent.putExtra("LoginMainIsLoginUser", UserBiz.get().isLoginUser());
-        setResult(Activity.RESULT_OK, intent);
-        super.onBackPressed();
+        return super.onKeyDown(keyCode,event);
     }
+
 }
 
