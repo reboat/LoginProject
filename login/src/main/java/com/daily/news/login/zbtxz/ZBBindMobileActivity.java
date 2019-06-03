@@ -208,12 +208,16 @@ public class ZBBindMobileActivity extends DailyActivity {
                                         }
                                     }));
                             zbBindDialog.show();
-                            UserBiz.get().setZBLoginBean(mZbloginBean); // 设置三方登录保存的zbloginBean信息
+                            if (mZbloginBean != null) {
+                                UserBiz.get().setZBLoginBean(mZbloginBean); // 设置三方登录保存的zbloginBean信息
+                            }
                             // 更新手机号信息
                             AccountBean account = UserBiz.get().getAccount();
-                            account.setPhone_number(mobile); // 实名认证账号
+                            if (account != null) {
+                                account.setPhone_number(mobile); // 实名认证账号
+                            }
                             UserBiz.get().setAccount(account);
-                            AnalyticsManager.login(mZbloginBean.getSession().getAccount_id());
+                            AnalyticsManager.login(UserBiz.get().getAccountID());
                             new Analytics.AnalyticsBuilder(ZBBindMobileActivity.this, "700058", "AccountBind", false)
                                     .name("手机号绑定成功")
                                     .pageType("手机号绑定页")
