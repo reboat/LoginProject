@@ -19,9 +19,6 @@ import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.db.SPHelper;
-import com.zjrb.core.permission.IPermissionCallBack;
-import com.zjrb.core.permission.Permission;
-import com.zjrb.core.permission.PermissionManager;
 import com.zjrb.core.utils.AppUtils;
 import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.passport.Entity.AuthInfo;
@@ -33,8 +30,6 @@ import com.zjrb.passport.listener.ZbGraphicListener;
 import com.zjrb.passport.listener.ZbInitListener;
 import com.zjrb.passport.listener.ZbResultListener;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,9 +37,13 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
+import cn.daily.news.biz.core.model.BaseData;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
+import cn.daily.news.biz.core.network.compatible.APICallBack;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
+import cn.daily.news.biz.core.network.compatible.APIPostTask;
+import cn.daily.news.biz.core.ui.dialog.ZBSingleDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
@@ -65,6 +64,7 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * Description: 注册登录界面
  */
 public class LoginMainActivity extends DailyActivity {
+    private static final int CODE_LOG_OFF = 52004;//已经注销
     @BindView(R2.id.et_account_text)
     EditText mEtAccountText;
     @BindView(R2.id.et_sms_text)
@@ -239,7 +239,7 @@ public class LoginMainActivity extends DailyActivity {
             mUmengUtils = new UmengAuthUtils(this, SHARE_MEDIA.SINA);
         } else if (v.getId() == R.id.tv_sms_verification) { // 发送登录验证码
             if (AppUtils.isMobileNum(mEtAccountText.getText().toString())) {
-                sendSmsCaptcha();
+                checkLogOff(mEtAccountText.getText().toString());
                 mEtSmsText.requestFocus();
                 new Analytics.AnalyticsBuilder(getContext(), "700052", "AppTabClick", false)
                         .name("点击获取短信验证码")
@@ -266,6 +266,10 @@ public class LoginMainActivity extends DailyActivity {
         } else if (v.getId() == R.id.tv_link) {
             Nav.with(LoginMainActivity.this).toPath("/login/ZBUserProtectActivity");
         }
+    }
+
+    private void checkLogOff(String phoneNumber) {
+        new CheckLogOffTask().exe(phoneNumber);
     }
 
 
@@ -307,115 +311,94 @@ public class LoginMainActivity extends DailyActivity {
      * 发送验证码,需进行权限校验
      */
     private void sendSmsCaptcha() {
-        PermissionManager.get().request(LoginMainActivity.this, new
-                IPermissionCallBack() {
-                    @Override
-                    public void onGranted(boolean isAlreadyDef) {
+        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), "", new ZbResultListener() {
+            @Override
+            public void onSuccess() {
+                startTimeCountDown();
+                //提示短信已发送成功
+                ZBToast.showShort(LoginMainActivity.this, getString(R.string.zb_sms_send));
+            }
 
-                        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), "", new ZbResultListener() {
-                            @Override
-                            public void onSuccess() {
-                                startTimeCountDown();
-                                //提示短信已发送成功
-                                ZBToast.showShort(LoginMainActivity.this, getString(R
-                                        .string.zb_sms_send));
-                            }
-
-                            @Override
-                            public void onFailure(int errorCode, String errorMessage) {
-                                // 需要图形验证码的情况
-                                if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
-                                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(LoginMainActivity.this);
-                                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
-                                            .setMessage("请先验证图形验证码")
-                                            .setOkText("确定")
-                                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
-                                                @Override
-                                                public void onLeftClick() {
-                                                    if (zbGraphicDialog.isShowing()) {
-                                                        zbGraphicDialog.dismiss();
-                                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
-                                                                .name("取消输入图形验证码")
-                                                                .pageType("登录注册页")
-                                                                .clickTabName("取消")
-                                                                .build()
-                                                                .send();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onRightClick() {
-                                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                                        ZBToast.showShort(LoginMainActivity.this, "请先输入图形验证码");
-                                                    } else {
-                                                        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
-                                                            @Override
-                                                            public void onSuccess() {
-                                                                ZBToast.showShort(LoginMainActivity.this, "验证通过");
-                                                                if (zbGraphicDialog.isShowing()) {
-                                                                    zbGraphicDialog.dismiss();
-                                                                }
-                                                                startTimeCountDown(); // 开始倒计时
-                                                            }
-
-                                                            @Override
-                                                            public void onFailure(int errorCode, String errorMessage) {
-                                                                if (timer != null) {
-                                                                    timer.cancel();
-                                                                }
-                                                                ZBToast.showShort(LoginMainActivity.this, errorMessage);
-                                                            }
-                                                        });
-                                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
-                                                                .name("确认输入图形验证码")
-                                                                .pageType("登录注册页")
-                                                                .clickTabName("确认")
-                                                                .build()
-                                                                .send();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onRefreshImage() {
-                                                    ZbPassport.getGraphics(new ZbGraphicListener() {
-                                                        @Override
-                                                        public void onSuccess(byte[] bytes) {
-                                                            if (bytes != null) {
-                                                                GlideApp.with(LoginMainActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(int errorCode, String errorMessage) {
-                                                            ZBToast.showShort(LoginMainActivity.this, errorMessage);
-                                                        }
-                                                    });
-                                                }
-                                            }));
-                                    zbGraphicDialog.show();
-                                } else {
-                                    if (timer != null) {
-                                        timer.cancel();
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                // 需要图形验证码的情况
+                if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
+                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(LoginMainActivity.this);
+                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+                            .setMessage("请先验证图形验证码")
+                            .setOkText("确定")
+                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+                                @Override
+                                public void onLeftClick() {
+                                    if (zbGraphicDialog.isShowing()) {
+                                        zbGraphicDialog.dismiss();
+                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                .name("取消输入图形验证码")
+                                                .pageType("登录注册页")
+                                                .clickTabName("取消")
+                                                .build()
+                                                .send();
                                     }
-                                    ZBToast.showShort(LoginMainActivity.this, errorMessage);
                                 }
-                            }
-                        });
 
+                                @Override
+                                public void onRightClick() {
+                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+                                        ZBToast.showShort(LoginMainActivity.this, "请先输入图形验证码");
+                                    } else {
+                                        ZbPassport.sendCaptcha(mEtAccountText.getText().toString(), zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+                                            @Override
+                                            public void onSuccess() {
+                                                ZBToast.showShort(LoginMainActivity.this, "验证通过");
+                                                if (zbGraphicDialog.isShowing()) {
+                                                    zbGraphicDialog.dismiss();
+                                                }
+                                                startTimeCountDown(); // 开始倒计时
+                                            }
+
+                                            @Override
+                                            public void onFailure(int errorCode, String errorMessage) {
+                                                if (timer != null) {
+                                                    timer.cancel();
+                                                }
+                                                ZBToast.showShort(LoginMainActivity.this, errorMessage);
+                                            }
+                                        });
+                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                .name("确认输入图形验证码")
+                                                .pageType("登录注册页")
+                                                .clickTabName("确认")
+                                                .build()
+                                                .send();
+                                    }
+                                }
+
+                                @Override
+                                public void onRefreshImage() {
+                                    ZbPassport.getGraphics(new ZbGraphicListener() {
+                                        @Override
+                                        public void onSuccess(byte[] bytes) {
+                                            if (bytes != null) {
+                                                GlideApp.with(LoginMainActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(int errorCode, String errorMessage) {
+                                            ZBToast.showShort(LoginMainActivity.this, errorMessage);
+                                        }
+                                    });
+                                }
+                            }));
+                    zbGraphicDialog.show();
+                } else {
+                    if (timer != null) {
+                        timer.cancel();
                     }
-
-                    @Override
-                    public void onDenied(List<String> neverAskPerms) {
-                        ZBToast.showShort(LoginMainActivity.this, getString(R.string
-                                .tip_permission_denied));
-
-                    }
-
-                    @Override
-                    public void onElse(List<String> deniedPerms, List<String>
-                            neverAskPerms) {
-                    }
-                }, Permission.PHONE_READ_PHONE_STATE);
+                    ZBToast.showShort(LoginMainActivity.this, errorMessage);
+                }
+            }
+        });
     }
 
 
@@ -520,5 +503,38 @@ public class LoginMainActivity extends DailyActivity {
     }
 
 
+    private class CheckLogOffCallBack extends APICallBack<BaseData> {
+        @Override
+        public void onSuccess(BaseData data) {
+            sendSmsCaptcha();
+        }
+
+        @Override
+        public void onError(String errMsg, int errCode) {
+            if (errCode == CODE_LOG_OFF) {
+                new ZBSingleDialog.Builder()
+                        .setMessage("该账号已注销，换个账号试试吧！")
+                        .setConfirmText("知道了");
+            } else {
+                ZBToast.showShort(getContext(), errMsg);
+            }
+        }
+    }
+
+    private class CheckLogOffTask extends APIPostTask<BaseData> {
+        public CheckLogOffTask() {
+            super(new CheckLogOffCallBack());
+        }
+
+        @Override
+        public void onSetupParams(Object... params) {
+            put("phone_number",params[0]);
+        }
+
+        @Override
+        public String getApi() {
+            return "/api/account/is_logoff";
+        }
+    }
 }
 
