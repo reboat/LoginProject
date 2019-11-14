@@ -16,6 +16,7 @@ import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
 import com.daily.news.login.baseview.TipDialog;
+import com.daily.news.login.task.CheckLogOffTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.db.SPHelper;
@@ -43,6 +44,7 @@ import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
 import cn.daily.news.biz.core.network.task.UploadCidTask;
+import cn.daily.news.biz.core.ui.dialog.ZBSingleDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
@@ -333,6 +335,13 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                         .loginType("个性账号")
                         .build()
                         .send();
+                if (errCode == CheckLogOffTask.CODE_LOG_OFF) {
+                    ZBSingleDialog dialog = new ZBSingleDialog(ZBPasswordLoginActivity.this);
+                    dialog.setBuilder(new ZBSingleDialog.Builder()
+                            .setMessage("该账号已注销，换个账号试试吧！")
+                            .setConfirmText("知道了"));
+                    dialog.show();
+                }
             }
 
             @Override

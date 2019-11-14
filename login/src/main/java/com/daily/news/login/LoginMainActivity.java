@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daily.news.login.baseview.TipPopup;
+import com.daily.news.login.task.CheckLogOffTask;
 import com.daily.news.login.task.ZBLoginValidateTask;
 import com.daily.news.login.util.LoginUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -37,13 +38,9 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.AnalyticsManager;
 import cn.daily.news.biz.core.DailyActivity;
 import cn.daily.news.biz.core.UserBiz;
-import cn.daily.news.biz.core.model.BaseData;
 import cn.daily.news.biz.core.model.ZBLoginBean;
 import cn.daily.news.biz.core.nav.Nav;
-import cn.daily.news.biz.core.network.compatible.APICallBack;
 import cn.daily.news.biz.core.network.compatible.APIExpandCallBack;
-import cn.daily.news.biz.core.network.compatible.APIPostTask;
-import cn.daily.news.biz.core.ui.dialog.ZBSingleDialog;
 import cn.daily.news.biz.core.ui.dialog.ZbGraphicDialog;
 import cn.daily.news.biz.core.ui.toast.ZBToast;
 import cn.daily.news.biz.core.ui.toolsbar.BIZTopBarFactory;
@@ -64,7 +61,6 @@ import static com.zjrb.core.utils.UIUtils.getContext;
  * Description: 注册登录界面
  */
 public class LoginMainActivity extends DailyActivity {
-    private static final int CODE_LOG_OFF = 52004;//已经注销
     @BindView(R2.id.et_account_text)
     EditText mEtAccountText;
     @BindView(R2.id.et_sms_text)
@@ -269,7 +265,12 @@ public class LoginMainActivity extends DailyActivity {
     }
 
     private void checkLogOff(String phoneNumber) {
-        new CheckLogOffTask().exe(phoneNumber);
+        new CheckLogOffTask(this,new CheckLogOffTask.OnCheckLogOffCallback() {
+            @Override
+            public void onNormalPhoneNumber() {
+                sendSmsCaptcha();
+            }
+        }).exe(phoneNumber);
     }
 
 
@@ -502,39 +503,5 @@ public class LoginMainActivity extends DailyActivity {
         timer = LoginUtil.startCountDownTimer(this, mTvSmsVerification, 60);
     }
 
-
-    private class CheckLogOffCallBack extends APICallBack<BaseData> {
-        @Override
-        public void onSuccess(BaseData data) {
-            sendSmsCaptcha();
-        }
-
-        @Override
-        public void onError(String errMsg, int errCode) {
-            if (errCode == CODE_LOG_OFF) {
-                new ZBSingleDialog.Builder()
-                        .setMessage("该账号已注销，换个账号试试吧！")
-                        .setConfirmText("知道了");
-            } else {
-                ZBToast.showShort(getContext(), errMsg);
-            }
-        }
-    }
-
-    private class CheckLogOffTask extends APIPostTask<BaseData> {
-        public CheckLogOffTask() {
-            super(new CheckLogOffCallBack());
-        }
-
-        @Override
-        public void onSetupParams(Object... params) {
-            put("phone_number",params[0]);
-        }
-
-        @Override
-        public String getApi() {
-            return "/api/account/is_logoff";
-        }
-    }
 }
 

@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daily.news.login.LoginMainActivity;
 import com.daily.news.login.R;
 import com.daily.news.login.R2;
+import com.daily.news.login.task.CheckLogOffTask;
 import com.daily.news.login.task.GetMultiAccountTask;
 import com.daily.news.login.util.LoginUtil;
 import com.zjrb.core.common.glide.GlideApp;
@@ -138,7 +139,7 @@ public class ZBBindMobileActivity extends DailyActivity {
                         .build()
                         .send();
                 etSmsText.requestFocus();
-                getValidateCode(etAccountText.getText().toString());
+                checkLogOff(etAccountText.getText().toString());
             } else {
                 if (etAccountText.getText().toString().equals("")) {
                     ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
@@ -167,6 +168,15 @@ public class ZBBindMobileActivity extends DailyActivity {
             finish();
         }
 
+    }
+
+    private void checkLogOff(final String phoneNumber) {
+        new CheckLogOffTask(this,new CheckLogOffTask.OnCheckLogOffCallback() {
+            @Override
+            public void onNormalPhoneNumber() {
+                getValidateCode(phoneNumber);
+            }
+        }).exe(phoneNumber);
     }
 
 
@@ -300,106 +310,87 @@ public class ZBBindMobileActivity extends DailyActivity {
      * @param mobile 手机号
      */
     private void getValidateCode(final String mobile) {
-        PermissionManager.get().request(ZBBindMobileActivity.this, new
-                IPermissionCallBack() {
-                    @Override
-                    public void onGranted(boolean isAlreadyDef) {
-                        ZbPassport.sendCaptcha(mobile, "", new ZbResultListener() {
-                            @Override
-                            public void onSuccess() {
-                                startTimeCountDown();
-                                ZBToast.showShort(getActivity(), getString(R.string
-                                        .zb_sms_send));
-                            }
+        ZbPassport.sendCaptcha(mobile, "", new ZbResultListener() {
+            @Override
+            public void onSuccess() {
+                startTimeCountDown();
+                ZBToast.showShort(getActivity(), getString(R.string.zb_sms_send));
+            }
 
-                            @Override
-                            public void onFailure(int errorCode, String errorMessage) {
-                                // 需要图形验证码的情况
-                                if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
-                                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBBindMobileActivity.this);
-                                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
-                                            .setMessage("请先验证图形验证码")
-                                            .setOkText("确定")
-                                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
-                                                @Override
-                                                public void onLeftClick() {
-                                                    if (zbGraphicDialog.isShowing()) {
-                                                        zbGraphicDialog.dismiss();
-                                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
-                                                                .name("取消输入图形验证码")
-                                                                .pageType("登录注册页")
-                                                                .clickTabName("取消")
-                                                                .build()
-                                                                .send();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onRightClick() {
-                                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
-                                                        ZBToast.showShort(ZBBindMobileActivity.this, "请先输入图形验证码");
-                                                    } else {
-                                                        ZbPassport.sendCaptcha(mobile, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
-                                                            @Override
-                                                            public void onSuccess() {
-                                                                ZBToast.showShort(ZBBindMobileActivity.this, "验证通过");
-                                                                if (zbGraphicDialog.isShowing()) {
-                                                                    zbGraphicDialog.dismiss();
-                                                                }
-                                                                startTimeCountDown(); // 开始倒计时
-                                                            }
-
-                                                            @Override
-                                                            public void onFailure(int errorCode, String errorMessage) {
-                                                                ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
-                                                            }
-                                                        });
-                                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
-                                                                .name("确认输入图形验证码")
-                                                                .pageType("登录注册页")
-                                                                .clickTabName("确认")
-                                                                .build()
-                                                                .send();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onRefreshImage() {
-                                                    ZbPassport.getGraphics(new ZbGraphicListener() {
-                                                        @Override
-                                                        public void onSuccess(byte[] bytes) {
-                                                            if (bytes != null) {
-                                                                GlideApp.with(ZBBindMobileActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(int errorCode, String errorMessage) {
-                                                            ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
-                                                        }
-                                                    });
-                                                }
-                                            }));
-                                    zbGraphicDialog.show();
-                                } else {
-                                    ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
+            @Override
+            public void onFailure(int errorCode, String errorMessage) {
+                // 需要图形验证码的情况
+                if (errorCode == ErrorCode.ERROR_NEED_GRRPHICS) {
+                    final ZbGraphicDialog zbGraphicDialog = new ZbGraphicDialog(ZBBindMobileActivity.this);
+                    zbGraphicDialog.setBuilder(new ZbGraphicDialog.Builder()
+                            .setMessage("请先验证图形验证码")
+                            .setOkText("确定")
+                            .setOnClickListener(new ZbGraphicDialog.OnDialogClickListener() {
+                                @Override
+                                public void onLeftClick() {
+                                    if (zbGraphicDialog.isShowing()) {
+                                        zbGraphicDialog.dismiss();
+                                        new Analytics.AnalyticsBuilder(getContext(), "700060", "AppTabClick", false)
+                                                .name("取消输入图形验证码")
+                                                .pageType("登录注册页")
+                                                .clickTabName("取消")
+                                                .build()
+                                                .send();
+                                    }
                                 }
-                            }
-                        });
-                    }
 
-                    @Override
-                    public void onDenied(List<String> neverAskPerms) {
-                        ZBToast.showShort(ZBBindMobileActivity.this, getString(R.string
-                                .tip_permission_denied));
+                                @Override
+                                public void onRightClick() {
+                                    if (TextUtils.isEmpty(zbGraphicDialog.getEtGraphic().getText().toString())) {
+                                        ZBToast.showShort(ZBBindMobileActivity.this, "请先输入图形验证码");
+                                    } else {
+                                        ZbPassport.sendCaptcha(mobile, zbGraphicDialog.getEtGraphic().getText().toString(), new ZbResultListener() {
+                                            @Override
+                                            public void onSuccess() {
+                                                ZBToast.showShort(ZBBindMobileActivity.this, "验证通过");
+                                                if (zbGraphicDialog.isShowing()) {
+                                                    zbGraphicDialog.dismiss();
+                                                }
+                                                startTimeCountDown(); // 开始倒计时
+                                            }
 
-                    }
+                                            @Override
+                                            public void onFailure(int errorCode, String errorMessage) {
+                                                ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
+                                            }
+                                        });
+                                        new Analytics.AnalyticsBuilder(getContext(), "700059", "AppTabClick", false)
+                                                .name("确认输入图形验证码")
+                                                .pageType("登录注册页")
+                                                .clickTabName("确认")
+                                                .build()
+                                                .send();
+                                    }
+                                }
 
-                    @Override
-                    public void onElse(List<String> deniedPerms, List<String>
-                            neverAskPerms) {
-                    }
-                }, Permission.PHONE_READ_PHONE_STATE);
+                                @Override
+                                public void onRefreshImage() {
+                                    ZbPassport.getGraphics(new ZbGraphicListener() {
+                                        @Override
+                                        public void onSuccess(byte[] bytes) {
+                                            if (bytes != null) {
+                                                GlideApp.with(ZBBindMobileActivity.this).load(bytes).diskCacheStrategy(DiskCacheStrategy.NONE).into(zbGraphicDialog.getIvGrahpic());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(int errorCode, String errorMessage) {
+                                            ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
+                                        }
+                                    });
+                                }
+                            }));
+                    zbGraphicDialog.show();
+                } else {
+                    ZBToast.showShort(ZBBindMobileActivity.this, errorMessage);
+                }
+            }
+        });
     }
 
     /**
