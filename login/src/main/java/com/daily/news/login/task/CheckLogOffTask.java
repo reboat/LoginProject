@@ -1,6 +1,7 @@
 package com.daily.news.login.task;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import cn.daily.news.biz.core.model.BaseData;
 import cn.daily.news.biz.core.network.compatible.APICallBack;
@@ -53,7 +54,7 @@ public class CheckLogOffTask extends APIPostTask<BaseData> {
             if (errCode == CODE_LOG_OFF) {
                 ZBSingleDialog dialog = new ZBSingleDialog(mContext);
                 dialog.setBuilder(new ZBSingleDialog.Builder()
-                        .setMessage("该帐号已注销，换个帐号试试吧！")
+                        .setMessage(TextUtils.isEmpty(errMsg) ? "该帐号已注销，换个帐号试试吧！" : errMsg)
                         .setConfirmText("知道了"));
                 dialog.show();
             } else {
