@@ -53,7 +53,7 @@ public class CheckLogOffTask extends APIPostTask<BaseData> {
             if (errCode == CODE_LOG_OFF) {
                 ZBSingleDialog dialog = new ZBSingleDialog(mContext);
                 dialog.setBuilder(new ZBSingleDialog.Builder()
-                        .setMessage("该账号已注销，换个账号试试吧！")
+                        .setMessage("该帐号已注销，换个帐号试试吧！")
                         .setConfirmText("知道了"));
                 dialog.show();
             } else {

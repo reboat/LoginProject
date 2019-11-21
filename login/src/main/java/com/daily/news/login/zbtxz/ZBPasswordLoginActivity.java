@@ -338,7 +338,7 @@ public class ZBPasswordLoginActivity extends DailyActivity implements SkipScoreI
                 if (errCode == CheckLogOffTask.CODE_LOG_OFF) {
                     ZBSingleDialog dialog = new ZBSingleDialog(ZBPasswordLoginActivity.this);
                     dialog.setBuilder(new ZBSingleDialog.Builder()
-                            .setMessage("该账号已注销，换个账号试试吧！")
+                            .setMessage("该帐号已注销，换个帐号试试吧！")
                             .setConfirmText("知道了"));
                     dialog.show();
                 }
